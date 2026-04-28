@@ -1,3 +1,10 @@
+@import "tailwindcss";
+/* DaisyUI should be configured in tailwind.config.js, not here */
+
+*{
+    font-family: "Manrope", sans-serif;
+}
+
 .loader {
         width: 48px;
         height: 48px;
