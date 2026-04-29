@@ -2,8 +2,11 @@ import AuthLayout from "../layouts/AuthLayout";
 import RootLayout from "../layouts/RootLayout";
 import SuspenseUi from "../components/ui/SuspenseUi";
 import { createBrowserRouter, RouterProvider, type RouteObject } from "react-router";
+import Login from "../pages/auth/Login";
+import SignUp from "../pages/auth/SignUp";
 
-import React, { Children, Component, lazy, Suspense } from 'react'
+
+
 
 const Routes = () => {
     const routes = [
@@ -21,6 +24,22 @@ const Routes = () => {
                 },
             ]
         },
+          {
+            path: "auth",
+            Component: AuthLayout,
+            children: [
+                {
+                    path: "login",
+                    Component: Login
+                },
+                {
+                    path: "createAccount",
+                    Component: SignUp
+                }
+
+
+            ]
+        }
     ] satisfies RouteObject[];
     const router = createBrowserRouter(routes);
     return <RouterProvider router={router} />;
