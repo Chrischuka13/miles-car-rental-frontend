@@ -15,7 +15,7 @@ const Routes = () => {
                 {
                     index: true,
                     lazy: async () => {
-                        const { default: Component} = await import ("../pages/home/Home");
+                        const { default: Component} = await import ("../pages/home/Home.tsx");
                         return {Component}
                     },
                 },
