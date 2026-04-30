@@ -1,9 +1,10 @@
-import AuthLayout from "../layouts/AuthLayout";
+// import AuthLayout from "../layouts/AuthLayout";
 import RootLayout from "../layouts/RootLayout";
 import SuspenseUi from "../components/ui/SuspenseUi";
 import { createBrowserRouter, RouterProvider, type RouteObject } from "react-router";
+import ContactUs from "../pages/contactus/ContactUs";
 
-import React, { Children, Component, lazy, Suspense } from 'react'
+// import React, { Children, Component, lazy, Suspense } from 'react'
 
 const Routes = () => {
     const routes = [
@@ -19,6 +20,11 @@ const Routes = () => {
                         return {Component}
                     },
                 },
+                {
+                    path: "/contactus",
+                    Component: ContactUs,
+                },
+
             ]
         },
     ] satisfies RouteObject[];

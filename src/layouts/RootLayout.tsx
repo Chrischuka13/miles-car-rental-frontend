@@ -1,8 +1,10 @@
-
+import { Outlet } from "react-router"
 
 const RootLayout = () => {
   return (
-    <div>RootLayout</div>
+    <div>
+      <Outlet />
+      </div>
   )
 }
 
