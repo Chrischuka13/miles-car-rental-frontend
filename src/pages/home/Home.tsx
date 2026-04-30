@@ -2,30 +2,27 @@
 import TrendingCars from "../../sections/TrendingCars";
 import heroImage from "/Frame 39.jpg";
 
-
 export default function Home() {
-//   useMetaArgs({
-//     title: "Home, Miles Car Rental",
-//     description: "Welcome to Miles Car Rental!",
-//     keywords: "car rental, rent a car, luxury cars, trucks, buses, Nigeria",
-//   });
+  //   useMetaArgs({
+  //     title: "Home, Miles Car Rental",
+  //     description: "Welcome to Miles Car Rental!",
+  //     keywords: "car rental, rent a car, luxury cars, trucks, buses, Nigeria",
+  //   });
 
   return (
     <main className="text-base-content bg-[#F9F9F9]">
-
       {/* HERO */}
       <section
         className="min-h-screen relative bg-cover bg-center"
         style={{
-          backgroundImage:
-            `linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.20)), url(${heroImage})`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.20)), url(${heroImage})`,
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
           <div className="text-center text-white max-w-5xl mx-auto">
-         <div className="badge badge-outline bg-[#4A4D54] border-white/30 text-orange-500 px-5 py-1 rounded-full mb-6 mt-15 lg:mt-5 inline-flex items-center justify-center max-w-fit text-center">
-  Join over 34k happy customers
-</div>
+            <div className="badge badge-outline bg-[#4A4D54] border-white/30 text-orange-500 px-5 py-1 rounded-full mb-6 mt-15 lg:mt-5 inline-flex items-center justify-center max-w-fit text-center">
+              Join over 34k happy customers
+            </div>
 
             <h1 className="text-5xl md:text-7xl font-bold leading-tight">
               Move Smarter.{" "}
@@ -48,7 +45,6 @@ export default function Home() {
             </div>
           </div>
 
-         
           <div className="mt-14 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/20 p-4 md:p-6 grid grid-cols-1 md:grid-cols-6 gap-4">
             <div className="text-white font-semibold flex items-center">
               Need to Rent a Luxury Car?
@@ -78,7 +74,6 @@ export default function Home() {
         </div>
       </section>
 
-      
       <section className="py-15">
         <div className="w-11/12 container p-4  mx-auto  items-center">
           <div className="flex gap-2 text-center items-center font-semibold ">
@@ -99,7 +94,6 @@ export default function Home() {
         </div>
       </section>
 
-      
       <section className="w-full bg-white py-5">
         <div className="w-11/12 container p-4  mx-auto  grid md:grid-cols-2 gap-10 items-center">
           <div>
@@ -108,14 +102,17 @@ export default function Home() {
             </p>
 
             <h2 className="text-3xl md:text-5xl font-bold leading-tight mb-6">
-              We’re  BIG on <span className="text-orange-500">What <br/> Matters</span>{" "}
-              to  You
+              We’re BIG on{" "}
+              <span className="text-orange-500">
+                What <br /> Matters
+              </span>{" "}
+              to You
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="flex flex-col">
                 <div className="w-fit mb-3">
-                  <img src="/Frame 114.png" className="w-10 h-10" alt=""/>
+                  <img src="/Frame 114.png" className="w-10 h-10" alt="" />
                 </div>
                 <h4 className="font-semibold text-gray-800 text-2xl">
                   Easy Booking Process
@@ -127,7 +124,7 @@ export default function Home() {
 
               <div className="flex flex-col">
                 <div className="mb-3">
-                  <img src="/Frame 115.png" className="w-10 h-10" alt=""/>
+                  <img src="/Frame 115.png" className="w-10 h-10" alt="" />
                 </div>
                 <h4 className="font-semibold text-gray-800 text-2xl">
                   Transparent Pricing
@@ -141,7 +138,11 @@ export default function Home() {
 
               <div className="flex flex-col">
                 <div className="mb-3">
-                  <img src="/public/Frame 116.png" className="w-10 h-10" alt=""/>
+                  <img
+                    src="/public/Frame 116.png"
+                    className="w-10 h-10"
+                    alt=""
+                  />
                 </div>
                 <h4 className="font-semibold text-gray-800 text-2xl">
                   Wide Range of Cars
@@ -153,7 +154,11 @@ export default function Home() {
 
               <div className="flex flex-col">
                 <div className="mb-3">
-                  <img src="/public/Frame 114 (1).png" className="w-10 h-10" alt="" />
+                  <img
+                    src="/public/Frame 114 (1).png"
+                    className="w-10 h-10"
+                    alt=""
+                  />
                 </div>
                 <h4 className="font-semibold text-gray-800 text-2xl">
                   Verified and Reliable
@@ -169,7 +174,8 @@ export default function Home() {
             <img
               src="/Frame 96.png"
               className="w-full h-[280px] sm:h-[320px] md:h-[550px] object-cover rounded-2xl shadow-md"
-            alt=""/>
+              alt=""
+            />
           </div>
         </div>
       </section>
@@ -186,88 +192,76 @@ export default function Home() {
             <button className="btn btn-ghost text-orange-500 self-start cursor-pointer md:self-auto">
               Explore full fleet
             </button>
-            
           </div>
           <div className="flex gap-10 w-full mb-10 ">
             <TrendingCars />
           </div>
-       
-          
         </div>
-        
       </section>
-        
-   <section className="bg-white mt-10 py-6 overflow-hidden">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="grid grid-cols-5 md:grid-cols-10 gap-4 items-center justify-items-center">
 
-      {[
-        "/Vector.png",
-        "/simple-icons_volkswagen.png",
-        "/simple-icons_suzuki.png",
-        "/simple-icons_ford.png",
-        "/simple-icons_hyundai.png",
-        "/cbi_peugeot.png",
-        "/cbi_toyota.png",
-        "/fontisto_tesla.png",
-        "/simple-icons_iveco.png",
-        "/lineicons_nissan.png",
-      ].map((logo, index) => (
-        <div
-          key={index}
-          className={`group flex items-center justify-center rounded-2xl p-3 transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-lg hover:bg-gray-50 ${
-            index >= 5 ? "hidden md:flex" : "flex"
-          }`}
-        >
-          <img
-            src={logo}
-            alt="car brand logo"
-            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain opacity-80 transition-all duration-300 group-hover:opacity-100"
-          />
+      <section className="bg-white mt-10 py-6 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-5 md:grid-cols-10 gap-4 items-center justify-items-center">
+            {[
+              "/Vector.png",
+              "/simple-icons_volkswagen.png",
+              "/simple-icons_suzuki.png",
+              "/simple-icons_ford.png",
+              "/simple-icons_hyundai.png",
+              "/cbi_peugeot.png",
+              "/cbi_toyota.png",
+              "/fontisto_tesla.png",
+              "/simple-icons_iveco.png",
+              "/lineicons_nissan.png",
+            ].map((logo, index) => (
+              <div
+                key={index}
+                className={`group flex items-center justify-center rounded-2xl p-3 transition-all duration-300 hover:-translate-y-2 hover:scale-105 hover:shadow-lg hover:bg-gray-50 ${
+                  index >= 5 ? "hidden md:flex" : "flex"
+                }`}
+              >
+                <img
+                  src={logo}
+                  alt="car brand logo"
+                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain opacity-80 transition-all duration-300 group-hover:opacity-100"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
+      </section>
 
-    </div>
-  </div>
-</section>
-
-      
       <section className="py-16">
-      <div className="w-11/12 container p-4 mx-auto">
-  <div className="rounded-3xl bg-orange-500 text-white p-8 md:p-12 flex flex-col md:flex-row items-center">
-    
-   
-    <div className="w-full md:w-1/2">
-      <p className="text-sm flex items-center gap-2">
-        <span className="text-2xl">•</span>
-        Best Deal No Limit
-      </p>
+        <div className="w-11/12 container p-4 mx-auto">
+          <div className="rounded-3xl bg-orange-500 text-white p-8 md:p-12 flex flex-col md:flex-row items-center">
+            <div className="w-full md:w-1/2">
+              <p className="text-sm flex items-center gap-2">
+                <span className="text-2xl">•</span>
+                Best Deal No Limit
+              </p>
 
-      <h3 className="text-6xl font-bold underline mb-10">50%</h3>
+              <h3 className="text-6xl font-bold underline mb-10">50%</h3>
 
-      <p className="text-4xl mt-4">
-        Book Cyber Truck <br /> with a big discount!
-      </p>
+              <p className="text-4xl mt-4">
+                Book Cyber Truck <br /> with a big discount!
+              </p>
 
-      <button className="btn bg-black py-2 px-5 mt-5 rounded-2xl">
-        Book Now
-      </button>
-    </div>
+              <button className="btn bg-black py-2 px-5 mt-5 rounded-2xl">
+                Book Now
+              </button>
+            </div>
 
-
-    <div className="w-full md:w-1/2">
-      <img
-        src="/unsplash__JkqGe0ufU8.png"
-        className="h-50 md:h-full w-full object-cover"
-        alt="Cyber Truck"
-      />
-    </div>
-
-  </div>
-</div>
+            <div className="w-full md:w-1/2">
+              <img
+                src="/unsplash__JkqGe0ufU8.png"
+                className="h-50 md:h-full w-full object-cover"
+                alt="Cyber Truck"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
-     
       <section className="w-full bg-gray-50">
         <div className="w-11/12 container p-4 mx-auto">
           <div className="grid md:grid-cols-2 gap-10 items-center bg-white rounded-3xl p-8 md:p-12 ">
@@ -288,7 +282,6 @@ export default function Home() {
                 concierge service is designed to provide comfort, convenience,
                 and dedicated support.{" "}
               </p>
-              
               <div className="grid grid-cols-2 gap-6">
                 {" "}
                 <div>
@@ -325,7 +318,8 @@ export default function Home() {
             <img
               src="/image 26.png"
               className="w-full h-[320px] md:h-[500px] object-cover rounded-2xl"
-            alt=""/>
+              alt=""
+            />
           </div>
         </div>
 
@@ -333,7 +327,8 @@ export default function Home() {
           {" "}
           <p className="text-sm text-gray-600 mb-2 font-bold flex items-center gap-2">
             {" "}
-            <span className="text-orange-500 text-2xl">•</span> Testimonials{" "}
+            <span className="text-orange-500 text-2xl">•</span>{" "}
+            Testimonials{" "}
           </p>{" "}
           <h2 className="text-3xl md:text-4xl font-bold mb-10">
             {" "}
@@ -342,15 +337,19 @@ export default function Home() {
           </h2>{" "}
           <div className="grid md:grid-cols-3 gap-6">
             {" "}
-           
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-300 min-h-[280px] flex flex-col justify-between">
               {" "}
-            <img src="/Vector.svg" className="w-12 h-12 py-2" alt="quote_icon" />
+              <img
+                src="/Vector.svg"
+                className="w-12 h-12 py-2"
+                alt="quote_icon"
+              />
               <p className="text-gray-500 text-lg mb-4">
                 {" "}
-                Didn’t expect booking a car to be this stress-free tbh. No calls, no back and forth. Just picked, paid, and it was sorted.
+                Didn’t expect booking a car to be this stress-free tbh. No
+                calls, no back and forth. Just picked, paid, and it was sorted.
               </p>{" "}
-              <hr className="m-3 text-gray-400 w-full"/>
+              <hr className="m-3 text-gray-400 w-full" />
               <div className="flex items-center gap-3">
                 {" "}
                 <img
@@ -366,18 +365,24 @@ export default function Home() {
               </div>{" "}
             </div>{" "}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-300 min-h-[280px] flex flex-col justify-between">
-              <img src="/Vector.svg" className="w-12 h-12 py-2" alt="quote_icon" />
+              <img
+                src="/Vector.svg"
+                className="w-12 h-12 py-2"
+                alt="quote_icon"
+              />
               <p className="text-gray-500 text-lg mb-4">
                 {" "}
-                The car was exactly as described. The booking process was straightforward, and customer support was very responsive.
+                The car was exactly as described. The booking process was
+                straightforward, and customer support was very responsive.
               </p>{" "}
-              <hr className="m-3 text-gray-400 w-full"/>
+              <hr className="m-3 text-gray-400 w-full" />
               <div className="flex items-center gap-3">
                 {" "}
                 <img
                   src="/users/user2.jpg"
                   className="w-8 h-8 rounded-full"
-               alt="" />{" "}
+                  alt=""
+                />{" "}
                 <div>
                   {" "}
                   <p className="text-sm font-medium">Kemi Ernest</p>{" "}
@@ -387,18 +392,24 @@ export default function Home() {
             </div>{" "}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-300 min-h-[280px] flex flex-col justify-between">
               {" "}
-              <img src="/Vector.svg" className="w-12 h-12 py-2" alt="quote_icon" />
+              <img
+                src="/Vector.svg"
+                className="w-12 h-12 py-2"
+                alt="quote_icon"
+              />
               <p className="text-gray-500 text-lg mb-4">
                 {" "}
-                The booking experience was magical. No paperwork drama, car arrived spotless. Miles car rental is now my default.
+                The booking experience was magical. No paperwork drama, car
+                arrived spotless. Miles car rental is now my default.
               </p>{" "}
-              <hr className="m-3 text-gray-400 w-full"/>
+              <hr className="m-3 text-gray-400 w-full" />
               <div className="flex items-center gap-3">
                 {" "}
                 <img
                   src="/users/user3.jpg"
                   className="w-8 h-8 rounded-full"
-                alt=""/>{" "}
+                  alt=""
+                />{" "}
                 <div>
                   {" "}
                   <p className="text-sm font-medium">Tunde Smith</p>{" "}
@@ -410,60 +421,51 @@ export default function Home() {
         </div>
       </section>
 
-      
-  <section className="w-full bg-white py-3">
-  <div className="w-11/12 container mx-auto px-4 ">
-    <div className="grid w-full grid-cols-2 md:grid-cols-4 border-y border-gray-100 py-4 lg:gap-66 text-center items-center justify-items-center">
-      
-      <div className="flex flex-col items-center ">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          500+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Verified Cars Available
-        </p>
-      </div>
+      <section className="w-full bg-white py-3">
+        <div className="w-11/12 container mx-auto px-4 ">
+          <div className="grid w-full grid-cols-2 md:grid-cols-4 border-y border-gray-100 py-4 lg:gap-66 text-center items-center justify-items-center">
+            <div className="flex flex-col items-center ">
+              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
+                500+
+              </h3>
+              <p className="text-gray-500 text-sm mt-2">
+                Verified Cars Available
+              </p>
+            </div>
 
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          34k+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Happy Customers
-        </p>
-      </div>
+            <div className="flex flex-col items-center">
+              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
+                34k+
+              </h3>
+              <p className="text-gray-500 text-sm mt-2">Happy Customers</p>
+            </div>
 
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          50+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Trusted Partners
-        </p>
-      </div>
+            <div className="flex flex-col items-center">
+              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
+                50+
+              </h3>
+              <p className="text-gray-500 text-sm mt-2">Trusted Partners</p>
+            </div>
 
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          98%
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Satisfaction Rate
-        </p>
-      </div>
+            <div className="flex flex-col items-center">
+              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
+                98%
+              </h3>
+              <p className="text-gray-500 text-sm mt-2">Satisfaction Rate</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    </div>
-  </div>
-</section>
-
-{/* FAQ */}      
+      {/* FAQ */}
       <section className="w-full bg-gray-50">
         <div className="w-11/12 container p-4 mx-auto grid md:grid-cols-2 gap-20  justify-between items-start mt-10">
           <div>
             {" "}
             <p className="text-sm text-gray-500 mb-2 flex items-center gap-2 font-semibold">
               {" "}
-              <span className="text-orange-500 text-2xl">•</span> Frequently Asked
-              Questions{" "}
+              <span className="text-orange-500 text-2xl">•</span> Frequently
+              Asked Questions{" "}
             </p>{" "}
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               {" "}
@@ -477,12 +479,15 @@ export default function Home() {
             </p>{" "}
             <ul className="text-sm text-gray-600 space-y-2">
               {" "}
-              <li>• 24/7 customer support</li> <li>• Professional service with Customer-first approach</li>{" "}
+              <li>• 24/7 customer support</li>{" "}
+              <li>• Professional service with Customer-first approach</li>{" "}
             </ul>{" "}
-            <p className="mt-5">still have any question? <span className="text-orange-500">Contact our support team</span> anytime</p>
+            <p className="mt-5">
+              still have any question?{" "}
+              <span className="text-orange-500">Contact our support team</span>{" "}
+              anytime
+            </p>
           </div>{" "}
-
-
           {/* FAQ LIST */}
           <div className="space-y-4">
             {" "}
