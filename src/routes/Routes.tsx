@@ -4,6 +4,8 @@ import SuspenseUi from "../components/ui/SuspenseUi";
 import { createBrowserRouter, RouterProvider, type RouteObject } from "react-router";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
+import ResetPassword from "../pages/auth/ResetPassword";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 
 
@@ -35,6 +37,14 @@ const Routes = () => {
                 {
                     path: "createAccount",
                     Component: SignUp
+                },
+                  {
+                    path: "forgotPassword",
+                    Component: ForgotPassword
+                },
+                  {
+                    path: "resetPassword",
+                    Component: ResetPassword
                 }
 
 

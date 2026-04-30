@@ -2,6 +2,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
+
 export default function Login() {
   const [revealPassword, setRevealPassword] = useState(false);
 
@@ -10,7 +11,7 @@ export default function Login() {
     setRevealPassword((prev) => !prev);
   };
   return (
-    <div className="container  mx-auto mt-10 md:mt-10">
+    <div className="container  mx-auto mt-10 h-full flex flex-col justify-center max-w-md md:mt-10">
       <div>
         <h1 className="text-4xl md:text-3xl lg:text-4xl">Welcome Back</h1>
         <p className="text-sm pt-2 text-[#393E46]">
@@ -47,7 +48,7 @@ export default function Login() {
               {revealPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          <p className="text-end text-[#F97316]">Forgot Password?</p>
+          <Link to="/auth/forgotPassword" className="text-end text-[#F97316]">Forgot Password?</Link>
 
           <button
             className="btn btn-neutral bg-[#F97316] text-white mt-4 border p- rounded-3xl"
