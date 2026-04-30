@@ -10,7 +10,7 @@ export const trendingCars: Car[] = [
     fuel: "Petrol",
     transmission: "Auto",
     seats: 5,
-    image: "https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=1200",
+    image:   "/camry 2.png",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ export const trendingCars: Car[] = [
     fuel: "Hybrid",
     transmission: "Auto",
     seats: 5,
-    image: "https://images.unsplash.com/photo-1617814076668-8df3a6d1f58d?q=80&w=1200",
+    image: "/ChatGPT Image Apr 23, 2026, 12_50_58 PM 1.png",
   },
   {
     id: 3,
@@ -32,6 +32,6 @@ export const trendingCars: Car[] = [
     fuel: "Diesel",
     transmission: "Manual",
     seats: 3,
-    image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=1200",
+    image: "/ChatGPT Image Apr 23, 2026, 12_50_58 PM 2.png",
   },
 ];
