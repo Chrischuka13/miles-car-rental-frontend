@@ -1,10 +1,15 @@
 import { Outlet } from "react-router"
+import NavBar from "../components/NavBar"
+import Footer from "../components/Footer"
+
 
 const RootLayout = () => {
   return (
     <div>
-      <Outlet />
-      </div>
+      <NavBar/>
+      <Outlet/>
+      <Footer/>
+    </div>
   )
 }
 
