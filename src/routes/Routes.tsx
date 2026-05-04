@@ -1,3 +1,4 @@
+// import AuthLayout from "../layouts/AuthLayout";
 import RootLayout from "../layouts/RootLayout";
 import SuspenseUi from "../components/ui/SuspenseUi";
 import {
@@ -5,7 +6,7 @@ import {
   RouterProvider,
   type RouteObject,
 } from "react-router";
-import CarsLayout from "../layouts/CarsLayout";
+import CarsLayout from "@/layouts/CarsLayout";
 
 const Routes = () => {
   const routes = [
@@ -52,4 +53,4 @@ const Routes = () => {
   return <RouterProvider router={router} />;
 };
 
-export default Routes;
+export default Routes
