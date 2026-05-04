@@ -297,7 +297,6 @@ export default function Home() {
                 Verified Cars Available
               </p>
             </div>
-
             <div className="flex flex-col items-center mb-4">
               <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
                 34k+
