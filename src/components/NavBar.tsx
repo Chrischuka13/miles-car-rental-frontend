@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { X } from "lucide-react";
+import { Link } from "react-router";
 // import { Link } from "react-router"
 
 const NavBar: React.FC = () => {
@@ -25,12 +26,12 @@ const NavBar: React.FC = () => {
               >
                 Cars
               </a>
-              <a
-                href="/"
+              <Link
+                to="/about"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
               >
                 About Us
-              </a>
+              </Link>
               <a
                 href="/"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
@@ -80,12 +81,12 @@ const NavBar: React.FC = () => {
                 >
                   Cars
                 </a>
-                <a
-                  href="/"
+               <Link
+                to="/about"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   About Us
-                </a>
+                </Link>
                 <a
                   href="/"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"

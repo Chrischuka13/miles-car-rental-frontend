@@ -1,6 +1,7 @@
 // import useMetaArgs from "@/hooks/useMeta";
 import TrendingCars from "../../sections/TrendingCars";
 import heroImage from "/Frame 39.jpg";
+import SearchBar from "@/components/homePage/searchBar";
 
 export default function Home() {
   //   useMetaArgs({
@@ -10,7 +11,7 @@ export default function Home() {
   //   });
 
   return (
-    <main className="text-base-content bg-[#F9F9F9]">
+    <main className="text-base-content bg-[#F9F9F9] overflow-hidden">
       {/* HERO */}
       <section
         className="min-h-screen relative bg-cover bg-center"
@@ -19,8 +20,8 @@ export default function Home() {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
-          <div className="text-center text-white max-w-5xl mx-auto">
-            <div className="badge badge-outline bg-[#4A4D54] border-white/30 text-orange-500 px-5 py-1 rounded-full mb-6 mt-15 lg:mt-5 inline-flex items-center justify-center max-w-fit text-center">
+          <div className="text-center text-white max-w-5xl mx-auto mt-2 md:mt-30 gap-10">
+            <div className=" bg-[#4C4D54]/60 border-white/30 text-orange-500 px-5 py-1 rounded-full mb-6 mt-15 lg:mt-5 inline-flex items-center justify-center max-w-fit text-center backdrop-blur-md">
               Join over 34k happy customers
             </div>
 
@@ -36,48 +37,42 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-              <button className="btn bg-orange-500 hover:bg-orange-600 border-none rounded-full px-8 py-2 cursor-pointer text-white">
-                Book Now
-              </button>
-              <button className="btn bg-white rounded-full px-5 py-2 cursor-pointer text-gray-800 hover:bg-gray-100">
-                Explore Cars
-              </button>
+              <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                <button
+                  className="relative group flex items-center justify-center
+               bg-orange-500 hover:bg-orange-600
+               text-white font-medium
+               px-5 py-3 rounded-full
+               transition-all duration-200
+               shadow-md hover:shadow-lg active:scale-95 overflow-hidden"
+                >
+                  <span className="pr-12">Book Now</span>
+
+                  <img
+                    src="/stash_arrow-down-duotone.png"
+                    alt="arrow"
+                    className="absolute right-3 w-13 h-13
+                 pointer-events-none
+                 transition-transform duration-200
+                 group-hover:translate-y-1"
+                  />
+                </button>
+                <button className="btn bg-white rounded-full px-5 py-2 cursor-pointer text-gray-800 hover:bg-gray-100">
+                  Explore Cars
+                </button>
+              </div>
             </div>
           </div>
-
-          <div className="mt-14 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/20 p-4 md:p-6 grid grid-cols-1 md:grid-cols-6 gap-4">
-            <div className="text-white font-semibold flex items-center">
-              Need to Rent a Luxury Car?
-            </div>
-
-            <input
-              className="input input-bordered w-full rounded-xl"
-              placeholder="Pickup Location"
-            />
-            <input
-              className="input input-bordered w-full rounded-xl"
-              placeholder="Pickup Date"
-            />
-            <input
-              className="input input-bordered w-full rounded-xl"
-              placeholder="Return Date"
-            />
-            <input
-              className="input input-bordered w-full rounded-xl"
-              placeholder="Car Type"
-            />
-
-            <button className="btn bg-orange-500 hover:bg-orange-600 border-none rounded-full text-white">
-              Find a Car
-            </button>
+          <div className="mt-10">
+            <SearchBar />
           </div>
         </div>
       </section>
 
       <section className="py-15">
         <div className="w-11/12 container p-4  mx-auto  items-center">
-          <div className="flex gap-2 text-center items-center font-semibold ">
-            <p className="text-orange-500 mb-2 text-3xl">•</p>
+          <div className="flex items-center  font-semibold ">
+            <p className="text-orange-500 mb-3 text-3xl">•</p>
             <p className="text-black-500 mb-2">
               Redefining the Rental Experience
             </p>
@@ -94,8 +89,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why Choose Us */}
       <section className="w-full bg-white py-5">
-        <div className="w-11/12 container p-4  mx-auto  grid md:grid-cols-2 gap-10 items-center">
+        <div className="w-11/12 container p-4  mx-auto  grid md:grid-cols-2 gap-10 items-stretch">
           <div>
             <p className="text-sm text-gray-500 mb-2 flex items-center gap-2 font-semibold">
               <span className="text-orange-500 text-3xl">•</span> Why Choose Us
@@ -104,7 +100,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-5xl font-bold leading-tight mb-6">
               We’re BIG on{" "}
               <span className="text-orange-500">
-                What <br /> Matters
+                What <br className="md:hidden" /> Matters
               </span>{" "}
               to You
             </h2>
@@ -170,10 +166,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div>
+         <div className="h-full flex justify-end items-center">
             <img
               src="/Frame 96.png"
-              className="w-full h-[280px] sm:h-[320px] md:h-[550px] object-cover rounded-2xl shadow-md"
+              className="h-full object-cover rounded-2xl shadow-md"
               alt=""
             />
           </div>
@@ -230,11 +226,20 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="py-16">
         <div className="w-11/12 container p-4 mx-auto">
-          <div className="rounded-3xl bg-orange-500 text-white p-8 md:p-12 flex flex-col md:flex-row items-center">
-            <div className="w-full md:w-1/2">
+          <div className="rounded-3xl relative text-white p-8 md:p-12 flex flex-col md:flex-row items-center overflow-hidden">
+            <div className="absolute inset-0 bg-orange-500 z-0"></div>
+            <div
+              className="absolute inset-0 z-10 "
+              style={{
+                backgroundImage: "url('/pattern.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            ></div>
+
+            <div className="relative z-10 w-full md:w-1/2">
               <p className="text-sm flex items-center gap-2">
                 <span className="text-2xl">•</span>
                 Best Deal No Limit
@@ -246,12 +251,14 @@ export default function Home() {
                 Book Cyber Truck <br /> with a big discount!
               </p>
 
-              <button className="btn bg-black py-2 px-5 mt-5 rounded-2xl">
-                Book Now
+              <button className="btn bg-black py-2 px-5 mt-5 rounded-full flex justify-center items-center gap-2">
+                Book Now{" "}
+                <img src="/stash_arrow-down.png" className="" alt="arrow" />
               </button>
             </div>
 
-            <div className="w-full md:w-1/2">
+            {/* image side */}
+            <div className="relative z-10 w-full md:w-1/2">
               <img
                 src="/unsplash__JkqGe0ufU8.png"
                 className="h-50 md:h-full w-full object-cover"
@@ -262,28 +269,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Services */}
       <section className="w-full bg-gray-50">
-        <div className="w-11/12 container p-4 mx-auto">
-          <div className="grid md:grid-cols-2 gap-10 items-center bg-white rounded-3xl p-8 md:p-12 ">
-            <div>
+        <div className="w-11/12 container p-4 mx-auto items-stretch">
+         <div className="grid md:grid-cols-2 justify-start items-stretch bg-white rounded-3xl p-8 md:p-10">
+          <div className="flex flex-col h-full justify-center max-w-[38rem] gap-5  ">
+           
               <p className="text-sm text-gray-500 mb-2 flex items-center gap-2">
                 {" "}
                 <span className="text-orange-500 text-2xl">•</span> Concierge
                 Service{" "}
               </p>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
                 {" "}
                 Discover a New Level of{" "}
                 <span className="text-orange-500">Comfort</span>{" "}
               </h2>{" "}
-              <p className="text-gray-500 mb-6">
+             <p className="text-gray-500 mb-6 leading-relaxed max-w-[30rem] ">
                 {" "}
                 Enjoy a seamless rental experience tailored to your needs. Our
                 concierge service is designed to provide comfort, convenience,
                 and dedicated support.{" "}
               </p>
-              <div className="grid grid-cols-2 gap-6">
-                {" "}
+              <div className="grid grid-cols-1 gap-6">
                 <div>
                   {" "}
                   <h4 className="font-semibold">Easy Booking</h4>{" "}
@@ -314,12 +322,13 @@ export default function Home() {
                 </div>{" "}
               </div>
             </div>
-
-            <img
-              src="/image 26.png"
-              className="w-full h-[320px] md:h-[500px] object-cover rounded-2xl"
-              alt=""
-            />
+            <div className="h-full flex justify-end items-center">
+              <img
+                src="/image 26.png"
+               className="object-cover rounded-2xl shadow-md"
+                alt=""
+              />
+            </div>
           </div>
         </div>
 
@@ -421,6 +430,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Stats */}
       <section className="w-full bg-white py-3">
         <div className="w-11/12 container mx-auto px-4 ">
           <div className="grid w-full grid-cols-2 md:grid-cols-4 border-y border-gray-100 py-4 lg:gap-66 text-center items-center justify-items-center">
@@ -459,8 +469,8 @@ export default function Home() {
 
       {/* FAQ */}
       <section className="w-full bg-gray-50">
-        <div className="w-11/12 container p-4 mx-auto grid md:grid-cols-2 gap-20  justify-between items-start mt-10">
-          <div>
+        <div className="w-11/12 container p-4 mx-auto grid md:grid-cols-2 gap-20 items-stretch mt-10 mb-10">
+          <div className="h-full flex flex-col justify-between">
             {" "}
             <p className="text-sm text-gray-500 mb-2 flex items-center gap-2 font-semibold">
               {" "}
@@ -479,8 +489,8 @@ export default function Home() {
             </p>{" "}
             <ul className="text-sm text-gray-600 space-y-2">
               {" "}
-              <li>• 24/7 customer support</li>{" "}
-              <li>• Professional service with Customer-first approach</li>{" "}
+              <li className="flex gap-2 items-center mb-3"><img src="public/Frame 114b.png" alt="icon" /> 24/7 customer support</li>{" "}
+              <li className="flex gap-2 items-center"><img src="public/Frame 114b.png" alt="icon" /> Professional service with Customer-first approach</li>{" "}
             </ul>{" "}
             <p className="mt-5">
               still have any question?{" "}
@@ -489,7 +499,7 @@ export default function Home() {
             </p>
           </div>{" "}
           {/* FAQ LIST */}
-          <div className="space-y-4">
+          <div className="space-y-4 h-full flex flex-col justify-between">
             {" "}
             {[
               "How do I book a car?",

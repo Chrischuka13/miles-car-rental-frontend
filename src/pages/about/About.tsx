@@ -2,7 +2,7 @@ import aboutImage from "/about.jpg";
 
 function About() {
   return (
-    <main className="text-base-content bg-[#F9F9F9]">
+    <main className="text-base-content bg-[#F9F9F9] tytt">
       <section
         className="relative min-h-[85vh] md:min-h-[80vh] w-full bg-cover bg-center flex items-center justify-center"
         style={{
@@ -53,7 +53,7 @@ function About() {
               />
             </div>
             <div className="bg-white rounded-3xl p-10 shadow-sm h-full flex flex-col">
-              <div className="text-5xl text-orange-400 mb-10 mt-10">
+              <div className="text-4xl text-orange-400 mb-10 mt-10">
                 <img src="Vector.svg" className="mb-4" alt="quote-Img" />
               </div>
 
@@ -62,10 +62,10 @@ function About() {
                 it isn’t."
               </p>
 
-              <div className="border-t pt-4 flex items-center gap-1 md:gap-3">
+              <div className="border-t pt-3 flex items-center gap-1 md:gap-3">
                 <img
                   src="/miles circle.png"
-                  className="w-13 h-13"
+                  className="w-12 h-12"
                   alt="miles-logo"
                 />
 

@@ -1,5 +1,5 @@
 import CarCard from "../components/carCard";
-import { trendingCars } from "../data/trendingCars";
+import { trendingCars } from "../constants/trendingCars";
 
 const TrendingCars = () => {
   return (
