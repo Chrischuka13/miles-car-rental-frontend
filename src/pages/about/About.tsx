@@ -1,8 +1,10 @@
+import WhyChooseUs from "@/components/ui/whyChooseUs";
 import aboutImage from "/about.jpg";
+import OurService from "@/components/ui/OurService";
 
 function About() {
   return (
-    <main className="text-base-content bg-[#F9F9F9] tytt">
+    <main className="text-base-content bg-[#F9F9F9]">
       <section
         className="relative min-h-[85vh] md:min-h-[80vh] w-full bg-cover bg-center flex items-center justify-center"
         style={{
@@ -34,7 +36,7 @@ function About() {
 
             <button className="w-full md:w-auto bg-white hover:bg-gray-100 transition-all duration-300 text-gray-900 px-5 py-2 rounded-full font-semibold flex items-center justify-center gap-3 shadow-lg cursor-pointer">
               <span className="w-7 h-7 rounded-full border border-gray-400 flex items-center justify-center text-sm">
-                ▶
+                
               </span>
               Watch our story
             </button>
@@ -43,7 +45,7 @@ function About() {
       </section>
 
       <section className="w-full bg-[#f7f7f7] py-10 ">
-        <div className="w-11/12 container p-4  mx-auto  items-center">
+        <div className="w-11/12 container mx-auto items-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-15 items-start">
             <div className="rounded-3xl overflow-hidden shadow-sm">
               <img
@@ -103,8 +105,9 @@ function About() {
               open and the ride is yours.
             </p>
           </div>
-          <section className="w-full bg-[#f7f7f7] py-10 ">
-            <div className="grid gap-6 md:grid-cols-2">
+
+          <section className="w-full bg-[#f7f7f7] py-16 ">
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
               <div className="bg-white rounded-2xl p-6 md:p-10">
                 <div className="flex flex-col gap-3 mb-6">
                   <div>
@@ -137,146 +140,14 @@ function About() {
         </div>
       </section>
 
-        <section className="w-full bg-white py-5">
-        <div className="w-11/12 container p-4  mx-auto  grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <p className="text-sm text-gray-500 mb-2 flex items-center gap-2 font-semibold">
-              <span className="text-orange-500 text-3xl">•</span> Why Choose Us
-            </p>
+        <WhyChooseUs/>
 
-            <h2 className="text-3xl md:text-5xl font-bold leading-tight mb-6">
-              We’re  BIG on <span className="text-orange-500">What <br/> Matters</span>{" "}
-              to  You
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="flex flex-col">
-                <div className="w-fit mb-3">
-                  <img src="/Frame 114.png" className="w-10 h-10" alt=""/>
-                </div>
-                <h4 className="font-semibold text-gray-800 text-2xl">
-                  Easy Booking Process
-                </h4>
-                <p className="text-sm text-gray-500 mt-1">
-                  Book your vehicle in under 2 minutes with our simple flow
-                </p>
-              </div>
-
-              <div className="flex flex-col">
-                <div className="mb-3">
-                  <img src="/Frame 115.png" className="w-10 h-10" alt=""/>
-                </div>
-                <h4 className="font-semibold text-gray-800 text-2xl">
-                  Transparent Pricing
-                </h4>
-                <p className="text-sm text-gray-500 mt-1">
-                  What you see is what you pay. No hidden fees, ever.
-                </p>
-              </div>
-
-              <div className="col-span-1 sm:col-span-2 border-t my-2"></div>
-
-              <div className="flex flex-col">
-                <div className="mb-3">
-                  <img src="/public/Frame 116.png" className="w-10 h-10" alt=""/>
-                </div>
-                <h4 className="font-semibold text-gray-800 text-2xl">
-                  Wide Range of Cars
-                </h4>
-                <p className="text-sm text-gray-500 mt-1">
-                  Book your vehicle in under 2 minutes with our simple flow
-                </p>
-              </div>
-
-              <div className="flex flex-col">
-                <div className="mb-3">
-                  <img src="/public/Frame 114 (1).png" className="w-10 h-10" alt=""/>
-                </div>
-                <h4 className="font-semibold text-gray-800 text-2xl">
-                  Verified and Reliable
-                </h4>
-                <p className="text-sm text-gray-500 mt-1">
-                  Every vehicle inspected and every partner background-checked.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <img
-              src="/Frame 96.png"
-              className="w-full h-[280px] sm:h-[320px] md:h-[550px] object-cover rounded-2xl shadow-md"
-            alt=""/>
-          </div>
-        </div>
-      </section>
-
-       <section className="w-full bg-gray-50">
-        <div className="w-11/12 container p-4 mx-auto">
-          <div className="grid md:grid-cols-2 gap-10 items-center bg-white rounded-3xl p-8 md:p-12 ">
-            <div>
-              <p className="text-sm text-gray-500 mb-2 flex items-center gap-2">
-                {" "}
-                <span className="text-orange-500 text-2xl">•</span> Concierge
-                Service{" "}
-              </p>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                {" "}
-                Discover a New Level of{" "}
-                <span className="text-orange-500">Comfort</span>{" "}
-              </h2>{" "}
-              <p className="text-gray-500 mb-6">
-                {" "}
-                Enjoy a seamless rental experience tailored to your needs. Our
-                concierge service is designed to provide comfort, convenience,
-                and dedicated support.{" "}
-              </p>
-              
-              <div className="grid grid-cols-2 gap-6">
-                {" "}
-                <div>
-                  {" "}
-                  <h4 className="font-semibold">Easy Booking</h4>{" "}
-                  <p className="text-sm text-gray-500">
-                    Reserve your ride in 2 minutes.
-                  </p>{" "}
-                </div>{" "}
-                <div>
-                  {" "}
-                  <h4 className="font-semibold">Professional Drivers</h4>{" "}
-                  <p className="text-sm text-gray-500">
-                    Vetted, reliable, always on time.
-                  </p>{" "}
-                </div>{" "}
-                <div>
-                  {" "}
-                  <h4 className="font-semibold">Big fleet of cars</h4>{" "}
-                  <p className="text-sm text-gray-500">
-                    From everyday rides to luxury trucks.
-                  </p>{" "}
-                </div>{" "}
-                <div>
-                  {" "}
-                  <h4 className="font-semibold">Seamless Experience</h4>{" "}
-                  <p className="text-sm text-gray-500">
-                    Fast, smooth, and stress-free.
-                  </p>{" "}
-                </div>{" "}
-              </div>
-            </div>
-
-            <img
-              src="/image 26.png"
-              className="w-full h-[320px] md:h-[500px] object-cover rounded-2xl"
-            alt=""/>
-          </div>
-        </div>
-        </section>
+        <OurService/>
 
 
- <section className="w-full bg-white py-3">
-  <div className="w-11/12 container mx-auto px-4 ">
-    <div className="grid w-full grid-cols-2 md:grid-cols-4 border-y border-gray-100 py-4 lg:gap-66 text-center items-center justify-items-center">
+ <section className="w-full bg-white py-16 mt-12">
+  <div className="w-11/12 container mx-auto ">
+    <div className="grid w-full grid-cols-2 md:grid-cols-4  border-gray-100 py-4 text-center items-center justify-items-center">
       
       <div className="flex flex-col items-center ">
         <h3 className="text-3xl md:text-4xl font-bold text-slate-700">

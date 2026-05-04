@@ -288,7 +288,7 @@ export default function Home() {
       {/* Stats */}
       <section className="w-full bg-white py-3">
         <div className="w-11/12 container mx-auto px-4 ">
-          <div className="grid w-full grid-cols-1 md:grid-cols-4 border-y border-gray-100 py-4 lg:gap-66 text-center items-center justify-items-center">
+          <div className="grid w-full grid-cols-1 md:grid-cols-4 py-4 lg:gap-66 text-center items-center justify-items-center">
             <div className="flex flex-col items-center mb-4">
               <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
                 500+

@@ -14,7 +14,7 @@ const NavBar: React.FC = () => {
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-10 bg-neutral-50 transition hover:cursor-pointer ">
+        <nav className="fixed w-full z-50 bg-neutral-50 transition hover:cursor-pointer ">
           <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
             <img src="/miles logo.svg" alt="logo" className="w-[100px]" />
             <div className="hidden md:flex gap-7 justify-center  items-center text-DarkBlue">
