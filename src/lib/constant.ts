@@ -3,11 +3,17 @@ export type CarProduct = {
   name: string;
   brand: string;
   price: number;
-  image: string;
+  image: string[];
   transmission: "Auto" | "Hybrid" | "Manual";
   carType: "Sedan" | "Luxury" | "Suv" | "Truck";
   seats: number;
-  carValue: "Executive" | "City" | "Premium" | "Logistics" |"Family" | "Electric";
+  carValue:
+    | "Executive"
+    | "City"
+    | "Premium"
+    | "Logistics"
+    | "Family"
+    | "Electric";
   consumption: "Petrol" | "Diesel" | "Electric" | "Hybrid";
   year: number;
   address: string;
@@ -19,8 +25,9 @@ export const TrendingCars: CarProduct[] = [
     name: "Lexus ES",
     brand: "Lexus",
     price: 49,
-    image:
+    image: [
       "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777741114/LexusBg_qkmtmb.png",
+    ],
     transmission: "Auto",
     carType: "Luxury",
     seats: 5,
@@ -34,8 +41,8 @@ export const TrendingCars: CarProduct[] = [
     name: "Toyota Camry",
     brand: "Toyota",
     price: 50,
-    image:
-      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777740861/camry_2_tihbg1.png",
+    image:[
+      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777740861/camry_2_tihbg1.png",],
     transmission: "Auto",
     carType: "Sedan",
     seats: 5,
@@ -49,8 +56,8 @@ export const TrendingCars: CarProduct[] = [
     name: "Range Rover Vogue",
     brand: "Range",
     price: 89,
-    image:
-      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777741351/rangerover_lkqnmv.png",
+    image:[
+      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777741351/rangerover_lkqnmv.png",],
     transmission: "Auto",
     carType: "Luxury",
     seats: 5,
@@ -64,8 +71,8 @@ export const TrendingCars: CarProduct[] = [
     name: "Isuzu NPR",
     brand: "Isuzu",
     price: 169,
-    image:
-      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777741092/truck_vmecsb.png",
+    image:[
+      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777741092/truck_vmecsb.png",],
     transmission: "Manual",
     carType: "Truck",
     seats: 3,
@@ -79,8 +86,8 @@ export const TrendingCars: CarProduct[] = [
     name: "Hyundai Tucson",
     brand: "Hyundai",
     price: 69,
-    image:
-      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777743158/hyundai_dhk1zs.png",
+    image:[
+      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777743158/hyundai_dhk1zs.png",],
     transmission: "Auto",
     carType: "Suv",
     seats: 5,
@@ -94,8 +101,8 @@ export const TrendingCars: CarProduct[] = [
     name: "Tesla Cybertruck",
     brand: "Tesla",
     price: 249,
-    image:
-      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777741078/cybertruck_pvkifc.png",
+    image:[
+      "https://res.cloudinary.com/dw5bai7mk/image/upload/v1777741078/cybertruck_pvkifc.png",],
     transmission: "Auto",
     carType: "Truck",
     seats: 5,
