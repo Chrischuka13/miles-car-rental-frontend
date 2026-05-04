@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { X } from "lucide-react";
-// import { Link } from "react-router"
+import { Link } from "react-router"
 
 const NavBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,12 +31,11 @@ const NavBar: React.FC = () => {
               >
                 About Us
               </a>
-              <a
-                href="/"
+              <Link to = "/contactus"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
               >
                 Contact Us
-              </a>
+              </Link>
             </div>
 
             <div className="dropdown dropdown-end">
