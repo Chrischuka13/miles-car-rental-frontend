@@ -13,7 +13,7 @@ export default function CarDetails() {
   const navigate = useNavigate();
 
   const selectedCars: CarProduct | undefined = TrendingCarsData.find(
-    (car) => car.id === Number(id)
+    (car) => car.id === Number(id),
   );
 
   if (!selectedCars) {
@@ -40,7 +40,7 @@ export default function CarDetails() {
             {/* first box */}
             <div className="w-full lg:w-[55%]">
               <img
-                src={selectedCars.image[0]} 
+                src={selectedCars.image[0]}
                 alt={selectedCars.name}
                 className="rounded-2xl cursor-pointer object-cover w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-full"
               />
@@ -116,35 +116,60 @@ export default function CarDetails() {
         {/* at a glance section */}
         <section className="bg-[#FCFAF8]">
           <main className="w-11/12 container py-10 mx-auto">
-            <h1 className="text-2xl sm:text-3xl lg:text-[32px]">
-              At a glance
-            </h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-[32px]">At a glance</h1>
 
             <div className="flex flex-col lg:flex-row gap-10">
               {/* first child div */}
               <div className="w-full lg:w-[70%]">
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-5 gap-4 uppercase">
-                  <span className="flex flex-col items-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm ">
-                    <img src="/Vector.png" alt="" className="w-6 mt-1" />
-                    <p className="text-sm">{selectedCars.seats}</p>
+                  <span className="flex flex-col items-start justify-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm ">
+                    <img
+                      src="/Vector.png"
+                      alt="vector logo"
+                      className="w-6 sm:w-fit mt-1"
+                    />
+                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                      Seats
+                    </p>
+                    <p className="font-medium">{selectedCars.seats}</p>
                   </span>
 
-                  <span className="flex flex-col items-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm">
-                    <img src="/transmission.png" alt="" className="w-6" />
-                    <p className="text-sm">{selectedCars.transmission}</p>
+                  <span className="flex flex-col items-start justify-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm">
+                    <img
+                      src="/transmission.png"
+                      alt="vector logo"
+                      className="w-6 sm:w-fit"
+                    />
+                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                      Trans
+                    </p>
+                    <p className="font-medium">{selectedCars.transmission}</p>
                   </span>
 
-                  <span className="flex flex-col items-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm">
-                    <img src="/gas.png" alt="" className="w-6" />
-                    <p className="text-sm">{selectedCars.consumption}</p>
+                  <span className="flex flex-col items-start justify-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm">
+                    <img
+                      src="/gas.png"
+                      alt="vector logo"
+                      className="w-6 sm:w-fit"
+                    />
+                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                      Fuel
+                    </p>
+                    <p className="font-medium">{selectedCars.consumption}</p>
                   </span>
 
-                  <span className="flex flex-col items-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm">
-                    <img src="/calender.png" alt="" className="w-6" />
-                    <p className="text-sm">{selectedCars.year}</p>
+                  <span className="flex flex-col items-start justify-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm">
+                    <img
+                      src="/calender.png"
+                      alt="vector logo"
+                      className="w-6 sm:w-fit"
+                    />
+                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                      Year
+                    </p>
+                    <p className="font-medium">{selectedCars.year}</p>
                   </span>
                 </div>
-
                 {/* specification */}
                 <div>
                   <h1 className="text-2xl sm:text-3xl lg:text-[32px] mt-7">
@@ -177,39 +202,77 @@ export default function CarDetails() {
 
               {/* second child div */}
               <div className="w-full lg:w-[30%]">
-                <main className="bg-[#FFFFFF] p-4 rounded-xl shadow-sm">
-                  <div className="flex justify-between">
+                <main className="bg-[#FFFFFF] pl-2  p-4 rounded-xl shadow-sm">
+                  <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">${selectedCars.price}</p>
-                    <p>per day</p>
+                    <p className="text-[#4B5563]">per day</p>
+                  </div>
+                  {/* pick up location */}
+                  <div className="flex flex-col pl-2 py-4 bg-[#F4F0EC] mt-2 rounded-xl ">
+                    <span className="uppercase text-xs text-[#666666]">
+                      Pick up location
+                    </span>
+                    <span className="flex items-center justify-left gap-2 mt-2">
+                      <img src="/Map.png" alt="" className="w-5 h-5" />
+                      <p className="text-xs text-[#5E5E5E]">
+                        {selectedCars.address}
+                      </p>
+                    </span>
                   </div>
 
-                  <p className="mt-2">{selectedCars.address}</p>
-
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <input type="date" />
-                    <input type="date" />
+                  {/* pickup date and return */}
+                  <div className="grid grid-cols-2 gap-1 md:gap-2  pl-2 py-4  mt-2 rounded-xl w-full">
+                    <div className="bg-[#F4F0EC] rounded-xl p-2">
+                      <span className="uppercase text-xs text-[#666666]">
+                        Pick up
+                      </span>
+                      <span className="flex flex-col">
+                        <input type="date" name="" id="" />
+                      </span>
+                    </div>
+                    <div className="bg-[#F4F0EC] rounded-xl p-2">
+                      <span className="uppercase text-xs text-[#666666]">
+                        Return
+                      </span>
+                      <span className="flex flex-col">
+                        <input type="date" name="" id="" />
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="mt-4">
-                    <div className="flex justify-between">
+                  {/* duration of days and service fee */}
+                  <hr className="mt-2" />
+                  <div className="pb-5 py-5 text-[#4B5563]">
+                    <span className="flex items-center justify-between">
                       <p>3 days</p>
                       <p>{selectedCars.price}</p>
-                    </div>
-
-                    <div className="flex justify-between mt-2">
+                    </span>
+                    <span className="flex items-center justify-between mt-2">
                       <p>Service Fee</p>
                       <p>{selectedCars.price}</p>
-                    </div>
+                    </span>
                   </div>
+                  <hr />
+                  <span className="flex items-center justify-between font-semibold mt-5">
+                    <p className="text-lg">Total</p>
+                    <p className="text-2xl lg:text-3xl">{selectedCars.price}</p>
+                  </span>
 
-                  <div className="flex justify-between mt-4 font-semibold">
-                    <p>Total</p>
-                    <p>{selectedCars.price}</p>
+                  {/* book now button */}
+                  <div className="w-full bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
+                    <button className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto">
+                      <p className="text-sm sm:text-base w-full">
+                        Book this car
+                      </p>
+                      <span>
+                        <img src="/stasharrow.png" alt="" className="w-8" />
+                      </span>
+                    </button>
                   </div>
-
-                  <button className="w-full bg-[#F97316] text-white mt-4 py-2 rounded-full">
-                    Book now
-                  </button>
+                  <span className="flex items-center justify-center py-3 text-[#A1A1A1] gap-5">
+                    <img src="/shield.png"></img>{" "}
+                    <p>Free cancellation up to 24h</p>
+                  </span>
                 </main>
               </div>
             </div>
