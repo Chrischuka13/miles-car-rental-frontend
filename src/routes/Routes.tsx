@@ -1,4 +1,3 @@
-// import AuthLayout from "../layouts/AuthLayout";
 import RootLayout from "../layouts/RootLayout";
 import SuspenseUi from "../components/ui/SuspenseUi";
 import {
@@ -7,10 +6,6 @@ import {
   type RouteObject,
 } from "react-router";
 import CarsLayout from "../layouts/CarsLayout";
-import CarListing from "../pages/cars/CarListing";
-import CarDetails from "../pages/cars/CarDetails";
-
-// import React, { Children, Component, lazy, Suspense } from 'react'
 
 const Routes = () => {
   const routes = [
@@ -32,19 +27,28 @@ const Routes = () => {
           children: [
             {
               path: "carlisting",
-              Component: CarListing,
+              lazy: async () => {
+                const { default: Component } =
+                  await import("../pages/cars/CarListing");
+                return { Component };
+              },
             },
             {
-              path: "cardetails",
-              Component: CarDetails,
+              path: "cardetails/:id",
+              lazy: async () => {
+                const { default: Component } =
+                  await import("../pages/cars/CarDetails");
+                return { Component };
+              },
             },
-
           ],
         },
       ],
     },
   ] satisfies RouteObject[];
+
   const router = createBrowserRouter(routes);
+
   return <RouterProvider router={router} />;
 };
 

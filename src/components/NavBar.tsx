@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { X } from "lucide-react";
+import { Link } from "react-router";
 // import { Link } from "react-router"
 
 const NavBar: React.FC = () => {
@@ -9,9 +10,9 @@ const NavBar: React.FC = () => {
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-20 bg-neutral-100 transition hover:cursor-pointer ">
+        <nav className="fixed w-full z-20 bg-[#FFFFFF] transition hover:cursor-pointer ">
           <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
-            <img src="public/miles.png" alt="logo" className="w-[100px]" />
+            <img src="/miles.png" alt="logo" className="w-[100px]" />
             <div className="hidden lg:flex gap-6 items-center text-[#0A0A0A]">
               <a
                 href="/"
@@ -19,12 +20,12 @@ const NavBar: React.FC = () => {
               >
                 Home
               </a>
-              <a
-                href="/"
+              <Link
+                to="cars/carlisting"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
               >
                 Cars
-              </a>
+              </Link>
               <a
                 href="/"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"

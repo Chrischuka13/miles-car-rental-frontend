@@ -8,12 +8,11 @@ import {
   UsersRound,
 } from "lucide-react";
 import { Link } from "react-router";
-
+import { TrendingCars } from "@/lib/constant";
 
 export default function CarListing() {
   return (
     <>
-    
       <main className="bg-white">
         <div className="">
           {/* car listing bg section */}
@@ -124,196 +123,65 @@ export default function CarListing() {
             {/*available cars section */}
             <section className="mt-10">
               {/* Added gap and adjusted grid cols */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6">
                 {/* each grid boxes for each car */}
                 {/* one */}
-                <div className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden">
-                  {/* box for the image */}
-                  <div className="relative w-full h-48">
-                    <img
-                      src="/LexusEs.png"
-                      alt="Lexus ES"
-                      className="w-full h-full object-cover"
-                    />
-                    <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
-                      Executive
-                    </p>
-                  </div>
-                  {/* box for vehicle description */}
-                  <div className="bg-[#FFFFFF] w-full px-5 py-4">
-                    <span className="flex items-center justify-between">
-                      <p className="text-[#A1A1A1] text-xs uppercase">Luxury</p>
-                      <p className="text-lg font-bold">$59</p>
-                    </span>
-                    <span className="flex items-center justify-between">
-                      <h2 className="font-bold text-xl">Lexus ES</h2>{" "}
-                      <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
-                    </span>
-                    <hr className="mt-4 text-[#E6E0E0]" />
-                    <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mt-4">
-                      {/* features */}
-                      <div className="flex items-center justify-between w-full xl:w-auto gap-3 text-[#727477]">
-                        <span className="flex items-center gap-1">
-                          <UsersRound className="w-4" />
-                          <p className="text-sm">5</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Fuel className="w-4" />
-                          <p className="text-sm">Hybrid</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <EqualNot className="w-4" />
-                          <p className="text-sm">Auto</p>
-                        </span>
+                {TrendingCars.map((cars) => (
+                  <div
+                    className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden"
+                    key={cars.id}
+                  >
+                    {/* box for the image */}
+                    <div className="relative w-full h-70">
+                    {<img
+                        src={cars.image}
+                        alt="Lexus ES"
+                        className="w-full h-full object-cover"
+                      />}
+                      <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
+                        {cars.carValue}
+                      </p>
+                    </div>
+                    {/* box for vehicle description */}
+                    <div className="bg-[#FFFFFF] w-full px-5 py-4">
+                      <span className="flex items-center justify-between">
+                        <p className="text-[#A1A1A1] text-xs uppercase">
+                          {cars.carType}
+                        </p>
+                        <p className="text-lg font-bold">${cars.price}</p>
+                      </span>
+                      <span className="flex items-center justify-between">
+                        <h2 className="font-bold text-xl">{cars.name}</h2>{" "}
+                        <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
+                      </span>
+                      <hr className="mt-4 text-[#E6E0E0]" />
+                      <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mt-4">
+                        {/* features */}
+                        <div className="flex items-center justify-between w-full xl:w-auto gap-3 text-[#727477]">
+                          <span className="flex items-center gap-1">
+                            <UsersRound className="w-4" />
+                            <p className="text-sm">{cars.seats}</p>
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Fuel className="w-4" />
+                            <p className="text-sm">{cars.consumption}</p>
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <EqualNot className="w-4" />
+                            <p className="text-sm">{cars.transmission}</p>
+                          </span>
+                        </div>
+                        {/* button */}
+                        <Link
+                           to={`/cars/cardetails/${cars.id}`}
+                          className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full text-center font-medium"
+                        >
+                          Book
+                        </Link>
                       </div>
-                      {/* button */}
-                      <Link  to="/cars/cardetails" className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-[#F97316] rounded-full text-center font-medium">
-                        Book
-                      </Link>
                     </div>
                   </div>
-                </div>
-
-                <div className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden">
-                  {/* box for the image */}
-                  <div className="relative w-full h-48">
-                    <img
-                      src="/LexusEs.png"
-                      alt="Lexus ES"
-                      className="w-full h-full object-cover"
-                    />
-                    <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
-                      Executive
-                    </p>
-                  </div>
-                  {/* box for vehicle description */}
-                  <div className="bg-[#FFFFFF] w-full px-5 py-4">
-                    <span className="flex items-center justify-between">
-                      <p className="text-[#A1A1A1] text-xs uppercase">Luxury</p>
-                      <p className="text-lg font-bold">$59</p>
-                    </span>
-                    <span className="flex items-center justify-between">
-                      <h2 className="font-bold text-xl">Lexus ES</h2>{" "}
-                      <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
-                    </span>
-                    <hr className="mt-4 text-[#E6E0E0]" />
-                    <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mt-4">
-                      {/* features */}
-                      <div className="flex items-center justify-between w-full xl:w-auto gap-3 text-[#727477]">
-                        <span className="flex items-center gap-1">
-                          <UsersRound className="w-4" />
-                          <p className="text-sm">5</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Fuel className="w-4" />
-                          <p className="text-sm">Hybrid</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <EqualNot className="w-4" />
-                          <p className="text-sm">Auto</p>
-                        </span>
-                      </div>
-                      {/* button */}
-                      <button className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-[#F97316] rounded-full text-center font-medium">
-                        Book
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden">
-                  {/* box for the image */}
-                  <div className="relative w-full h-48">
-                    <img
-                      src="/LexusEs.png"
-                      alt="Lexus ES"
-                      className="w-full h-full object-cover"
-                    />
-                    <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
-                      Executive
-                    </p>
-                  </div>
-                  {/* box for vehicle description */}
-                  <div className="bg-[#FFFFFF] w-full px-5 py-4">
-                    <span className="flex items-center justify-between">
-                      <p className="text-[#A1A1A1] text-xs uppercase">Luxury</p>
-                      <p className="text-lg font-bold">$59</p>
-                    </span>
-                    <span className="flex items-center justify-between">
-                      <h2 className="font-bold text-xl">Lexus ES</h2>{" "}
-                      <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
-                    </span>
-                    <hr className="mt-4 text-[#E6E0E0]" />
-                    <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mt-4">
-                      {/* features */}
-                      <div className="flex items-center justify-between w-full xl:w-auto gap-3 text-[#727477]">
-                        <span className="flex items-center gap-1">
-                          <UsersRound className="w-4" />
-                          <p className="text-sm">5</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Fuel className="w-4" />
-                          <p className="text-sm">Hybrid</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <EqualNot className="w-4" />
-                          <p className="text-sm">Auto</p>
-                        </span>
-                      </div>
-                      {/* button */}
-                      <button className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-[#F97316] rounded-full text-center font-medium">
-                        Book
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden">
-                  {/* box for the image */}
-                  <div className="relative w-full h-48">
-                    <img
-                      src="/LexusEs.png"
-                      alt="Lexus ES"
-                      className="w-full h-full object-cover"
-                    />
-                    <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
-                      Executive
-                    </p>
-                  </div>
-                  {/* box for vehicle description */}
-                  <div className="bg-[#FFFFFF] w-full px-5 py-4">
-                    <span className="flex items-center justify-between">
-                      <p className="text-[#A1A1A1] text-xs uppercase">Luxury</p>
-                      <p className="text-lg font-bold">$59</p>
-                    </span>
-                    <span className="flex items-center justify-between">
-                      <h2 className="font-bold text-xl">Lexus ES</h2>{" "}
-                      <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
-                    </span>
-                    <hr className="mt-4 text-[#E6E0E0]" />
-                    <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mt-4">
-                      {/* features */}
-                      <div className="flex items-center justify-between w-full xl:w-auto gap-3 text-[#727477]">
-                        <span className="flex items-center gap-1">
-                          <UsersRound className="w-4" />
-                          <p className="text-sm">5</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Fuel className="w-4" />
-                          <p className="text-sm">Hybrid</p>
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <EqualNot className="w-4" />
-                          <p className="text-sm">Auto</p>
-                        </span>
-                      </div>
-                      {/* button */}
-                      <button className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-[#F97316] rounded-full text-center font-medium">
-                        Book
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
             </section>
 
@@ -346,7 +214,6 @@ export default function CarListing() {
           </section>
         </div>
       </main>
-    
     </>
   );
 }
