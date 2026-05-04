@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router";
 import { TrendingCars as trendingCarsData, type CarProduct } from "@/lib/constant";
 
+
 export default function TrendingCars() {
   const { id } = useParams<{ id: string }>();
 
@@ -76,14 +77,17 @@ export default function TrendingCars() {
                   <hr className="mt-4 text-[#E6E0E0]" />
 
                   <div className="flex flex-col xl:flex-row items-center justify-between gap-4 mt-4">
-                    <div className="flex items-center gap-3 text-[#727477]">
+                    <div className="flex items-center justify-between w-full xl:w-auto gap-3 text-[#727477]">
                       <span className="flex items-center gap-1">
+                        <img src="/Users Group.svg" className="w-4" />
                         <p className="text-sm">{cars.seats}</p>
                       </span>
                       <span className="flex items-center gap-1">
+                        <img src="/Vector.svg" className="w-4" />
                         <p className="text-sm">{cars.consumption}</p>
                       </span>
                       <span className="flex items-center gap-1">
+                        <img src="/filter-horizontal.svg" className="w-4" />
                         <p className="text-sm">{cars.transmission}</p>
                       </span>
                     </div>

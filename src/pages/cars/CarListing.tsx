@@ -20,11 +20,11 @@ export default function CarListing() {
           >
             <div className="w-11/12 container p-4 mx-auto flex items-center justify-items-start h-full">
               <div className=" py-6">
-                <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-semibold tracking-wide">
+                <h1 className="text-white text-3xl md:text-4xl lg:text-6xl font-semibold tracking-wide">
                   Find your{" "}
                   <span className="text-[#F97316]">perfect ride.</span>
                 </h1>
-                <p className="text-white mt-5 tracking-wide">
+                <p className="text-white text-xl mt-5 tracking-wide">
                   From economy sedans to head-turning luxury SUVs and heavy-duty{" "}
                   <br className="hidden md:block" />
                   trucks — every vehicle inspected, insured and ready.

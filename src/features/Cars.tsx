@@ -1,12 +1,4 @@
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  EqualNot,
-  Fuel,
-  SlidersHorizontal,
-  UsersRound,
-} from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router";
 import { TrendingCars } from "@/lib/constant";
 
@@ -38,7 +30,7 @@ export default function Cars() {
                 </div>
                 <input
                   type="text"
-                  className="block w-full lg:w-80 py-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-[#F4F0EC] focus:ring-gray-200 focus:border-gray-400 outline-none"
+                  className="block w-full lg:w-120 py-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-[#F4F0EC] focus:ring-gray-200 focus:border-gray-400 outline-none"
                   placeholder="Search by name or brand..."
                   required
                 />
@@ -63,12 +55,6 @@ export default function Cars() {
                 <span className="py-3 px-6 bg-[#F4F0EC] rounded-2xl cursor-pointer whitespace-nowrap">
                   Truck
                 </span>
-                <div className="flex items-center justify-between bg-[#F4F0EC] py-3 px-6 min-w-[140px] rounded-2xl cursor-pointer">
-                  <span>Featured</span>
-                  <span>
-                    <ArrowDown className="w-4 h-4" />
-                  </span>
-                </div>
               </div>
             </div>
           </div>
@@ -131,15 +117,15 @@ export default function Cars() {
                     {/* features */}
                     <div className="flex items-center justify-between w-full xl:w-auto gap-3 text-[#727477]">
                       <span className="flex items-center gap-1">
-                        <UsersRound className="w-4" />
+                        <img src="/Users Group.svg" className="w-4" />
                         <p className="text-sm">{cars.seats}</p>
                       </span>
                       <span className="flex items-center gap-1">
-                        <Fuel className="w-4" />
+                        <img src="/Vector.svg" className="w-4" />
                         <p className="text-sm">{cars.consumption}</p>
                       </span>
                       <span className="flex items-center gap-1">
-                        <EqualNot className="w-4" />
+                        <img src="/filter-horizontal.svg" className="w-4" />
                         <p className="text-sm">{cars.transmission}</p>
                       </span>
                     </div>
@@ -169,16 +155,16 @@ export default function Cars() {
             Page 1 of 1
           </div>
           <div className="flex items-center gap-2">
-            <button className="flex items-center justify-center gap-2 text-[#878789] border border-[#878789] py-1 px-1 md:px-5 md:py-2 cursor-pointer">
+            <button className="flex items-center justify-center gap-2 text-[#878789] border border-[#878789] py-1 px-1 md:px-5 md:py-2 cursor-pointer w-40">
               <span>
-                <ArrowLeft />
+                <img src="/Path 94.svg" />
               </span>
               <span>Previous</span>
             </button>
-            <button className="flex items-center justify-center gap-2 text-[#878789] border border-[#878789] py-1 px-1 md:px-5 md:py-2 cursor-pointer">
+            <button className="flex items-center justify-center gap-2 text-[#878789] border border-[#878789] py-1 px-1 md:px-5 md:py-2 cursor-pointer w-40">
               <span>Next</span>
               <span>
-                <ArrowRight />
+                <img src="/Path 93.svg" />
               </span>
             </button>
           </div>
