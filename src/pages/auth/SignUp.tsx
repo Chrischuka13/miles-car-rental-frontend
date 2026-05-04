@@ -1,38 +1,93 @@
+import { validateSignUpSchema, type signUpSchemaType } from "@/lib/schemaTypes";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { registerUserApi } from "@/api/auth";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function SignUp() {
   const [revealPassword, setRevealPassword] = useState(false);
+  const navigate = useNavigate();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<signUpSchemaType>({
+    resolver: zodResolver(validateSignUpSchema),
+  });
 
-  const togglePasswordReveal = (e) => {
+  const togglePasswordReveal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setRevealPassword((prev) => !prev);
   };
+
+  const mutation = useMutation({
+    mutationFn: registerUserApi,
+    onSuccess: (res, variables) => {
+      toast.success(res.data.message || "Registration Successful");
+      navigate(
+        `/auth/verify-Account?email=${encodeURIComponent(variables.email)}`,
+      );
+    },
+    onError: (error) => {
+      if (import.meta.env.DEV) {
+        console.error(error);
+      }
+      if (axios.isAxiosError(error)) {
+        toast.error(error?.response?.data?.message || "Registration failed");
+      } else {
+        toast.error("Registration failed");
+      }
+    },
+  });
+
+  const onSubmitForm: SubmitHandler<signUpSchemaType> = async (data) => {
+    mutation.mutate(data);
+  };
+
   return (
-    <div className="container mx-auto h-full flex flex-col justify-center max-w-md mt-10 md:mt-6 ">
+    <div className="container mx-auto h-full flex flex-col justify-center items-center max-w-lg mt-10 md:mt-6 ">
       <div className="">
-        <h1 className="text-4xl md:text-3xl lg:text-4xl">Start Your Journey</h1>
-        <p className="text-sm pt-2 text-[#393E46]">
+        <h1 className="text-4xl text-center lg:text-start ">Start Your Journey</h1>
+        <p className="text-sm pt-2 text-[#393E46] text-center lg:text-start font-semibold">
           Takes less than a minute — no card required.{" "}
         </p>
-        <form className="fieldset bg-base-200 border-base-300 rounded flex flex-col w-90 md:w-80 lg:w-110 justify-between gap-4  pt-2">
-          <div className="flex justify-between gap-2 lg:gap-0 ">
+        <form
+          onSubmit={handleSubmit(onSubmitForm)}
+          className="fieldset bg-base-200 border-base-300 rounded flex flex-col w-90 md:w-120 lg:w-110 justify-between gap-4  pt-2 md:pt-6"
+        >
+          <div className="flex justify-between gap-2  lg:gap-0 ">
             <div>
               <p className="pb-1">First Name</p>
               <input
                 type="name"
+                {...register("firstName")}
                 className="input w-full text-[#A1A1A1]  border border-[#C3C9D3]  p-2 rounded-2xl"
                 placeholder="Enter name"
               />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm">
+                  {errors?.firstName.message}
+                </p>
+              )}
             </div>
             <div>
               <p className="pb-1">Last Name</p>
               <input
                 type="name"
+                {...register("lastName")}
                 className="input w-full text-[#A1A1A1]  border border-[#C3C9D3]  p-2 rounded-2xl"
                 placeholder="Enter name"
               />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm">
+                  {errors?.lastName.message}
+                </p>
+              )}
             </div>
           </div>
           <div>
@@ -41,19 +96,27 @@ export default function SignUp() {
             </p>
             <input
               type="name"
+              {...register("email")}
               className="input w-full text-[#A1A1A1]  border border-[#C3C9D3]  p-2 rounded-2xl"
               placeholder="you@example.com"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors?.email.message}</p>
+            )}
           </div>
           <div>
             <p className="pb-1">
               Phone<span className="text-red-700">*</span>
             </p>
             <input
-              type="name"
+              type="phone"
+              {...register("phone")}
               className="input w-full text-[#A1A1A1]  border border-[#C3C9D3]  p-2 rounded-2xl"
               placeholder="+ 1 (555) 000-0000"
             />
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors?.phone.message}</p>
+            )}
           </div>
 
           <div className="relative ">
@@ -62,9 +125,11 @@ export default function SignUp() {
             </p>
             <input
               type={revealPassword ? "text" : "password"}
+              {...register("password")}
               className="input border text-[#A1A1A1]  border-[#C3C9D3] w-full p-2 rounded-2xl  "
               placeholder="••••••••"
             />
+
             <button
               type="button"
               onClick={togglePasswordReveal}
@@ -72,8 +137,10 @@ export default function SignUp() {
             >
               {revealPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors?.password.message}</p>
+            )}
           </div>
-          <Link to="/auth/forgotPassword"  className="text-end text-[#F97316]">Forgot Password?</Link>
 
           <button
             className="btn btn-neutral bg-[#F97316] text-white mt-1 border p- rounded-3xl"
@@ -82,10 +149,12 @@ export default function SignUp() {
             <div className="flex justify-center items-center">
               <div>
                 {" "}
-                <h1 className="text-xl">Create Account</h1>
+                <h1 className="text-xl">
+                  {mutation.isPending ? "Loading..." : "Create Account"}
+                </h1>
               </div>
               <div>
-                <img src="/stash_arrow-down-duotone.png" alt="" />
+                <img src="/stash_arrow-down-duotone.svg" alt="" />
               </div>
             </div>
           </button>
