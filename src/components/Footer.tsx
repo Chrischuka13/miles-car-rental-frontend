@@ -4,9 +4,9 @@ const Footer = () => {
   return (
     <footer className="bg-DarkBlue">
         <div className="w-11/12 container mx-auto py-12">
-            <div className="md:grid grid-cols-4 gap-5 text-[#D6D6D6] ">
+            <div className="lg:grid grid-cols-2 md:grid-cols-4 gap-5 text-[#D6D6D6] ">
                 <div className="mb-6">
-                    <img src="public/miles white.png" alt=""  className="w-25.5 mb-4"/>
+                    <img src="/miles white.png" alt=""  className="w-25.5 mb-4"/>
                     <h5 className="mb-4">Nigeria's most loved car rental — built around your journey. From quick city runs to weekend escapes, we get you moving in minutes.</h5>
                     <div className="">
                         <div className="flex items-center mb-2 gap-2.5">

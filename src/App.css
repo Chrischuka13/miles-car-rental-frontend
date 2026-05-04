@@ -2,7 +2,17 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
-/* @import "tailwindcss"; */
+@import "tailwindcss";
+
+
+@theme{
+--color-orange: #F97316;
+--color-overlay: #4C4D54;
+
+
+
+
+}
 
 
 @theme inline {

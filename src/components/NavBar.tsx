@@ -14,19 +14,19 @@ const NavBar: React.FC = () => {
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-20 bg-neutral-50 transition hover:cursor-pointer ">
+        <nav className="fixed w-full z-10 bg-neutral-50 transition hover:cursor-pointer ">
           <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
             <img src="/miles logo.svg" alt="logo" className="w-[100px]" />
-            <div className="hidden md:flex gap-7 justify-center items-center text-DarkBlue">
+            <div className="hidden md:flex gap-7 justify-center  items-center text-DarkBlue">
               <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Home</a>
               <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Cars</a>
-              <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">About Us</a>
+              <a href="/about" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">About Us</a>
               <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Contact Us</a>
             </div>
 
             
               
-                <div className="hidden md:flex items-center justify-center gap-4 ">
+                <div className="hidden lg:flex items-center justify-center gap-4 ">
                     <a href="/">Sign In</a>
                   <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
                     <p className="text-white">Get Started</p>
@@ -61,7 +61,7 @@ const NavBar: React.FC = () => {
           </div>
 
           {isOpen && (
-            <div className="lg:hidden bg-white text-[#0A0A0A] text-start h-screen md:h-full">
+            <div className="lg:hidden bg-white text-[#0A0A0A] text-start md:h-full">
               <div className="w-11/12 container mx-auto py-4">
                 <h6 className="mb-4">Discover</h6>
                 <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Home</a>
@@ -69,7 +69,7 @@ const NavBar: React.FC = () => {
                 <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">About Us</a>
                 <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Contact Us</a>
 
-                <div className="md:hidden mt-10">
+                <div className="lg:hidden">
                     <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">Sign In</button>
         
                   <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
