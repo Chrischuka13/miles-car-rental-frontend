@@ -6,6 +6,9 @@ import {
   type ContactUsSchemaType,
 } from "@/lib/schemaTypes";
 import { useMutation } from "@tanstack/react-query";
+import { contactUsApi } from "@/api/contactus";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function ContactUs() {
   const {
@@ -17,34 +20,31 @@ export default function ContactUs() {
   });
 
   const mutation = useMutation({
-    mutationFn: async (formData: ContactUsSchemaType) => {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        throw new Error("Something went wrong");
-      }
-
-      return res.json();
-    },
-
-    onSuccess: (data) => {
-      console.log("Success:", data);
-    },
-
-    onError: (error) => {
-      console.error("Error:", error);
-    },
+    mutationFn: contactUsApi,
+ onSuccess: (data) => {
+  toast.success(data.message || "Message sent successfully");
+},
+onError: (error) => {
+  if (import.meta.env.DEV) {
+    console.error(error);
+  }
+  if (axios.isAxiosError(error)) {
+    toast.error(error?.response?.data?.message || "Something went wrong");
+  } else {
+    toast.error("Something went wrong");
+  }
+},
   });
-
   const onSubmitForm: SubmitHandler<ContactUsSchemaType> = (data) => {
-    mutation.mutate(data);
+    mutation.mutate({
+      fullName: data.fullName,
+    email: data.email,
+    phone: data.phone,
+    subject: data.subject,
+    message: data.message,
+    });
   };
+
   return (
     <div>
       <div
@@ -139,19 +139,19 @@ export default function ContactUs() {
               </div>
             </div>
           </div>
-
+          {/* form */}
           <div className="bg-white rounded-2xl p-4 md:p-8 text-black shadow-sm">
             <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-1">
               <div>
                 <input
                   type="text"
                   placeholder="Full name"
-                  {...register("fullname")}
+                  {...register("fullName")}
                   className="w-full p-3 md:p-4 rounded-xl bg-[#F4F0EC] outline-none text-sm"
                 />
-                {errors.fullname && (
+                {errors.fullName && (
                   <p className="text-red-500 text-xs mt-2">
-                    {errors.fullname.message}
+                    {errors.fullName.message}
                   </p>
                 )}
               </div>
