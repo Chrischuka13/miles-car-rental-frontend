@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { CreditCardIcon, LogOutIcon, Menu, SettingsIcon, UserIcon } from "lucide-react";
 import { X } from "lucide-react";
+import { Link } from "react-router";
 // import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 // import { Button } from "./ui/button";
 
@@ -19,7 +20,7 @@ const NavBar: React.FC = () => {
             <img src="/miles logo.svg" alt="logo" className="w-[100px]" />
             <div className="hidden md:flex gap-7 justify-center  items-center text-DarkBlue">
               <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Home</a>
-              <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Cars</a>
+              <Link to="cars/carListing" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Cars</Link>
               <a href="/about" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">About Us</a>
               <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Contact Us</a>
             </div>
@@ -28,7 +29,7 @@ const NavBar: React.FC = () => {
               
                 <div className="hidden lg:flex items-center justify-center gap-4 ">
                     <a href="/">Sign In</a>
-                  <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
+                  <div className="flex bg-foreground items-center justify-center p-2 px-5 rounded-[25px]">
                     <p className="text-white">Get Started</p>
                     <div><img src="/stash_arrow-down-duotone.svg" alt="" /></div>
                   </div>
@@ -72,7 +73,7 @@ const NavBar: React.FC = () => {
                 <div className="lg:hidden">
                     <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">Sign In</button>
         
-                  <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
+                  <div className="flex bg-[#111827] items-center justify-center p-2 px-5 rounded-[25px]">
                     <button className="text-white">Get Started</button>
                     <div><img src="/stash_arrow-down-duotone.svg" alt="" /></div>
                   </div>

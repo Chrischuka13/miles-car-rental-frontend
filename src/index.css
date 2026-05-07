@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 @import "tailwindcss";
 /* DaisyUI should be configured in tailwind.config.js, not here */
 
@@ -8,7 +6,7 @@
 }
 
 @theme {
-  --color-DarkBlue: #111827;
+  /* --color-DarkBlue: #111827; */
   --color-DeepOrange: #F97316; 
 }
 
@@ -43,4 +41,3 @@
           50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
           75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
       }
->>>>>>> 5970eb11d9d5e97614fd8bcc9451b231ee35cf7d
