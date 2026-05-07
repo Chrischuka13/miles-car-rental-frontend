@@ -1,42 +1,66 @@
 import React from "react";
 import { useState } from "react";
-import { CreditCardIcon, LogOutIcon, Menu, SettingsIcon, UserIcon } from "lucide-react";
+import {
+  CreditCardIcon,
+  LogOutIcon,
+  Menu,
+  SettingsIcon,
+  UserIcon,
+} from "lucide-react";
 import { X } from "lucide-react";
+import { Link, NavLink } from "react-router";
 // import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 // import { Button } from "./ui/button";
-
 
 // import { Link } from "react-router"
 
 const NavBar: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-50 bg-neutral-50 transition hover:cursor-pointer ">
+        <nav className="fixed w-full z-50 bg-neutral-50 transition">
           <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
             <img src="/miles logo.svg" alt="logo" className="w-[100px]" />
-            <div className="hidden md:flex gap-7 justify-center  items-center text-DarkBlue">
-              <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Home</a>
-              <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Cars</a>
-              <a href="/about" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">About Us</a>
-              <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Contact Us</a>
+            <div className="hidden md:flex gap-7  items-center text-DarkBlue">
+              <NavLink
+                to="/"
+                className="block font-normal text-xl hover:text-gray-400"
+              >
+                Home
+              </NavLink>
+              <a
+                href="/"
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
+              >
+                Cars
+              </a>
+              <a
+                href="/about"
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
+              >
+                About Us
+              </a>
+              <a
+                href="/"
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
+              >
+                Contact Us
+              </a>
             </div>
 
-            
-              
-                <div className="hidden lg:flex items-center justify-center gap-4 ">
-                    <a href="/">Sign In</a>
-                  <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
-                    <p className="text-white">Get Started</p>
-                    <div><img src="/stash_arrow-down-duotone.svg" alt="" /></div>
-                  </div>
+             <div className="hidden lg:flex items-center justify-center gap-4 ">
+              <a href="/">Sign In</a>
+              <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
+                <p className="text-white">Get Started</p>
+                <div>
+                  <img src="/stash_arrow-down-duotone.svg" alt="" />
                 </div>
-              
-            
+              </div>
+            </div> 
 
-                {/* <DropdownMenu>
+            {/* <DropdownMenu>
                     <DropdownMenuTrigger render={<Button variant="default"><div className="hidden lg:flex items-center justify-center gap-4 hover:cursor-pointer"><img className="w-10 rounded-full " alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/><p>Bright Ekpan</p></div></Button>} />
                     <DropdownMenuContent className={`mt-4`}>
                         <DropdownMenuItem>
@@ -55,7 +79,10 @@ const NavBar: React.FC = () => {
                     </DropdownMenuContent>
                 </DropdownMenu> */}
 
-            <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden hover:cursor-pointer">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden hover:cursor-pointer"
+            >
               {isOpen ? <X /> : <Menu />}
             </button>
           </div>
@@ -64,17 +91,41 @@ const NavBar: React.FC = () => {
             <div className="lg:hidden bg-white text-[#0A0A0A] text-start md:h-full">
               <div className="w-11/12 container mx-auto py-4">
                 <h6 className="mb-4">Discover</h6>
-                <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Home</a>
-                <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Cars</a>
-                <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">About Us</a>
-                <a href="/" className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4">Contact Us</a>
+                <a
+                  href="/"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  Home
+                </a>
+                <a
+                  href="/"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  Cars
+                </a>
+                <a
+                  href="/"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  About Us
+                </a>
+                <a
+                  href="/"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  Contact Us
+                </a>
 
                 <div className="lg:hidden">
-                    <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">Sign In</button>
-        
+                  <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
+                    <Link to="/signin"></Link>Sign In
+                  </button>
+
                   <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
                     <button className="text-white">Get Started</button>
-                    <div><img src="/stash_arrow-down-duotone.svg" alt="" /></div>
+                    <div>
+                      <img src="/stash_arrow-down-duotone.svg" alt="" />
+                    </div>
                   </div>
                 </div>
 

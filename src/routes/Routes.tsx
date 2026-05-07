@@ -5,11 +5,11 @@ import {
   RouterProvider,
   type RouteObject,
 } from "react-router";
-import Login from "../pages/auth/Login";
-import SignUp from "../pages/auth/SignUp";
-import ResetPassword from "../pages/auth/ResetPassword";
-import ForgotPassword from "../pages/auth/ForgotPassword";
-import AuthLayout from "@/layouts/AuthLayout";
+// import Login from "../pages/auth/Login";
+// import SignUp from "../pages/auth/SignUp";
+// import ResetPassword from "../pages/auth/ResetPassword";
+// import AuthLayout from "@/layouts/AuthLayout";
+
 
 const Routes = () => {
   const routes = [
@@ -34,16 +34,11 @@ const Routes = () => {
         },
       ],
     },
-    {
-      path: "auth",
-      Component: AuthLayout,
-      children: [
-        {
-          path: "auth",
-          Component: Login,
-        },
-      ],
-    },
+
+
+
+
+      
   ] satisfies RouteObject[];
 
   const router = createBrowserRouter(routes);

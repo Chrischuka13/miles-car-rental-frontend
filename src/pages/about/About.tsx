@@ -1,6 +1,7 @@
-import WhyChooseUs from "@/components/ui/whyChooseUs";
+import WhyChooseUs from "@/components/whyChooseUs";
 import aboutImage from "/about.jpg";
-import OurService from "@/components/ui/OurService";
+import OurService from "@/components/OurService";
+import Testimonial from "@/components/Testimonial";
 
 function About() {
   return (
@@ -140,54 +141,12 @@ function About() {
         </div>
       </section>
 
-        <WhyChooseUs/>
+      <WhyChooseUs/>
 
-        <OurService/>
+      <OurService/>
+        
+      <Testimonial/>
 
-
- <section className="w-full bg-white py-16 mt-12">
-  <div className="w-11/12 container mx-auto ">
-    <div className="grid w-full grid-cols-2 md:grid-cols-4  border-gray-100 py-4 text-center items-center justify-items-center">
-      
-      <div className="flex flex-col items-center ">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          500+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Verified Cars Available
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          34k+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Happy Customers
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          50+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Trusted Partners
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          98%
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Satisfaction Rate
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
    <section className="py-16">
       <div className="w-11/12 container p-4 mx-auto">
   <div className="rounded-3xl bg-orange-500 text-white p-8 md:p-12 flex flex-col md:flex-row items-center">

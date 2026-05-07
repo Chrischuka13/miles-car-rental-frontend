@@ -90,9 +90,9 @@ export default function SignUp() {
             </div>
           </button>
           <div className="flex items-center ">
-            <div className="flex-grow h-px bg-gray-200"></div>
+            <div className="grow h-px bg-gray-200"></div>
             <span className="px-4 text-sm text-gray-400 font-medium">OR</span>
-            <div className="flex-grow h-px bg-gray-200"></div>
+            <div className="grow h-px bg-gray-200"></div>
           </div>
 
           {/* Google Button */}

@@ -1,8 +1,11 @@
 import SearchBar from "@/components/homePage/searchBar";
 import heroImage from "/heroImage.jpg"; // Adjust path based on your project structure
 import TrendingCars from "@/sections/TrendingCars";
-import WhyChooseUs from "@/components/ui/whyChooseUs";
-import OurService from "@/components/ui/OurService";
+import WhyChooseUs from "@/components/whyChooseUs";
+import OurService from "@/components/OurService";
+import Banner from "@/components/ui/Banner";
+import Testimonial from "@/components/Testimonial";
+import FAQ from "@/components/FAQ";
 
 export default function Home() {
 
@@ -75,7 +78,7 @@ export default function Home() {
             </p>
           </div>
 
-          <p className="text-3xl md:text-3xl font-semibold leading-tight text-slate-600">
+          <p className="text-2xl md:text-3xl font-semibold leading-tight text-slate-600">
             At <span className="text-orange-500">Miles</span> car rental, we
             believe getting from A to B should be the easiest part of your
             journey. We are a team of car enthusiasts and tech innovators,
@@ -90,25 +93,9 @@ export default function Home() {
       
 
       {/* TRENDING */}
-      <section className=" w-full mt-20  bg-white">
-        <div className="w-11/12 container p-4 mx-auto">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
-              Trending <span className="text-orange-500">cars</span> for The
-              Week
-            </h3>
 
-            <button className="btn btn-ghost text-orange-500 self-start cursor-pointer md:self-auto">
-              Explore full fleet
-            </button>
-          </div>
-          <div className="flex gap-10 w-full mb-10 ">
-            <TrendingCars />
-          </div>
-        </div>
-      </section>
 
-      <section className="bg-white mt-10 py-6 overflow-hidden">
+      {/* <section className="bg-white mt-10 py-6 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-5 md:grid-cols-10 gap-4 items-center justify-items-center">
             {[
@@ -138,10 +125,13 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <Banner/>
+
       <section className="py-16">
-        <div className="w-11/12 container p-4 mx-auto">
-          <div className="rounded-3xl relative text-white p-8 md:p-12 flex flex-col md:flex-row items-center overflow-hidden">
+        <div className="w-11/12 container mx-auto">
+          <div className="rounded-3xl relative text-white p-4 md:p-12 flex flex-col md:flex-row items-center overflow-hidden">
             <div className="absolute inset-0 bg-orange-500 z-0"></div>
             <div
               className="absolute inset-0 z-10 "
@@ -185,201 +175,39 @@ export default function Home() {
       {/* Services */}
       <section className="w-full bg-gray-50">
         <OurService/>
-
-        <div className="w-11/12 container p-4 mx-auto py-16">
-          {" "}
-          <p className="text-sm text-gray-600 mb-2 font-bold flex items-center gap-2">
-            {" "}
-            <span className="text-orange-500 text-2xl">•</span>{" "}
-            Testimonials{" "}
-          </p>{" "}
-          <h2 className="text-3xl md:text-4xl font-bold mb-10">
-            {" "}
-            Real Stories That{" "}
-            <span className="text-orange-500">Build Trust</span>{" "}
-          </h2>{" "}
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {" "}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-300 min-h-70 flex flex-col justify-between">
-              {" "}
-              <img
-                src="/Vector.svg"
-                className="w-12 h-12 py-2"
-                alt="quote_icon"
-              />
-              <p className="text-gray-500 text-lg mb-4">
-                {" "}
-                Didn’t expect booking a car to be this stress-free tbh. No
-                calls, no back and forth. Just picked, paid, and it was sorted.
-              </p>{" "}
-              <hr className="m-3 text-gray-400 w-full" />
-              <div className="flex items-center gap-3">
-                {" "}
-                <img
-                  src="/user1.jpg"
-                  className="w-8 h-8 rounded-full"
-                  alt="Fahad Paul"
-                />{" "}
-                <div>
-                  {" "}
-                  <p className="text-sm font-medium">Fahad Paul</p>{" "}
-                  <p className="text-xs text-gray-400">Lagos</p>{" "}
-                </div>{" "}
-              </div>{" "}
-            </div>{" "}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-300 min-h-70 flex flex-col justify-between">
-              <img
-                src="/Vector.svg"
-                className="w-12 h-12 py-2"
-                alt="quote_icon"
-              />
-              <p className="text-gray-500 text-lg mb-4">
-                {" "}
-                The car was exactly as described. The booking process was
-                straightforward, and customer support was very responsive.
-              </p>{" "}
-              <hr className="m-3 text-gray-400 w-full" />
-              <div className="flex items-center gap-3">
-                {" "}
-                <img
-                  src="/user2.jpg"
-                  className="w-8 h-8 rounded-full"
-                  alt=""
-                />{" "}
-                <div>
-                  {" "}
-                  <p className="text-sm font-medium">Kemi Ernest</p>{" "}
-                  <p className="text-xs text-gray-400">Lagos</p>{" "}
-                </div>{" "}
-              </div>{" "}
-            </div>{" "}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-300 min-h-70 flex flex-col justify-between">
-              {" "}
-              <img
-                src="/Vector.svg"
-                className="w-12 h-12 py-2"
-                alt="quote_icon"
-              />
-              <p className="text-gray-500 text-lg mb-4">
-                {" "}
-                The booking experience was magical. No paperwork drama, car
-                arrived spotless. Miles car rental is now my default.
-              </p>{" "}
-              <hr className="m-3 text-gray-400 w-full" />
-              <div className="flex items-center gap-3">
-                {" "}
-                <img
-                  src="/user3.jpg"
-                  className="w-8 h-8 rounded-full"
-                  alt=""
-                />{" "}
-                <div>
-                  {" "}
-                  <p className="text-sm font-medium">Tunde Smith</p>{" "}
-                  <p className="text-xs text-gray-400">Lagos</p>{" "}
-                </div>{" "}
-              </div>{" "}
-            </div>{" "}
-          </div>{" "}
-        </div>
+        <Testimonial/>
       </section>
 
       {/* Stats */}
-      <section className="w-full bg-white py-3">
-        <div className="w-11/12 container mx-auto px-4 ">
-          <div className="grid w-full grid-cols-1 md:grid-cols-4 py-4 lg:gap-66 text-center items-center justify-items-center">
-            <div className="flex flex-col items-center mb-4">
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-                500+
-              </h3>
-              <p className="text-gray-500 text-sm mt-2">
-                Verified Cars Available
-              </p>
-            </div>
-            <div className="flex flex-col items-center mb-4">
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-                34k+
-              </h3>
-              <p className="text-gray-500 text-sm mt-2">Happy Customers</p>
+      <section className="w-full bg-white py-12">
+        <div className="w-11/12 container mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between">
+            <div className="flex flex-col justify-center items-center mb-6">
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">500+</h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Verified Cars Available</p>
             </div>
 
-            <div className="flex flex-col items-center mb-4">
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-                50+
-              </h3>
-              <p className="text-gray-500 text-sm mt-2">Trusted Partners</p>
+            <div className="flex flex-col justify-center items-center mb-6">
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">34k+</h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Happy Customers</p>
             </div>
 
-            <div className="flex flex-col items-center mb-4">
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-                98%
-              </h3>
-              <p className="text-gray-500 text-sm mt-2">Satisfaction Rate</p>
+            <div className="flex flex-col justify-center items-center mb-6">
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">50+</h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Trusted Partners</p>
             </div>
+
+            <div className="flex flex-col justify-center items-center mb-6">
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">98%</h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Satisfaction Rate</p>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="w-full bg-gray-50">
-        <div className="w-11/12 container p-4 mx-auto grid md:grid-cols-2 gap-20 items-stretch mt-10 mb-10">
-          <div className="h-full flex flex-col justify-between">
-            {" "}
-            <p className="text-sm text-gray-500 mb-2 flex items-center gap-2 font-semibold">
-              {" "}
-              <span className="text-orange-500 text-2xl">•</span> Frequently
-              Asked Questions{" "}
-            </p>{" "}
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {" "}
-              Get <span className="text-orange-500">Answers</span> to Your
-              Questions{" "}
-            </h2>{" "}
-            <p className="text-gray-500 mb-8">
-              {" "}
-              Find clear & helpful answers to the most common questions about
-              our services, booking process, policies, and support.{" "}
-            </p>{" "}
-            <ul className="text-sm text-gray-600 space-y-2">
-              {" "}
-              <li className="flex gap-2 items-center mb-3">
-                <img src="public/Frame 114b.png" alt="icon" /> 24/7 customer
-                support
-              </li>{" "}
-              <li className="flex gap-2 items-center">
-                <img src="public/Frame 114b.png" alt="icon" /> Professional
-                service with Customer-first approach
-              </li>{" "}
-            </ul>{" "}
-            <p className="mt-4">
-              still have any question?{" "}
-              <span className="text-orange-500">Contact our support team</span>{" "}
-              anytime
-            </p>
-          </div>{" "}
-          {/* FAQ LIST */}
-          <div className="space-y-4 h-full flex flex-col justify-between">
-            {" "}
-            {[
-              "How do I book a car?",
-              "Can I rent a car with a driver?",
-              "What payment options are available?",
-              "What happens if I need to cancel my booking?",
-              "Are the cars verified and in good condition?",
-            ].map((q, i) => (
-              <div
-                key={i}
-                className="bg-white border border-white rounded-lg p-2 flex justify-between items-center cursor-pointer"
-              >
-                {" "}
-                <span className="text-sm">{q}</span>{" "}
-                <span className="text-xl">+</span>{" "}
-              </div>
-            ))}{" "}
-          </div>
-        </div>
-      </section>
+      <FAQ/>
     </main>
   );
 }

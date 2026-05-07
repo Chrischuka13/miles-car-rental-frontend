@@ -1,9 +1,7 @@
 @import "tailwindcss";
 /* DaisyUI should be configured in tailwind.config.js, not here */
 
-*{
-    font-family: "Manrope", sans-serif;
-}
+
 
 @theme {
   --color-DarkBlue: #111827;
@@ -41,3 +39,4 @@
           50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
           75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
       }
+
