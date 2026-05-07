@@ -3,9 +3,9 @@ import Logo from "../components/Logo";
 
 const AuthLayout = () => {
   return (
-    <div className=" md:grid grid-cols-12 overflow-y-auto  h-screen   w-full ">
-      <div className="col-span-12 md:col-span-6 p-4   md:p-10 lg:p-20 ">
-        <div className="mt-8 md:mt-24 lg:mt-0 flex justify-center md:justify-start">
+    <div className=" lg:grid grid-cols-12 overflow-y-auto  h-screen   w-full ">
+      <div className="col-span-12 lg:col-span-6 p-4   md:p-10 lg:p-20 ">
+        <div className="mt-8 md:mt-24 lg:mt-0  flex justify-center lg:justify-start">
           <Logo />
         </div>
         <div className="">
