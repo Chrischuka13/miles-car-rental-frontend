@@ -30,28 +30,30 @@ const NavBar: React.FC = () => {
               >
                 Home
               </NavLink>
-              <a
-                href="/"
+
+              <NavLink
+                to="/"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
               >
                 Cars
-              </a>
-              <a
-                href="/about"
+              </NavLink>
+              <NavLink
+                to="/about"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
               >
                 About Us
-              </a>
-              <a
-                href="/"
+              </NavLink>
+
+              <NavLink
+                to="/"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
               >
                 Contact Us
-              </a>
+              </NavLink>
             </div>
 
              <div className="hidden lg:flex items-center justify-center gap-4 ">
-              <a href="/">Sign In</a>
+              <Link to="/">Sign In</Link>
               <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
                 <p className="text-white">Get Started</p>
                 <div>
@@ -91,30 +93,30 @@ const NavBar: React.FC = () => {
             <div className="lg:hidden bg-white text-[#0A0A0A] text-start md:h-full">
               <div className="w-11/12 container mx-auto py-4">
                 <h6 className="mb-4">Discover</h6>
-                <a
-                  href="/"
+                <NavLink
+                  to="/"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Home
-                </a>
-                <a
-                  href="/"
+                </NavLink>
+                <NavLink
+                  to="/"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Cars
-                </a>
-                <a
-                  href="/"
+                </NavLink>
+                <NavLink
+                  to="/"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   About Us
-                </a>
-                <a
-                  href="/"
+                </NavLink>
+                <NavLink
+                  to="/"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Contact Us
-                </a>
+                </NavLink>
 
                 <div className="lg:hidden">
                   <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
