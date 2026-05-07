@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router";
 import { getAllCars } from "@/api/cars/cars";
 import { useQuery } from "@tanstack/react-query";
+import Filter from "@/components/Filter";
 
 interface Car {
   _id: string;
@@ -43,7 +43,6 @@ export default function Cars() {
   });
 
   const cars = data?.data || [];
-   console.log(data)
 
   const filteredCars = useMemo(() => {
     let filtered =
@@ -63,7 +62,7 @@ export default function Cars() {
         ]
           .join(" ")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+          .includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -173,16 +172,16 @@ export default function Cars() {
             <span className="text-[#A1A1A1]">Vehicle Available</span>
           </p>
 
-          <div className="flex gap-3 font-semibold cursor-pointer">
-            <SlidersHorizontal />
-            <p className="hidden sm:block">More filters</p>
-          </div>
+          <Filter
+            setSearchTerm={setSearchTerm}
+            setActiveCategory={setActiveCategory}
+          />
         </div>
 
         <section className="mt-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {isLoading ? (
-              <p>Loading cars...</p>
+              <p className="text-[#A1A1A1] flex items-center justify-center h-20 w-full">Loading cars...</p>
             ) : (
               filteredCars.map((car: Car) => (
                 <div
@@ -197,7 +196,7 @@ export default function Cars() {
                           : "/placeholder-car.png"
                       }
                       alt={car.modelName}
-                      className="w-full h-full object-fit"
+                      className="w-full h-full object-fit transition-transform duration-300 hover:scale-105 cursor-pointer"
                     />
 
                     <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
@@ -211,19 +210,13 @@ export default function Cars() {
                         {car.category}
                       </p>
 
-                      <p className="text-lg font-bold">
-                        ${car.pricePerDay}
-                      </p>
+                      <p className="text-lg font-bold">${car.pricePerDay}</p>
                     </span>
 
                     <span className="flex items-center justify-between">
-                      <h2 className="font-bold text-xl">
-                        {car.modelName}
-                      </h2>
+                      <h2 className="font-bold text-xl">{car.modelName}</h2>
 
-                      <p className="text-[#A1A1A1] text-xs uppercase">
-                        /Day
-                      </p>
+                      <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
                     </span>
 
                     <hr className="mt-4 text-[#E6E0E0]" />
@@ -240,11 +233,7 @@ export default function Cars() {
                         </span>
 
                         <span className="flex items-center gap-1">
-                          <img
-                            src="/Vector.svg"
-                            className="w-4"
-                            alt="fuel"
-                          />
+                          <img src="/Vector.svg" className="w-4" alt="fuel" />
                           <p className="text-sm">{car.fuelType}</p>
                         </span>
 
@@ -254,9 +243,7 @@ export default function Cars() {
                             className="w-4"
                             alt="transmission"
                           />
-                          <p className="text-sm">
-                            {car.transmission}
-                          </p>
+                          <p className="text-sm">{car.transmission}</p>
                         </span>
                       </div>
 

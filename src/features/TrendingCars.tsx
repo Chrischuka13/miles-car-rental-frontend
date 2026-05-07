@@ -66,11 +66,11 @@ export default function TrendingCars() {
                 key={car._id}
                 className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className="relative w-full h-60">
+                <div className="relative w-full h-full overflow-hidden">
                   <img
                     src={car.images[0]?.url || "/placeholder.png"}
                     alt={car.modelName}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-fit transition-transform duration-300 hover:scale-105"
                   />
                   <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
                     {car.brand}
