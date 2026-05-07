@@ -4,7 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query"; // Added useQueryClient
 import { loginUserApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -12,6 +12,7 @@ import axios from "axios";
 export default function Login() {
   const [revealPassword, setRevealPassword] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient(); // Initialize queryClient
 
   const {
     handleSubmit,
@@ -28,10 +29,14 @@ export default function Login() {
 
   const mutation = useMutation({
     mutationFn: loginUserApi,
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
+      // Made async for the await below
       toast.success(res.data.message || "Login Successful");
       const user = res.data.data;
-      localStorage.setItem("userEmail", user.email); // store email
+      // Tell React Query that 'getMe' is now old and needs to be re-fetched.
+      // This automatically updates your 'user' state in AuthContext.
+      await queryClient.invalidateQueries({ queryKey: ["getMe"] });
+
       if (!user.emailVerified) {
         navigate("/auth/verify-Account");
       } else {
@@ -53,6 +58,8 @@ export default function Login() {
   const onSubmitForm: SubmitHandler<loginSchemaType> = async (data) => {
     mutation.mutate(data);
   };
+
+  // ... rest of your component JSX
 
   return (
     <div className="container  mx-auto mt-10 h-full flex flex-col justify-center items-center max-w-lg md:mt-10">
@@ -112,7 +119,9 @@ export default function Login() {
             <div className="flex justify-center items-center">
               <div>
                 {" "}
-                <h1 className="text-xl">{mutation.isPending ? "Loading..." : "Login"}</h1>
+                <h1 className="text-xl">
+                  {mutation.isPending ? "Loading..." : "Login"}
+                </h1>
               </div>
               <div>
                 <img src="/stash_arrow-down-duotone.svg" alt="" />

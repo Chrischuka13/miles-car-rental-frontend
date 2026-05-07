@@ -1,5 +1,5 @@
-// src/api/auth.ts
 import axios from "axios";
+import { cache } from "react";
 
 export interface RegisterPayload {
   firstName: string;
@@ -13,6 +13,7 @@ export interface LoginPayload {
   email: string;
   password: string;
 }
+
 export interface ForgotPasswordPayload {
   email: string;
 }
@@ -38,13 +39,14 @@ export const registerUserApi = async (formData: RegisterPayload) => {
 };
 
 export const loginUserApi = async (formData: LoginPayload) => {
-  return await axios.post(
+  const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/user/login`,
     formData,
     {
       withCredentials: true,
     },
   );
+  return res;
 };
 
 export const forgotPasswordApi = async (formData: ForgotPasswordPayload) => {
@@ -72,10 +74,13 @@ export const verifyForgotPasswordOtpApi = async (
 export const resetPasswordApi = async (formData: ResetPasswordPayload) => {
   return await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/user/reset-password?email=${formData.email}`,
-    { newPassword: formData.newPassword, confirmPassword: formData.confirmPassword },
+    {
+      newPassword: formData.newPassword,
+      confirmPassword: formData.confirmPassword,
+    },
     {
       withCredentials: true,
-    }
+    },
   );
 };
 
@@ -107,3 +112,15 @@ export const resendVerifyOtpApi = async (formData: { email: string }) => {
     },
   );
 };
+
+// export const getMeApi = async () => {
+//   return await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/me`, {
+//     withCredentials: true,
+//   });
+// };
+
+export const getMeApi = cache(async () => {
+  return await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/me`, {
+    withCredentials: true,
+  });
+});
