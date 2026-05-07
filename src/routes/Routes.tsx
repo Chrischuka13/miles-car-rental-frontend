@@ -1,4 +1,3 @@
-// import AuthLayout from "../layouts/AuthLayout";
 import RootLayout from "../layouts/RootLayout";
 import SuspenseUi from "../components/ui/SuspenseUi";
 import {
@@ -23,7 +22,7 @@ const Routes = () => {
           },
         },
         {
-          path: "cars",
+          path: "/cars",
           Component: CarsLayout,
           children: [
             {
@@ -35,7 +34,7 @@ const Routes = () => {
               },
             },
             {
-              path: "cardetails/:id",
+              path: "cardetails/:slug",
               lazy: async () => {
                 const { default: Component } =
                   await import("../pages/cars/CarDetails");
@@ -53,4 +52,4 @@ const Routes = () => {
   return <RouterProvider router={router} />;
 };
 
-export default Routes
+export default Routes;

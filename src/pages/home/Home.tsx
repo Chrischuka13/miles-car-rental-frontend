@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-export default function Home() {
-  return <div>Home</div>;
-=======
 import SearchBar from "@/components/homePage/searchBar";
 import heroImage from "/heroImage.jpg"; // Adjust path based on your project structure
 import TrendingCars from "@/sections/TrendingCars";
@@ -387,5 +383,4 @@ export default function Home() {
       </section>
     </main>
   );
->>>>>>> 5970eb11d9d5e97614fd8bcc9451b231ee35cf7d
 }

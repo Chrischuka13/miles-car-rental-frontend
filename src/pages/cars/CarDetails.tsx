@@ -1,20 +1,90 @@
+import { useState, useMemo } from "react";
 import { ArrowLeft } from "lucide-react";
-import {
-  TrendingCars as TrendingCarsData,
-  WhatsIncluded,
-  type CarProduct,
-  type Included,
-} from "@/lib/constant";
+import { WhatsIncluded, type Included } from "@/lib/constant";
 import { useNavigate, useParams } from "react-router";
 import TrendingCars from "@/features/TrendingCars";
+import { useQuery } from "@tanstack/react-query";
+import { getCarBySlug } from "@/api/cars/cars";
+
+interface Car {
+  _id: string;
+  brand: string;
+  description: string;
+  category: string;
+  modelName: string;
+  year: number;
+  pricePerDay: number;
+  seats: number;
+  fuelType: string;
+  transmission: string;
+  rating: number;
+  tripsCount: number;
+  address?: string;
+  images: { url: string; public_id: string }[];
+  carSpecs: {
+    engine: string;
+    topSpeed: string;
+    mileage: string;
+    boot: string;
+  };
+  slug: string;
+}
 
 export default function CarDetails() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
-  const selectedCars: CarProduct | undefined = TrendingCarsData.find(
-    (car) => car.id === Number(id),
-  );
+  const [pickupDate, setPickupDate] = useState<string>("");
+  const [returnDate, setReturnDate] = useState<string>("");
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["car", slug],
+    queryFn: () => getCarBySlug(slug as string),
+    enabled: !!slug,
+  });
+
+  const selectedCars: Car | undefined = data?.data;
+
+  const { totalDays, totalPrice } = useMemo(() => {
+    if (!pickupDate || !returnDate || !selectedCars) {
+      return {
+        totalDays: 1,
+        totalPrice: selectedCars?.pricePerDay || 0,
+      };
+    }
+
+    const start = new Date(pickupDate);
+    const end = new Date(returnDate);
+
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    const finalDays = diffDays <= 0 ? 1 : diffDays;
+
+    return {
+      totalDays: finalDays,
+      totalPrice: finalDays * selectedCars.pricePerDay,
+    };
+  }, [pickupDate, returnDate, selectedCars]);
+
+  const handleBooking = () => {
+    if (selectedCars) {
+      navigate(
+        `/booking/${selectedCars._id}?from=${pickupDate}&to=${returnDate}`,
+      );
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-orange-500"></div>
+        <p className="mt-4 text-orange-500 font-medium">
+          Fetching your ride...
+        </p>
+      </div>
+    );
+  }
 
   if (!selectedCars) {
     return <p className="text-center mt-10">Car not found</p>;
@@ -40,8 +110,8 @@ export default function CarDetails() {
             {/* first box */}
             <div className="w-full lg:w-[55%]">
               <img
-                src={selectedCars.image[0]}
-                alt={selectedCars.name}
+                src={selectedCars.images?.[0]?.url || "/placeholder.png"}
+                alt={selectedCars.modelName}
                 className="rounded-2xl cursor-pointer object-cover w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-full"
               />
             </div>
@@ -50,10 +120,10 @@ export default function CarDetails() {
             <div className="flex flex-col w-full lg:w-[45%]">
               <span className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm">
-                  {selectedCars.carValue}
+                  {selectedCars.brand}
                 </p>
                 <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm">
-                  Economy
+                  {selectedCars.category}
                 </p>
                 <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm">
                   Best Seller
@@ -62,34 +132,32 @@ export default function CarDetails() {
 
               <span className="mt-4">
                 <p className="text-[#F97316] font-bold text-xs sm:text-sm uppercase">
-                  {selectedCars.carType} · {selectedCars.year}
+                  {selectedCars.fuelType} · {selectedCars.year}
                 </p>
 
                 <h1 className="py-1 font-semibold text-xl sm:text-2xl lg:text-3xl uppercase">
-                  {selectedCars.name}
+                  {selectedCars.modelName}
                 </h1>
 
                 {/* star rating */}
                 <div className="flex items-center justify-start gap-1">
                   <div className="flex items-center gap-1">
-                    <img src="/Star.png" alt="" className="h-5 w-5" />
-                    <img src="/Star.png" alt="" className="h-5 w-5" />
-                    <img src="/Star.png" alt="" className="h-5 w-5" />
-                    <img src="/Star.png" alt="" className="h-5 w-5" />
-                    <img src="/Star.png" alt="" className="h-5 w-5" />
+                    {[...Array(5)].map((_, i) => (
+                      <img key={i} src="/Star.png" alt="" className="h-5 w-5" />
+                    ))}
                   </div>
-                  <p>4.9 · 142 trips</p>
+                  <p>
+                    {selectedCars.rating} · {selectedCars.tripsCount} trips
+                  </p>
                 </div>
 
                 <p className="text-[#505050] py-2 text-sm sm:text-base leading-relaxed">
-                  Reliable, fuel-efficient and effortless to drive across Lagos.
-                  The Corolla is the workhorse for daily commutes, airport runs
-                  and weekend getaways.
+                  {selectedCars.description}
                 </p>
 
                 <span className="flex items-baseline gap-2 sm:gap-4 max-w-xs w-full text-[#4B5563]">
                   <p className="text-3xl sm:text-4xl lg:text-4xl font-bold text-black">
-                    ${selectedCars.price}
+                    ${selectedCars.pricePerDay}
                   </p>
                   <span className="text-sm sm:text-base">
                     /day. all-inclusive
@@ -98,7 +166,10 @@ export default function CarDetails() {
               </span>
 
               <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
-                <button className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer">
+                <button
+                  onClick={handleBooking}
+                  className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer"
+                >
                   <p className="text-sm sm:text-base">Book this car</p>
                   <span>
                     <img src="/stasharrow.png" alt="" className="w-4 sm:w-6" />
@@ -155,7 +226,7 @@ export default function CarDetails() {
                     <p className="uppercase text-sm sm:text-base text-[#111827]">
                       Fuel
                     </p>
-                    <p className="font-medium">{selectedCars.consumption}</p>
+                    <p className="font-medium">{selectedCars.fuelType}</p>
                   </span>
 
                   <span className="flex flex-col items-start justify-start gap-1 bg-[#FFFFFF] p-2 rounded-xl shadow-sm">
@@ -170,6 +241,7 @@ export default function CarDetails() {
                     <p className="font-medium">{selectedCars.year}</p>
                   </span>
                 </div>
+
                 {/* specification */}
                 <div>
                   <h1 className="text-2xl sm:text-3xl lg:text-[32px] mt-7">
@@ -179,22 +251,22 @@ export default function CarDetails() {
                   <main className="bg-[#111827] grid grid-cols-1 sm:grid-cols-2 gap-10 rounded-xl p-4 mt-5 text-[#ffffff]">
                     <span className="flex justify-between border-b">
                       <h1>Engine</h1>
-                      <p>3.5L V6</p>
+                      <p>{selectedCars.carSpecs?.engine}</p>
                     </span>
 
                     <span className="flex justify-between border-b">
                       <h1>Top Speed</h1>
-                      <p>230km/h</p>
+                      <p>{selectedCars.carSpecs?.topSpeed}</p>
                     </span>
 
                     <span className="flex justify-between border-b">
                       <h1>Mileage</h1>
-                      <p>22km/L</p>
+                      <p>{selectedCars.carSpecs?.mileage}</p>
                     </span>
 
                     <span className="flex justify-between border-b">
                       <h1>BOOT</h1>
-                      <p>454L</p>
+                      <p>{selectedCars.carSpecs?.boot}</p>
                     </span>
                   </main>
                 </div>
@@ -204,9 +276,12 @@ export default function CarDetails() {
               <div className="w-full lg:w-[30%]">
                 <main className="bg-[#FFFFFF] pl-2  p-4 rounded-xl shadow-sm">
                   <div className="flex justify-between items-center">
-                    <p className="font-bold text-2xl">${selectedCars.price}</p>
+                    <p className="font-bold text-2xl">
+                      ${selectedCars.pricePerDay}
+                    </p>
                     <p className="text-[#4B5563]">per day</p>
                   </div>
+
                   {/* pick up location */}
                   <div className="flex flex-col pl-2 py-4 bg-[#F4F0EC] mt-2 rounded-xl ">
                     <span className="uppercase text-xs text-[#666666]">
@@ -215,7 +290,7 @@ export default function CarDetails() {
                     <span className="flex items-center justify-left gap-2 mt-2">
                       <img src="/Map.png" alt="" className="w-5 h-5" />
                       <p className="text-xs text-[#5E5E5E]">
-                        {selectedCars.address}
+                        {selectedCars.address || "Lagos, Nigeria"}
                       </p>
                     </span>
                   </div>
@@ -227,40 +302,58 @@ export default function CarDetails() {
                         Pick up
                       </span>
                       <span className="flex flex-col">
-                        <input type="date" name="" id="" />
+                        <input
+                          type="date"
+                          value={pickupDate}
+                          onChange={(e) => setPickupDate(e.target.value)}
+                        />
                       </span>
                     </div>
+
                     <div className="bg-[#F4F0EC] rounded-xl p-2">
                       <span className="uppercase text-xs text-[#666666]">
                         Return
                       </span>
                       <span className="flex flex-col">
-                        <input type="date" name="" id="" />
+                        <input
+                          type="date"
+                          value={returnDate}
+                          onChange={(e) => setReturnDate(e.target.value)}
+                        />
                       </span>
                     </div>
                   </div>
 
                   {/* duration of days and service fee */}
                   <hr className="mt-2" />
+
                   <div className="pb-5 py-5 text-[#4B5563]">
                     <span className="flex items-center justify-between">
-                      <p>3 days</p>
-                      <p>{selectedCars.price}</p>
+                      <p>
+                        {totalDays} {totalDays > 1 ? "days" : "day"}
+                      </p>
+                      <p>${totalPrice}</p>
                     </span>
+
                     <span className="flex items-center justify-between mt-2">
                       <p>Service Fee</p>
-                      <p>{selectedCars.price}</p>
+                      <p>FREE</p>
                     </span>
                   </div>
+
                   <hr />
+
                   <span className="flex items-center justify-between font-semibold mt-5">
                     <p className="text-lg">Total</p>
-                    <p className="text-2xl lg:text-3xl">{selectedCars.price}</p>
+                    <p className="text-2xl lg:text-3xl">${totalPrice}</p>
                   </span>
 
                   {/* book now button */}
                   <div className="w-full bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
-                    <button className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto">
+                    <button
+                      onClick={handleBooking}
+                      className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto"
+                    >
                       <p className="text-sm sm:text-base w-full">
                         Book this car
                       </p>
@@ -269,6 +362,7 @@ export default function CarDetails() {
                       </span>
                     </button>
                   </div>
+
                   <span className="flex items-center justify-center py-3 text-[#A1A1A1] gap-5">
                     <img src="/shield.png"></img>{" "}
                     <p>Free cancellation up to 24h</p>
