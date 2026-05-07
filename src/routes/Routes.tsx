@@ -1,4 +1,3 @@
-import AuthLayout from "../layouts/AuthLayout";
 import RootLayout from "../layouts/RootLayout";
 import SuspenseUi from "../components/ui/SuspenseUi";
 import {
@@ -12,6 +11,11 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import SetNewPassword from "@/pages/auth/SetNewPassword.tsx";
 import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
 import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
+// import Login from "../pages/auth/Login";
+// import SignUp from "../pages/auth/SignUp";
+// import ResetPassword from "../pages/auth/ResetPassword";
+// import AuthLayout from "@/layouts/AuthLayout";
+
 
 const Routes = () => {
   const routes = [
@@ -27,16 +31,6 @@ const Routes = () => {
               await import("../pages/home/Home.tsx");
             return { Component };
           },
-        },
-      ],
-    },
-    {
-      path: "auth",
-      Component: AuthLayout,
-      children: [
-        {
-          path: "login",
-          Component: Login,
         },
         {
           path: "createAccount",
@@ -57,10 +51,21 @@ const Routes = () => {
         {
           path: "verify-Account",
           Component: VerifyAccount,
+          path: "about",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/about/About");
+            return { Component };
+          },
         },
       ],
     },
+
+
+
+
+      
   ] satisfies RouteObject[];
+
   const router = createBrowserRouter(routes);
   return <RouterProvider router={router} />;
 };

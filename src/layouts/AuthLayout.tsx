@@ -13,7 +13,7 @@ const AuthLayout = () => {
         </div>
       </div>
       <div
-        className=" col-span-6 bg-contain bg-cover  bg-no-repeat bg-center"
+        className=" col-span-6 bg-contain  bg-no-repeat bg-center"
         style={{ backgroundImage: "url('/image 20.png')" }}
       ></div>
     </div>
