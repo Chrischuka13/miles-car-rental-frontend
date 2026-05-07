@@ -33,6 +33,7 @@ interface Car {
 export default function CarDetails() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const [openImage, setOpenImage] = useState<string | null>(null);
 
   const [pickupDate, setPickupDate] = useState<string>("");
   const [returnDate, setReturnDate] = useState<string>("");
@@ -90,6 +91,8 @@ export default function CarDetails() {
     return <p className="text-center mt-10">Car not found</p>;
   }
 
+  console.log(data);
+
   return (
     <>
       <section className="min-h-screen flex flex-col bg-white">
@@ -106,7 +109,7 @@ export default function CarDetails() {
           </div>
 
           {/* content */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-12 mt-6 lg:mt-10 pb-10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-12 mt-6 lg:mt-8 pb-10">
             {/* first box */}
             <div className="w-full lg:w-[55%]">
               <img
@@ -114,18 +117,56 @@ export default function CarDetails() {
                 alt={selectedCars.modelName}
                 className="rounded-2xl cursor-pointer object-cover w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-full"
               />
+              {/* car thumbnail */}
+              <div className="flex items-center lg:justify-between gap-3 w-full mt-5 overflow-x-auto no-scrollbar">
+                <img
+                  src={selectedCars.images?.[0]?.url || "/placeholder.png"}
+                  alt=""
+                  onClick={() =>
+                    setOpenImage(selectedCars.images?.[0]?.url || "")
+                  }
+                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                />
+
+                <img
+                  src={selectedCars.images?.[1]?.url || "/placeholder.png"}
+                  alt=""
+                  onClick={() =>
+                    setOpenImage(selectedCars.images?.[1]?.url || "")
+                  }
+                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                />
+
+                <img
+                  src={selectedCars.images?.[2]?.url || "/placeholder.png"}
+                  alt=""
+                  onClick={() =>
+                    setOpenImage(selectedCars.images?.[2]?.url || "")
+                  }
+                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                />
+
+                <img
+                  src={selectedCars.images?.[3]?.url || "/placeholder.png"}
+                  alt=""
+                  onClick={() =>
+                    setOpenImage(selectedCars.images?.[3]?.url || "")
+                  }
+                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                />
+              </div>
             </div>
 
             {/* second box */}
             <div className="flex flex-col w-full lg:w-[45%]">
               <span className="flex flex-wrap items-center gap-2 sm:gap-3">
-                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm">
+                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm uppercase">
                   {selectedCars.brand}
                 </p>
-                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm">
+                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm uppercase">
                   {selectedCars.category}
                 </p>
-                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm">
+                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm uppercase">
                   Best Seller
                 </p>
               </span>
@@ -390,6 +431,27 @@ export default function CarDetails() {
 
         <TrendingCars />
       </section>
+      {openImage && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+          onClick={() => setOpenImage(null)}
+        >
+          <div className="relative">
+            <img
+              src={openImage}
+              alt="preview"
+              className="max-w-[90vw] max-h-[90vh] rounded-lg"
+            />
+
+            <button
+              onClick={() => setOpenImage(null)}
+              className="absolute -top-3 -right-3 bg-white text-black w-8 h-8 rounded-full flex items-center justify-center shadow"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
