@@ -1,7 +1,8 @@
 import { AuthProviderContext } from "@/hooks/useAuth";
 // import { useQueryClient } from "@tanstack/react-query";
-import { getMeApi } from "@/api/auth";
+import { getMeApi, logoutApi } from "@/api/auth";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 // import { toast } from "react-toastify";
 
 interface User {
@@ -41,37 +42,26 @@ export default function AuthProvider({
     fetchUser();
   }, []);
 
-  // const mutation = useMutation({
-  //   mutationFn: getMeApi,
-  //   onSuccess: (res) => {
-  //     console.log("eee", res);
-  //     //toast.success(res?.data?.message || "Logout Successful");
-  //     queryClient.clear();
-  //     setUser(null);
-  //   },
-  //   onError: (error) => {
-  //     if (import.meta.env.DEV) {
-  //       console.error(error);
-  //     }
-  //   },
-  // });
+const handleLogout = async () => {
+  try {
+    if (user?.email) {
+      await logoutApi(user.email);
+    }
+    toast.success("Logout successful!");
+  } catch {
+    toast.error("Logout failed. Please try again.");
+  } finally {
+    setUser(null); // always clears user even if API fails
+  }
+};
 
-  // useEffect(() => {
-  //   mutation.mutate();
-  // }, [mutation]);
-
-  // const handleLogout = () => mutation.mutate();
-
-  // if (isAuthenticating) {
-  //   return <div>Loading...</div>; // replace with your spinner if you have one
-  // }
 
   const contextValue = {
     user,
     setUser,
     isAuthenticating,
     setIsAuthenticating,
-    // handleLogout,
+    handleLogout,
   };
 
   return (

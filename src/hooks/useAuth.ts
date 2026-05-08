@@ -18,7 +18,7 @@ interface AuthContextType {
   setUser: (user: User | null) => void;
   isAuthenticating: boolean;
   setIsAuthenticating: (value: boolean) => void;
-    // handleLogout: () => void;
+    handleLogout: () => Promise<void>;
 }
 
 const initialState: AuthContextType = {
@@ -26,7 +26,7 @@ const initialState: AuthContextType = {
   setUser: () => null,
   isAuthenticating: false,
   setIsAuthenticating: () => null,
-  //  handleLogout: () => null,
+ handleLogout: async () => {}, 
 };
 
 // create the store
