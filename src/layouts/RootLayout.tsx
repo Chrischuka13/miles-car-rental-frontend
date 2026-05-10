@@ -6,10 +6,16 @@ import { ScrollRestoration } from "react-router";
 const RootLayout = () => {
   return (
     <>
-      <NavBar />
-      <ScrollRestoration />
-      <Outlet />
-      <Footer />
+<section className="flex flex-col min-h-screen">
+  <NavBar />
+  <ScrollRestoration />
+
+  <main className="flex-1 pt-19">
+    <Outlet />
+  </main>
+
+  <Footer />
+</section>
     </>
   );
 };
