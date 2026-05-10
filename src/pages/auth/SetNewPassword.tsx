@@ -107,7 +107,7 @@ const email = searchParams.get("email") || "";
           </div>
 
           <button
-            className="btn btn-neutral w-full lg:w-110 bg-[#F97316] text-white mt-8 border rounded-3xl"
+            className="btn btn-neutral w-full lg:w-110 bg-DeepOrange text-white mt-8 border rounded-3xl"
             type="submit"
           >
             <div className="flex justify-center items-center">

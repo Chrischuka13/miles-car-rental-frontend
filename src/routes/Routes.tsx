@@ -11,11 +11,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import SetNewPassword from "@/pages/auth/SetNewPassword.tsx";
 import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
 import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
-// import Login from "../pages/auth/Login";
-// import SignUp from "../pages/auth/SignUp";
-// import ResetPassword from "../pages/auth/ResetPassword";
-// import AuthLayout from "@/layouts/AuthLayout";
-
+import AuthLayout from "@/layouts/AuthLayout.tsx";
 
 const Routes = () => {
   const routes = [
@@ -32,8 +28,34 @@ const Routes = () => {
             return { Component };
           },
         },
+      ],
+    },
         {
-          path: "createAccount",
+      path: "about",
+      Component: RootLayout,
+      hydrateFallbackElement: <SuspenseUi />,
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/about/About.tsx");
+            return { Component };
+          },
+        },
+      ],
+    },
+    {
+      path: "auth",
+      Component: AuthLayout,
+      hydrateFallbackElement: <SuspenseUi />,
+      children: [
+        {
+          path: "login",
+          Component: Login,
+        },
+        {
+          path: "register",
           Component: SignUp,
         },
         {
@@ -49,21 +71,11 @@ const Routes = () => {
           Component: SetNewPassword,
         },
         {
-          path: "verify-Account",
+          path: "verify-account",
           Component: VerifyAccount,
-          path: "about",
-          lazy: async () => {
-            const { default: Component } = await import("../pages/about/About");
-            return { Component };
-          },
         },
       ],
     },
-
-
-
-
-      
   ] satisfies RouteObject[];
 
   const router = createBrowserRouter(routes);

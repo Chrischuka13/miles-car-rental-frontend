@@ -123,7 +123,7 @@ function About() {
                 </h2>
               </div>
 
-              <div className="bg-[#111827] rounded-2xl p-6 md:p-10">
+              <div className="bg-DarkBlue rounded-2xl p-6 md:p-10">
                 <div className="flex flex-col gap-3 mb-6">
                   <div>
                 <img src="/Frame 114 (3).png" className="w-10 h-10 mb-3" alt="" />

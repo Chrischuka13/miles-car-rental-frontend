@@ -14,48 +14,45 @@ import { Link, NavLink } from "react-router";
 
 // import { Link } from "react-router"
 
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "Cars", path: "/cars" },
+  { name: "About Us", path: "/about" },
+  { name: "Contact Us", path: "/contact" },
+];
+
 const NavBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-50 bg-neutral-50 transition">
+        <nav className="fixed w-full z-50  hover:backdrop-blur-sm bg-white hover:text-black transition">
           <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
-            <img src="/miles logo.svg" alt="logo" className="w-[100px]" />
-            <div className="hidden md:flex gap-7  items-center text-DarkBlue">
-              <NavLink
-                to="/"
-                className="block font-normal text-xl hover:text-gray-400"
-              >
-                Home
-              </NavLink>
-
-              <NavLink
-                to="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
-              >
-                Cars
-              </NavLink>
-              <NavLink
-                to="/about"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
-              >
-                About Us
-              </NavLink>
-
-              <NavLink
-                to="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer"
-              >
-                Contact Us
-              </NavLink>
+            <img src="/miles logo.svg" alt="logo" className="w-25" />
+            <div className="hidden md:flex gap-7 items-center text-DarkBlue">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.path === "/"}
+              className={({ isActive }) =>
+                `px-4 py-2 rounded-md font-medium transition-all duration-200 ${
+                  isActive
+                    ? "border-b-2 border-DeepOrange "
+                    : "text-DarkBlue hover:bg-gray-200"
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
             </div>
 
              <div className="hidden lg:flex items-center justify-center gap-4 ">
-              <Link to="/">Sign In</Link>
+              <Link to="/auth/login">Sign In</Link>
               <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
-                <p className="text-white">Get Started</p>
+                <Link to="/auth/register" className="text-white ">Get Started</Link>
                 <div>
                   <img src="/stash_arrow-down-duotone.svg" alt="" />
                 </div>
@@ -120,7 +117,7 @@ const NavBar: React.FC = () => {
 
                 <div className="lg:hidden">
                   <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
-                    <Link to="/signin"></Link>Sign In
+                    <Link to="/auth/login">Sign in</Link>
                   </button>
 
                   <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">

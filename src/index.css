@@ -1,11 +1,14 @@
 @import "tailwindcss";
 /* DaisyUI should be configured in tailwind.config.js, not here */
 
-
+*{
+    font-family: "Manrope", sans-serif;
+}
 
 @theme {
   --color-DarkBlue: #111827;
   --color-DeepOrange: #F97316; 
+
 }
 
 .loader {

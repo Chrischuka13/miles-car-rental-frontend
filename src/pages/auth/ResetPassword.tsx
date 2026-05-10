@@ -12,7 +12,7 @@ export default function ResetPassword() {
           <p>Back to sign in</p>
         </div>
         <img src="/Check Circle.svg" alt="" />
-        <h5 className="text-[#F97316] py-3 md:py-4">CHECK YOUR INBOX</h5>
+        <h5 className="text-DeepOrange py-3 md:py-4">CHECK YOUR INBOX</h5>
         <div className="flex gap-5">
           <h1 className="text-4xl md:text-3xl lg:text-4xl">Code sent</h1>{" "}
           <img src="/Frame 40393.svg" alt="" />
@@ -25,7 +25,7 @@ export default function ResetPassword() {
         <p className="p-3 text-sm">Didn’t get the email? Check your spam folder or try another address.</p>
       </div>
         <button
-          className="btn btn-neutral w-full lg:w-110 bg-[#F97316] text-white mt-8 border rounded-3xl"
+          className="btn btn-neutral w-full lg:w-110 bg-DeepOrange text-white mt-8 border rounded-3xl"
           type="submit"
         >
           <div className="flex justify-center items-center">
