@@ -1,8 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { getAllCars } from "@/api/cars/cars";
 import { useQuery } from "@tanstack/react-query";
 import Filter from "@/components/Filter";
+import { Loader } from "lucide-react";
+import Pagination from "./Pagination";
 
 interface Car {
   _id: string;
@@ -29,17 +31,28 @@ interface Car {
 }
 
 interface ApiResponse {
-  count: number;
+  message: string;
   data: Car[];
+  pagination: {
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+    pageSize: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
 }
 
 export default function Cars() {
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+
+  const carsRef = useRef<HTMLDivElement | null>(null);
 
   const { data, isLoading } = useQuery<ApiResponse>({
-    queryKey: ["cars"],
-    queryFn: () => getAllCars(),
+    queryKey: ["cars", page],
+    queryFn: () => getAllCars(page),
   });
 
   const cars = data?.data || [];
@@ -69,13 +82,29 @@ export default function Cars() {
     return filtered;
   }, [cars, activeCategory, searchTerm]);
 
+    const USD_TO_NGN = 200; 
+  
+  const formatToNaira = (priceInUSD: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+    }).format(priceInUSD * USD_TO_NGN);
+  };
+
+  useEffect(() => {
+    carsRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [page]);
+
   return (
     <>
-      {/* ... Search and Filter Section remains the same ... */}
-      <section className="w-11/12 container p-4 mx-auto relative">
-        <div className="relative lg:absolute w-full -top-15 lg:-top-10 py-4 px-6 rounded-2xl bg-[#FFFFFF]">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-5 lg:gap-10 py-2">
-            <div className="w-full lg:auto">
+      <section className="w-11/12 container mx-auto relative">
+        <div className="relative lg:absolute w-full -top-15 lg:-top-10 py-4 px-6 rounded-2xl bg-[#FFFFFF] shadow-md lg:shadow-none">
+          <div className="flex flex-col xl:flex-row items-center justify-between gap-5 xl:gap-10 py-2 min-w-0">
+            {/* search */}
+            <div className="w-full lg:flex-1 min-w-0">
               <div className="relative w-full">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <svg
@@ -97,17 +126,18 @@ export default function Cars() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full lg:w-120 py-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-[#F4F0EC] focus:ring-gray-200 focus:border-gray-400 outline-none"
+                  className="block w-full max-w-full py-3 pl-10 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-[#F4F0EC] focus:ring-gray-200 focus:border-gray-400 outline-none"
                   placeholder="Search by name, brand, fuel, transmission..."
                 />
               </div>
             </div>
 
-            <div className="w-full lg:flex-1">
-              <div className="flex items-center justify-start lg:justify-between gap-3 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
+            {/* filters */}
+            <div className="w-full lg:flex-1 min-w-0">
+              <div className="flex items-center justify-start xl:justify-between gap-3 overflow-x-auto pb-2 lg:pb-0 no-scrollbar min-w-0">
                 <span
                   onClick={() => setActiveCategory("ALL")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeCategory === "ALL"
                       ? "text-white bg-[#F97316]"
                       : "bg-[#F4F0EC]"
@@ -118,7 +148,7 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("SEDAN")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeCategory === "SEDAN"
                       ? "text-white bg-[#F97316]"
                       : "bg-[#F4F0EC]"
@@ -129,7 +159,7 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("SUV")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeCategory === "SUV"
                       ? "text-white bg-[#F97316]"
                       : "bg-[#F4F0EC]"
@@ -140,7 +170,7 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("LUXURY")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeCategory === "LUXURY"
                       ? "text-white bg-[#F97316]"
                       : "bg-[#F4F0EC]"
@@ -151,7 +181,7 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("TRUCK")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
                     activeCategory === "TRUCK"
                       ? "text-white bg-[#F97316]"
                       : "bg-[#F4F0EC]"
@@ -165,8 +195,11 @@ export default function Cars() {
         </div>
       </section>
 
-      <section className="w-11/12 container p-4 mx-auto lg:py-20 pb-5">
-        <div className="flex items-center justify-between lg:mt-0">
+      <section
+        className="w-11/12 container mx-auto lg:py-20 pb-5 flex flex-col min-h-[50vh]"
+        ref={carsRef}
+      >
+        <div className="flex items-center justify-between">
           <p className="flex items-center gap-2">
             <span className="font-semibold">{filteredCars.length}</span>
             <span className="text-[#A1A1A1]">Vehicle Available</span>
@@ -178,17 +211,19 @@ export default function Cars() {
           />
         </div>
 
-        <section className="mt-10">
+        <section className="flex-1 mt-5 md:mt-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {isLoading ? (
-              <p className="text-[#A1A1A1] flex items-center justify-center h-20 w-full">Loading cars...</p>
+              <div className="col-span-full flex items-center justify-center w-full min-h-[50vh] rounded-2xl">
+                <Loader className="animate-spin text-orange" size={20} />
+              </div>
             ) : (
               filteredCars.map((car: Car) => (
                 <div
                   className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden"
                   key={car._id}
                 >
-                  <div className="relative w-full h-full overflow-hidden">
+                  <div className="relative w-full h-[250px] md:h-[300px] overflow-hidden">
                     <img
                       src={
                         car.images && car.images.length > 0
@@ -196,7 +231,7 @@ export default function Cars() {
                           : "/placeholder-car.png"
                       }
                       alt={car.modelName}
-                      className="w-full h-full object-fit transition-transform duration-300 hover:scale-105 cursor-pointer"
+                      className="w-full h-[250px] md:h-[300px] object-fit transition-transform duration-300 hover:scale-105 cursor-pointer"
                     />
 
                     <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
@@ -210,7 +245,7 @@ export default function Cars() {
                         {car.category}
                       </p>
 
-                      <p className="text-lg font-bold">${car.pricePerDay}</p>
+                      <p className="text-lg font-bold">{formatToNaira(car.pricePerDay)}</p>
                     </span>
 
                     <span className="flex items-center justify-between">
@@ -260,30 +295,9 @@ export default function Cars() {
             )}
           </div>
         </section>
-
-        {/* ... Pagination remains the same ... */}
-        <section className="flex items-center justify-between mt-5 py-5 lg:py-2">
-          <div className="hidden md:flex items-center gap-2 text-[#878789]">
-            <span>10</span>Entries per page
-          </div>
-
-          <div className="flex items-center gap-2 text-[#878789]">
-            Page 1 of 1
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button className="flex items-center justify-center gap-2 text-[#878789] border border-[#878789] py-1 px-1 md:px-5 md:py-2 cursor-pointer w-40">
-              <img src="/Path 94.svg" alt="prev" />
-              <span>Previous</span>
-            </button>
-
-            <button className="flex items-center justify-center gap-2 text-[#878789] border border-[#878789] py-1 px-1 md:px-5 md:py-2 cursor-pointer w-40">
-              <span>Next</span>
-              <img src="/Path 93.svg" alt="next" />
-            </button>
-          </div>
-        </section>
       </section>
+      {/* ... Pagination  */}
+      <Pagination pagination={data?.pagination} setPage={setPage} />
     </>
   );
 }

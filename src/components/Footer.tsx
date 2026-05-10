@@ -5,7 +5,7 @@ const Footer = () => {
         <div className="md:grid grid-cols-4 gap-5 text-[#D6D6D6] ">
           <div className="mb-6">
             <img
-              src="public/miles white.png"
+              src="/miles white.png"
               alt=""
               className="w-[102px] mb-4"
             />

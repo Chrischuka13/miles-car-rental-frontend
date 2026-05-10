@@ -68,10 +68,10 @@ export default function Filter({
       {/* TRIGGER */}
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md transition"
+        className="flex items-center gap-2 px-4 py-2"
       >
         <img src="/Tuning.svg" className="w-5"/>
-        <span className="font-medium">Filters</span>
+        <span className="font-semibold">More Filters</span>
       </button>
 
       {/* OVERLAY */}

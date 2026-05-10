@@ -1,14 +1,7 @@
 import axiosClient from "@/lib/utils";
 
-export const getAllCars = async () => {
-  const response = await axiosClient.get("/car/all");
-
-  // We safely build the full URL for debugging
-  // const fullURL = `${response.config.baseURL ?? ""}${response.config.url ?? ""}`;
-
-  // // Look for this in your browser console!
-  // console.log("ACTUAL TARGET URL:", fullURL);
-  // console.log("RESPONSE DATA:", response.data);
+export const getAllCars = async (page = 1) => {
+  const response = await axiosClient.get(`/car/all?page=${page}&limit=10`);
 
   return response.data;
 };

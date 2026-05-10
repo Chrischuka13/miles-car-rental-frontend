@@ -20,7 +20,7 @@ export default function CarListing() {
           >
             <div className="w-11/12 container p-4 mx-auto flex items-center justify-items-start h-full">
               <div className=" py-6">
-                <h1 className="text-white text-3xl md:text-4xl lg:text-6xl font-semibold tracking-wide">
+                <h1 className="text-white text-4xl md:text-5xl lg:text-7xl font-semibold tracking-wide">
                   Find your{" "}
                   <span className="text-[#F97316]">perfect ride.</span>
                 </h1>

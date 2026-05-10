@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { ArrowLeft } from "lucide-react";
-import { WhatsIncluded, type Included } from "@/lib/constant";
+
 import { useNavigate, useParams } from "react-router";
 import TrendingCars from "@/features/TrendingCars";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +20,8 @@ interface Car {
   rating: number;
   tripsCount: number;
   address?: string;
+  tags: string[];
+  features: string[];
   images: { url: string; public_id: string }[];
   carSpecs: {
     engine: string;
@@ -68,6 +70,7 @@ export default function CarDetails() {
     };
   }, [pickupDate, returnDate, selectedCars]);
 
+
   const handleBooking = () => {
     if (selectedCars) {
       navigate(
@@ -76,9 +79,19 @@ export default function CarDetails() {
     }
   };
 
+  const USD_TO_NGN = 200; 
+  
+  const formatToNaira = (priceInUSD: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+    }).format(priceInUSD * USD_TO_NGN);
+  };
+
+
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-[90vh]">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-orange-500"></div>
         <p className="mt-4 text-orange-500 font-medium">
           Fetching your ride...
@@ -91,41 +104,43 @@ export default function CarDetails() {
     return <p className="text-center mt-10">Car not found</p>;
   }
 
-  console.log(data);
+
 
   return (
     <>
-      <section className="min-h-screen flex flex-col bg-white">
-        <div className="container mx-auto mt-16 sm:mt-20 px-4 sm:px-6 lg:px-8">
-          {/* back to fleet navigation */}
-          <div className="flex items-center gap-3 sm:gap-5 mt-8 sm:mt-6 lg:mt-10 cursor-pointer">
-            <ArrowLeft className="text-[#1C274C] w-5 h-5 sm:w-6 sm:h-6" />
-            <span
-              onClick={() => navigate(-1)}
-              className="text-[#9CA3AF] text-sm sm:text-base cursor-pointer"
-            >
-              Back to fleet
-            </span>
-          </div>
-
+      <section className="min-h-screen flex flex-col bg-[#F6F6F6] px-2">
+        {/* back to fleet navigation */}
+        <div
+          className=" w-11/12 container mx-auto flex items-center gap-3 sm:gap-3 mt-8 sm:mt-6 lg:mt-10 cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="text-[#1C274C] w-5 h-5 sm:w-6 sm:h-6" />
+          <span className="text-[#9CA3AF] text-sm sm:text-base cursor-pointer">
+            Back to fleet
+          </span>
+        </div>
+        <div className="bg-[#ffffff] container mx-auto mt-8 px-2 md:px-4 rounded-2xl">
           {/* content */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-12 mt-6 lg:mt-8 pb-10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-12 py-3 lg:py-8 ">
             {/* first box */}
             <div className="w-full lg:w-[55%]">
-              <img
-                src={selectedCars.images?.[0]?.url || "/placeholder.png"}
-                alt={selectedCars.modelName}
-                className="rounded-2xl cursor-pointer object-cover w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-full"
-              />
+              <div className="w-full overflow-hidden rounded-2xl bg-[#F4F0EC]">
+                <img
+                  src={selectedCars.images?.[0]?.url || "/placeholder.png"}
+                  alt={selectedCars.modelName}
+                  className="rounded-2xl cursor-pointer object-fill w-full h-[220px] sm:h-[280px] md:h-[320px] lg:h-[370px] xl:h-[450px]"
+                />
+              </div>
+
               {/* car thumbnail */}
-              <div className="flex items-center lg:justify-between gap-3 w-full mt-5 overflow-x-auto no-scrollbar">
+              <div className="flex items-center justify-between gap-2 md:gap-3 w-full mt-2 overflow-x-auto no-scrollbar">
                 <img
                   src={selectedCars.images?.[0]?.url || "/placeholder.png"}
                   alt=""
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[0]?.url || "")
                   }
-                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
 
                 <img
@@ -134,7 +149,7 @@ export default function CarDetails() {
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[1]?.url || "")
                   }
-                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
 
                 <img
@@ -143,7 +158,7 @@ export default function CarDetails() {
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[2]?.url || "")
                   }
-                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
 
                 <img
@@ -152,7 +167,7 @@ export default function CarDetails() {
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[3]?.url || "")
                   }
-                  className="w-[100px] sm:w-[130px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
               </div>
             </div>
@@ -160,15 +175,15 @@ export default function CarDetails() {
             {/* second box */}
             <div className="flex flex-col w-full lg:w-[45%]">
               <span className="flex flex-wrap items-center gap-2 sm:gap-3">
-                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm uppercase">
-                  {selectedCars.brand}
-                </p>
-                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm uppercase">
-                  {selectedCars.category}
-                </p>
-                <p className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm uppercase">
-                  Best Seller
-                </p>
+                {selectedCars.tags.map((tag, index) => (
+                  <p
+                    key={index}
+                    className="border border-[#BBBBBB] px-3 sm:px-5 py-1 rounded-full text-xs sm:text-sm uppercase"
+                  >
+                    {tag}
+                  </p>
+                ))}
+                
               </span>
 
               <span className="mt-4">
@@ -196,16 +211,15 @@ export default function CarDetails() {
                   {selectedCars.description}
                 </p>
 
-                <span className="flex items-baseline gap-2 sm:gap-4 max-w-xs w-full text-[#4B5563]">
+                <span className="flex items-baseline gap-2 sm:gap-4 max-w-md w-full text-[#4B5563]">
                   <p className="text-3xl sm:text-4xl lg:text-4xl font-bold text-black">
-                    ${selectedCars.pricePerDay}
+                    {formatToNaira(selectedCars.pricePerDay)}
                   </p>
                   <span className="text-sm sm:text-base">
                     /day. all-inclusive
                   </span>
                 </span>
               </span>
-
               <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
                 <button
                   onClick={handleBooking}
@@ -226,7 +240,7 @@ export default function CarDetails() {
         </div>
 
         {/* at a glance section */}
-        <section className="bg-[#FCFAF8]">
+        <section className="bg-[#FCFAF8] mt-10">
           <main className="w-11/12 container py-10 mx-auto">
             <h1 className="text-2xl sm:text-3xl lg:text-[32px]">At a glance</h1>
 
@@ -318,7 +332,7 @@ export default function CarDetails() {
                 <main className="bg-[#FFFFFF] pl-2  p-4 rounded-xl shadow-sm">
                   <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">
-                      ${selectedCars.pricePerDay}
+                      {formatToNaira(selectedCars.pricePerDay)}
                     </p>
                     <p className="text-[#4B5563]">per day</p>
                   </div>
@@ -373,7 +387,7 @@ export default function CarDetails() {
                       <p>
                         {totalDays} {totalDays > 1 ? "days" : "day"}
                       </p>
-                      <p>${totalPrice}</p>
+                      <p>{formatToNaira(totalPrice)}</p>
                     </span>
 
                     <span className="flex items-center justify-between mt-2">
@@ -386,7 +400,7 @@ export default function CarDetails() {
 
                   <span className="flex items-center justify-between font-semibold mt-5">
                     <p className="text-lg">Total</p>
-                    <p className="text-2xl lg:text-3xl">${totalPrice}</p>
+                    <p className="text-2xl lg:text-3xl">{formatToNaira(totalPrice)}</p>
                   </span>
 
                   {/* book now button */}
@@ -413,15 +427,15 @@ export default function CarDetails() {
             </div>
 
             {/* What included */}
-            <section className="mt-6">
+            <section className="mt-10">
               <main className="grid grid-cols-1 lg:grid-cols-2 py-6 gap-5">
-                {WhatsIncluded.map((item: Included) => (
+                {selectedCars.features?.map((features, index) => (
                   <div
-                    key={item.whatsIncluded}
+                    key={index}
                     className="flex items-center gap-2 py-4 px-2 bg-[#F4F0EC] rounded-xl"
                   >
                     <img src="/iconsCheck.png" alt="" />
-                    <p>{item.whatsIncluded}</p>
+                    <p>{features}</p>
                   </div>
                 ))}
               </main>

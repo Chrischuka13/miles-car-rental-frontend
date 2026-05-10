@@ -29,8 +29,18 @@ export default function TrendingCars() {
     );
   if (isError || cars.length === 0) return null;
 
+   const USD_TO_NGN = 200; 
+  
+  const formatToNaira = (priceInUSD: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+    }).format(priceInUSD * USD_TO_NGN);
+  };
+
+
   return (
-    <section className="bg-[#FFFFFF] mt-5">
+    <section className="bg-[#FFFFFF]">
       <main className="w-11/12 container py-10 mx-auto">
         <p className="flex items-center text-xs gap-1 tracking-wide">
           <span className="text-[#F97316]">●</span> Our diverse fleet for
@@ -82,7 +92,7 @@ export default function TrendingCars() {
                     <p className="text-[#A1A1A1] text-xs uppercase">
                       {car.category}
                     </p>
-                    <p className="text-lg font-bold">${car.pricePerDay}</p>
+                    <p className="text-lg font-bold">{formatToNaira(car.pricePerDay)}</p>
                   </span>
 
                   <span className="flex items-center justify-between">
@@ -116,7 +126,7 @@ export default function TrendingCars() {
                       </span>
                     </div>
 
-                    {/* 2. UPDATE THIS LINK: Change car._id to car.slug */}
+                    
                     <Link
                       to={`/cars/cardetails/${car.slug}`}
                       className="w-full xl:w-auto px-6 py-2 text-white bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full text-center font-medium"
