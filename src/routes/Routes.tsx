@@ -19,6 +19,13 @@ const Routes = () => {
                         return {Component}
                     },
                 },
+                {
+                    path: "booking",
+                    lazy: async () => {
+                        const { default: Component} = await import ("../pages/booking/Booking.tsx");
+                        return {Component}
+                    },
+                }
             ]
         },
     ] satisfies RouteObject[];
