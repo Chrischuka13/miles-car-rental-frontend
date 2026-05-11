@@ -29,7 +29,7 @@ const NavBar: React.FC = () => {
       <header className="">
         <nav className="fixed w-full z-50  hover:backdrop-blur-sm bg-white hover:text-black transition">
           <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
-            <img src="/miles logo.svg" alt="logo" className="w-25" />
+            <Link to='/'><img src="/miles logo.svg" alt="logo" className="w-25" /></Link>
             <div className="hidden md:flex gap-7 items-center text-DarkBlue">
           {navItems.map((item) => (
             <NavLink
@@ -51,7 +51,7 @@ const NavBar: React.FC = () => {
 
              <div className="hidden lg:flex items-center justify-center gap-4 ">
               <Link to="/auth/login">Sign In</Link>
-              <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
+              <div className="flex bg-DarkBlue items-center justify-center p-3 px-5 rounded-[25px]">
                 <Link to="/auth/register" className="text-white ">Get Started</Link>
                 <div>
                   <img src="/stash_arrow-down-duotone.svg" alt="" />
@@ -103,13 +103,13 @@ const NavBar: React.FC = () => {
                   Cars
                 </NavLink>
                 <NavLink
-                  to="/"
+                  to="/about"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   About Us
                 </NavLink>
                 <NavLink
-                  to="/"
+                  to="/contact"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Contact Us
@@ -121,7 +121,8 @@ const NavBar: React.FC = () => {
                   </button>
 
                   <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
-                    <button className="text-white">Get Started</button>
+                    <button className="text-white">
+                      <Link to='/auth/register'>Get Started</Link></button>
                     <div>
                       <img src="/stash_arrow-down-duotone.svg" alt="" />
                     </div>

@@ -30,7 +30,7 @@ const Routes = () => {
         },
       ],
     },
-        {
+      {
       path: "about",
       Component: RootLayout,
       hydrateFallbackElement: <SuspenseUi />,
@@ -40,6 +40,21 @@ const Routes = () => {
           lazy: async () => {
             const { default: Component } =
               await import("../pages/about/About.tsx");
+            return { Component };
+          },
+        },
+      ],
+    },
+          {
+      path: "contact",
+      Component: RootLayout,
+      hydrateFallbackElement: <SuspenseUi />,
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/contactus/ContactUs.tsx");
             return { Component };
           },
         },
