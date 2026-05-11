@@ -63,6 +63,8 @@ export default function Filter({
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  
+
   return (
     <div ref={ref} className="relative">
       {/* TRIGGER */}

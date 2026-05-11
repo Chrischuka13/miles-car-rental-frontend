@@ -70,7 +70,6 @@ export default function CarDetails() {
     };
   }, [pickupDate, returnDate, selectedCars]);
 
-
   const handleBooking = () => {
     if (selectedCars) {
       navigate(
@@ -79,15 +78,14 @@ export default function CarDetails() {
     }
   };
 
-  const USD_TO_NGN = 200; 
-  
+  const USD_TO_NGN = 200;
+
   const formatToNaira = (priceInUSD: number) => {
     return new Intl.NumberFormat("en-NG", {
       style: "currency",
       currency: "NGN",
     }).format(priceInUSD * USD_TO_NGN);
   };
-
 
   if (isLoading) {
     return (
@@ -103,8 +101,6 @@ export default function CarDetails() {
   if (!selectedCars) {
     return <p className="text-center mt-10">Car not found</p>;
   }
-
-
 
   return (
     <>
@@ -183,7 +179,6 @@ export default function CarDetails() {
                     {tag}
                   </p>
                 ))}
-                
               </span>
 
               <span className="mt-4">
@@ -400,7 +395,9 @@ export default function CarDetails() {
 
                   <span className="flex items-center justify-between font-semibold mt-5">
                     <p className="text-lg">Total</p>
-                    <p className="text-2xl lg:text-3xl">{formatToNaira(totalPrice)}</p>
+                    <p className="text-2xl lg:text-3xl">
+                      {formatToNaira(totalPrice)}
+                    </p>
                   </span>
 
                   {/* book now button */}

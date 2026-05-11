@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { getAllCars } from "@/api/cars/cars";
 import { useQuery } from "@tanstack/react-query";
 import Filter from "@/components/Filter";
-import { Loader } from "lucide-react";
 import Pagination from "./Pagination";
 
 interface Car {
@@ -48,8 +47,6 @@ export default function Cars() {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
 
-  const carsRef = useRef<HTMLDivElement | null>(null);
-
   const { data, isLoading } = useQuery<ApiResponse>({
     queryKey: ["cars", page],
     queryFn: () => getAllCars(page),
@@ -82,8 +79,8 @@ export default function Cars() {
     return filtered;
   }, [cars, activeCategory, searchTerm]);
 
-    const USD_TO_NGN = 200; 
-  
+  const USD_TO_NGN = 200;
+
   const formatToNaira = (priceInUSD: number) => {
     return new Intl.NumberFormat("en-NG", {
       style: "currency",
@@ -91,11 +88,18 @@ export default function Cars() {
     }).format(priceInUSD * USD_TO_NGN);
   };
 
+  const carsRef = useRef<HTMLDivElement | null>(null);
+  const prevPageRef = useRef(page);
+
   useEffect(() => {
-    carsRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    if (prevPageRef.current !== page) {
+      carsRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+
+    prevPageRef.current = page;
   }, [page]);
 
   return (
@@ -214,8 +218,11 @@ export default function Cars() {
         <section className="flex-1 mt-5 md:mt-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {isLoading ? (
-              <div className="col-span-full flex items-center justify-center w-full min-h-[50vh] rounded-2xl">
-                <Loader className="animate-spin text-orange" size={20} />
+              <div className="col-span-full flex flex-col items-center justify-center w-full min-h-[50vh] rounded-2xl">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-orange-500"></div>
+                <p className="mt-4 text-orange-500 font-medium">
+                  Fetcing available cars...
+                </p>
               </div>
             ) : (
               filteredCars.map((car: Car) => (
@@ -245,7 +252,9 @@ export default function Cars() {
                         {car.category}
                       </p>
 
-                      <p className="text-lg font-bold">{formatToNaira(car.pricePerDay)}</p>
+                      <p className="text-lg font-bold">
+                        {formatToNaira(car.pricePerDay)}
+                      </p>
                     </span>
 
                     <span className="flex items-center justify-between">
