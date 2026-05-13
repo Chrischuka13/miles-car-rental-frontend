@@ -293,6 +293,7 @@ export default function Cars() {
 
                       <Link
                         to={`/cars/cardetails/${car.slug}`}
+    
                         className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full text-center font-medium"
                       >
                         Book
