@@ -8,14 +8,14 @@ import UserAvatar from "./UserAvatar";
 
 export default function Drawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticating, handleLogout } = useAuth(); // 👈 added handleLogout
+  const { user, isAuthenticating, handleLogout } = useAuth(); 
 
   return (
     <>
       <div>
         <button
           onClick={() => setIsOpen(true)}
-          className="lg:hidden hover:cursor-pointer"
+          className="lg:hidden hover:cursor-pointer text-[#F97316]"
           aria-label="Open menu"
         >
           <Menu />
