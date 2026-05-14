@@ -6,6 +6,8 @@ import TrendingCars from "@/features/TrendingCars";
 import { useQuery } from "@tanstack/react-query";
 import { getCarBySlug } from "@/api/cars/cars";
 
+import { validateBookingSchema } from "@/lib/schemaTypes";
+
 interface Car {
   _id: string;
   brand: string;
@@ -33,59 +35,108 @@ interface Car {
 }
 
 export default function CarDetails() {
-  const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
-  const [openImage, setOpenImage] = useState<string | null>(null);
+ const { slug } = useParams<{ slug: string }>();
+const navigate = useNavigate();
+const [openImage, setOpenImage] = useState<string | null>(null);
 
-  const [pickupDate, setPickupDate] = useState<string>("");
-  const [returnDate, setReturnDate] = useState<string>("");
+const { data, isLoading } = useQuery({
+  queryKey: ["car", slug],
+  queryFn: () => getCarBySlug(slug as string),
+  enabled: !!slug,
+});
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["car", slug],
-    queryFn: () => getCarBySlug(slug as string),
-    enabled: !!slug,
+const selectedCars: Car | undefined = data?.data;
+
+
+const [pickupDate, setPickupDate] = useState<string>("");
+const [returnDate, setReturnDate] = useState<string>("");
+const [address, setAddress] = useState<string>("");
+
+const [errors, setErrors] = useState<{
+  pickupDate?: string;
+  returnDate?: string;
+  pickupAddress?: string;
+}>({});
+
+const USD_TO_NGN = 200;
+
+const formatToNaira = (priceInUSD: number) => {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+  }).format(priceInUSD * USD_TO_NGN);
+};
+
+const SERVICE_FEE = 10000;
+
+const { totalDays, rentalCost, totalPrice } = useMemo(() => {
+  const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) * USD_TO_NGN;
+
+  if (!pickupDate || !returnDate || !selectedCars) {
+    return {
+      totalDays: 1,
+      rentalCost: pricePerDayInNaira,
+      totalPrice: pricePerDayInNaira + SERVICE_FEE,
+    };
+  }
+
+  const start = new Date(pickupDate);
+  const end = new Date(returnDate);
+
+  const diffTime = end.getTime() - start.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  const finalDays = diffDays > 0 ? diffDays : 1;
+
+  const rentalCost = finalDays * pricePerDayInNaira;
+
+  return {
+    totalDays: finalDays,
+    rentalCost,
+    totalPrice: rentalCost + SERVICE_FEE,
+  };
+}, [pickupDate, returnDate, selectedCars]);
+
+const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  if (!selectedCars) return;
+
+  const result = validateBookingSchema.safeParse({
+    pickupDate,
+    returnDate,
+    pickupAddress: address,
   });
 
-  const selectedCars: Car | undefined = data?.data;
+  setErrors({});
 
-  const { totalDays, totalPrice } = useMemo(() => {
-    if (!pickupDate || !returnDate || !selectedCars) {
-      return {
-        totalDays: 1,
-        totalPrice: selectedCars?.pricePerDay || 0,
-      };
-    }
+  if (!result.success) {
+    const fieldErrors = result.error.flatten().fieldErrors;
 
-    const start = new Date(pickupDate);
-    const end = new Date(returnDate);
+    setErrors({
+      pickupDate: fieldErrors.pickupDate?.[0],
+      returnDate: fieldErrors.returnDate?.[0],
+      pickupAddress: fieldErrors.pickupAddress?.[0],
+    });
 
-    const diffTime = end.getTime() - start.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return;
+  }
 
-    const finalDays = diffDays <= 0 ? 1 : diffDays;
-
-    return {
-      totalDays: finalDays,
-      totalPrice: finalDays * selectedCars.pricePerDay,
-    };
-  }, [pickupDate, returnDate, selectedCars]);
-
-  const handleBooking = () => {
-    if (selectedCars) {
-      navigate(
-        `/booking/${selectedCars._id}?from=${pickupDate}&to=${returnDate}`,
-      );
-    }
+  const bookingData = {
+    carId: selectedCars._id,
+    car: selectedCars,
+    pickupDate,
+    returnDate,
+    pickupAddress: address,
+    totalDays,
+    rentalCost,
+    serviceFee: SERVICE_FEE,
+    totalPrice,
   };
 
-  const USD_TO_NGN = 200;
+  localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
-  const formatToNaira = (priceInUSD: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-    }).format(priceInUSD * USD_TO_NGN);
-  };
+  navigate(`/booking/${selectedCars._id}`);
+};
 
   if (isLoading) {
     return (
@@ -217,7 +268,7 @@ export default function CarDetails() {
               </span>
               <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
                 <button
-                  onClick={handleBooking}
+                  // onClick={handleBooking}
                   className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer"
                 >
                   <p className="text-sm sm:text-base">Book this car</p>
@@ -324,7 +375,10 @@ export default function CarDetails() {
 
               {/* second child div */}
               <div className="w-full lg:w-[30%]">
-                <main className="bg-[#FFFFFF] pl-2  p-4 rounded-xl shadow-sm">
+                <form
+                  onSubmit={handleBooking}
+                  className="bg-[#FFFFFF] pl-2  p-4 rounded-xl shadow-sm"
+                >
                   <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">
                       {formatToNaira(selectedCars.pricePerDay)}
@@ -337,40 +391,71 @@ export default function CarDetails() {
                     <span className="uppercase text-xs text-[#666666]">
                       Pick up location
                     </span>
+
                     <span className="flex items-center justify-left gap-2 mt-2">
                       <img src="/Map.png" alt="" className="w-5 h-5" />
-                      <p className="text-xs text-[#5E5E5E]">
-                        {selectedCars.address || "Lagos, Nigeria"}
-                      </p>
+
+                      <input
+                        className="outline-none border-none text-sm"
+                        type="text"
+                        placeholder="Please Enter Address..."
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
                     </span>
                   </div>
+                  {errors.pickupAddress && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.pickupAddress}
+                    </p>
+                  )}
 
                   {/* pickup date and return */}
                   <div className="grid grid-cols-2 gap-1 md:gap-2  pl-2 py-4  mt-2 rounded-xl w-full">
-                    <div className="bg-[#F4F0EC] rounded-xl p-2">
-                      <span className="uppercase text-xs text-[#666666]">
-                        Pick up
-                      </span>
-                      <span className="flex flex-col">
-                        <input
-                          type="date"
-                          value={pickupDate}
-                          onChange={(e) => setPickupDate(e.target.value)}
-                        />
-                      </span>
+                    <div className=" ">
+                      <div className="bg-[#F4F0EC] rounded-xl p-2">
+                        <span className="uppercase text-xs text-[#666666]">
+                          Pick up
+                        </span>
+                        <span className="flex flex-col">
+                          <input
+                            type="date"
+                            value={pickupDate}
+                            min={new Date().toISOString().split("T")[0]}
+                            onChange={(e) => setPickupDate(e.target.value)}
+                          />
+                        </span>
+                      </div>
+                      {errors.pickupDate && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.pickupDate}
+                        </p>
+                      )}
                     </div>
 
-                    <div className="bg-[#F4F0EC] rounded-xl p-2">
-                      <span className="uppercase text-xs text-[#666666]">
-                        Return
-                      </span>
-                      <span className="flex flex-col">
-                        <input
-                          type="date"
-                          value={returnDate}
-                          onChange={(e) => setReturnDate(e.target.value)}
-                        />
-                      </span>
+                    <div className="">
+                      <div className="bg-[#F4F0EC] rounded-xl p-2">
+                        <span className="uppercase text-xs text-[#666666]">
+                          Return
+                        </span>
+                        <span className="flex flex-col">
+                          <input
+                            type="date"
+                            value={returnDate}
+                            min={
+                              pickupDate ||
+                              new Date().toISOString().split("T")[0]
+                            }
+                            onChange={(e) => setReturnDate(e.target.value)}
+                          />
+                        </span>
+                      </div>
+
+                      {errors.returnDate && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.returnDate}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -382,12 +467,12 @@ export default function CarDetails() {
                       <p>
                         {totalDays} {totalDays > 1 ? "days" : "day"}
                       </p>
-                      <p>{formatToNaira(totalPrice)}</p>
+                      <p>₦{rentalCost.toLocaleString()}</p>
                     </span>
 
                     <span className="flex items-center justify-between mt-2">
                       <p>Service Fee</p>
-                      <p>FREE</p>
+                      <p>₦{SERVICE_FEE.toLocaleString()}</p>
                     </span>
                   </div>
 
@@ -396,14 +481,14 @@ export default function CarDetails() {
                   <span className="flex items-center justify-between font-semibold mt-5">
                     <p className="text-lg">Total</p>
                     <p className="text-2xl lg:text-3xl">
-                      {formatToNaira(totalPrice)}
+                      ₦{totalPrice.toLocaleString()}
                     </p>
                   </span>
 
                   {/* book now button */}
                   <div className="w-full bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
                     <button
-                      onClick={handleBooking}
+                      type="submit"
                       className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto"
                     >
                       <p className="text-sm sm:text-base w-full">
@@ -419,7 +504,7 @@ export default function CarDetails() {
                     <img src="/shield.png"></img>{" "}
                     <p>Free cancellation up to 24h</p>
                   </span>
-                </main>
+                </form>
               </div>
             </div>
 
