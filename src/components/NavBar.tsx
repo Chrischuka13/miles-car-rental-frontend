@@ -1,77 +1,64 @@
 import React from "react";
 import { useState } from "react";
-import { Menu } from "lucide-react";
-import { X } from "lucide-react";
-import { Link } from "react-router";
-// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-// import { Button } from "./ui/button";
+import { X, Menu } from "lucide-react";
+import { Link, NavLink } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
+import UserAvatar from "./UserAvatar";
 
-// import { Link } from "react-router"
+
+
+
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "Cars", path: "/cars/carListing" },
+  { name: "About Us", path: "/about" },
+  { name: "Contact Us", path: "/contact" },
+];
 
 const NavBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const {user} = useAuth();
 
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-50 bg-neutral-50 transition hover:cursor-pointer ">
-          <div className="container p-4 mx-auto flex justify-between items-center">
-            <img src="/miles logo.svg" alt="logo" className="w-[100px]" />
-            <div className="hidden md:flex gap-7 justify-center  items-center text-DarkBlue">
-              <a
-                href="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-              >
-                Home
-              </a>
-              <Link
-                to="cars/carListing"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-              >
-                Cars
-              </Link>
-              <a
-                href="/about"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-              >
-                About Us
-              </a>
-              <a
-                href="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-              >
-                Contact Us
-              </a>
+        <nav className="fixed w-full z-50  hover:backdrop-blur-sm bg-white hover:text-black transition">
+          <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
+            <Link to='/'><img src="/miles logo.svg" alt="logo" className="w-25" /></Link>
+            <div className="hidden md:flex gap-7 items-center text-DarkBlue">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end
+              className={({ isActive }) =>
+                `px-4 py-2 rounded-md font-medium transition-all duration-200 ${
+                  isActive
+                    ? "border-b-2 border-DeepOrange "
+                    : "text-DarkBlue hover:bg-gray-200"
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
             </div>
 
-            <div className="hidden lg:flex items-center justify-center gap-4 ">
-              <a href="/">Sign In</a>
-              <div className="flex bg-foreground items-center justify-center p-2 px-5 rounded-[25px]">
-                <p className="text-white">Get Started</p>
-                <div>
-                  <img src="/stash_arrow-down-duotone.svg" alt="" />
+              {user? (
+                <UserAvatar/>
+              ) : (
+             <div className="hidden lg:flex items-center justify-center gap-4 ">
+                <div className="flex bg-DarkBlue items-center justify-center p-3 px-5 rounded-[25px]">
+                  <Link to="/auth/register" className="text-white ">Get Started</Link>
+                  <div>
+                    <img src="/stash_arrow-down-duotone.svg" alt="" />
+                  </div>
                 </div>
-              </div>
-            </div>
+              
+              <Link to="/auth/login">Sign In</Link>
 
-            {/* <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button variant="default"><div className="hidden lg:flex items-center justify-center gap-4 hover:cursor-pointer"><img className="w-10 rounded-full " alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/><p>Bright Ekpan</p></div></Button>} />
-                    <DropdownMenuContent className={`mt-4`}>
-                        <DropdownMenuItem>
-                            <UserIcon />Profile
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <CreditCardIcon />Billing
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <SettingsIcon />Settings
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem variant="destructive">
-                            <LogOutIcon className="text-red-800" /><p className="text-red-800">Log out</p>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu> */}
+            </div>
+              )}
 
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -80,43 +67,45 @@ const NavBar: React.FC = () => {
               {isOpen ? <X /> : <Menu />}
             </button>
           </div>
+          
 
           {isOpen && (
             <div className="lg:hidden bg-white text-[#0A0A0A] text-start md:h-full">
               <div className="w-11/12 container mx-auto py-4">
                 <h6 className="mb-4">Discover</h6>
-                <a
-                  href="/"
+                <NavLink
+                  to="/"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Home
-                </a>
-                <a
-                  href="/"
+                </NavLink>
+                <NavLink
+                  to="/"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Cars
-                </a>
-                <a
-                  href="/"
+                </NavLink>
+                <NavLink
+                  to="/about"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   About Us
-                </a>
-                <a
-                  href="/"
+                </NavLink>
+                <NavLink
+                  to="/contact"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Contact Us
-                </a>
+                </NavLink>
 
                 <div className="lg:hidden">
                   <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
-                    Sign In
+                    <Link to="/auth/login">Sign in</Link>
                   </button>
 
-                  <div className="flex bg-[#111827] items-center justify-center p-2 px-5 rounded-[25px]">
-                    <button className="text-white">Get Started</button>
+                  <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
+                    <button className="text-white">
+                      <Link to='/auth/register'>Get Started</Link></button>
                     <div>
                       <img src="/stash_arrow-down-duotone.svg" alt="" />
                     </div>

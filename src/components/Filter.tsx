@@ -83,7 +83,7 @@ export default function Filter({
           <div className="fixed inset-0 bg-black/10 backdrop-blur-[2px] z-40" />
 
           {/* PANEL */}
-          <div className="absolute right-0 mt-3 w-[340px] z-50 animate-[fadeSlide_0.25s_ease-out]">
+          <div className="absolute right-0 mt-3 w-85 z-50 animate-[fadeSlide_0.25s_ease-out]">
             <div className="bg-white/70 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl p-5">
               {/* HEADER */}
               <div className="flex justify-between items-center mb-4">
@@ -112,7 +112,7 @@ export default function Filter({
                     onClick={() => applyCategory(cat)}
                     className={`py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 ${
                       active === cat
-                        ? "bg-[#F97316] text-white shadow-md"
+                        ? "bg-DeepOrange text-white shadow-md"
                         : "bg-white border border-gray-200 hover:bg-gray-50"
                     }`}
                   >

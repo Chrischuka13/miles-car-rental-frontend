@@ -46,13 +46,13 @@ function SearchBar() {
                   transition-all duration-300 hover:bg-white/15 hover:shadow-2xl ">
 
     
-    <div className=" w-full md:w-[220px] font-semibold leading-snug mb-3 md:mb-0 text-center md:text-start">
+    <div className=" w-full md:w-55 font-semibold leading-snug mb-3 md:mb-0 text-center md:text-start">
       Need to Rent a <br className="hidden" />
       Luxury Car?
     </div>
 
   
-    <div className="flex-1 w-full min-w-[180px]">
+    <div className="flex-1 w-full min-w-45">
       <label className="text-sm  flex items-center gap-2 text-white/80 ">
         Pickup Location
         <img src="/Vector (2).png" alt="location_icon" />
@@ -70,7 +70,7 @@ function SearchBar() {
     </div>
 
 
-   <div className="flex-1 min-w-[180px] w-full">
+   <div className="flex-1 min-w-45 w-full">
       <label className="text-sm  flex items-center gap-2 text-white/80">
         Pickup Date
         <img src="/Union.png" alt="date_icon" />
@@ -87,7 +87,7 @@ function SearchBar() {
     </div>
 
    
-    <div className="flex-1 w-full min-w-[180px]">
+    <div className="flex-1 w-full min-w-45">
       <label className="text-sm  flex items-center gap-2 text-white/80">
         Return Date
         <img src="/Union (1).png" alt="date_icon" />
@@ -104,7 +104,7 @@ function SearchBar() {
     </div>
 
     {/* Car Type */}
-    <div className="flex-1 w-full min-w-[180px]">
+    <div className="flex-1 w-full min-w-45">
       <label className="text-sm  flex items-center gap-2 text-white/80">
         Car Type
         <img src="/Vector (3).png" alt="car_icon" />
