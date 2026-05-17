@@ -17,7 +17,7 @@ const navItems = [
 
 const NavBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const {user} = useAuth();
+  const {user, handleLogout} = useAuth();
 
   return (
     <section>
@@ -45,7 +45,10 @@ const NavBar: React.FC = () => {
             </div>
 
               {user? (
-                <UserAvatar/>
+                <div className="hidden lg:flex">
+                  <UserAvatar/>
+                </div>
+                
               ) : (
              <div className="hidden lg:flex items-center justify-center gap-4 ">
                 <div className="flex bg-DarkBlue items-center justify-center p-3 px-5 rounded-[25px]">
@@ -99,6 +102,14 @@ const NavBar: React.FC = () => {
                 </NavLink>
 
                 <div className="lg:hidden">
+                  {user? (
+                    <div className="flex justify-between">
+                      <div className="bg-DarkBlue p-2 text-white rounded-lg max-w-30">{user.firstName}</div>
+                      <button onClick={handleLogout} className="text-white rounded-lg max-w-30 p-2 bg-red-800">Sign Out</button>
+                    </div>
+                    
+                  ):(
+                    <div>
                   <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
                     <Link to="/auth/login">Sign in</Link>
                   </button>
@@ -110,6 +121,9 @@ const NavBar: React.FC = () => {
                       <img src="/stash_arrow-down-duotone.svg" alt="" />
                     </div>
                   </div>
+                    </div>
+                  )}
+
                 </div>
 
                 {/* <div className="lg:hidden flex items-center mt-10 gap-4 hover:cursor-pointer"><img className="w-10 rounded-full " alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/><p>Bright Ekpan</p></div> */}

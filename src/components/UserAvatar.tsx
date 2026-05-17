@@ -16,8 +16,11 @@ export default function UserAvatar() {
   return (
             <DropdownMenu>
                     <DropdownMenuTrigger render={<Button variant="default">
-                      <div className="hidden lg:flex items-center justify-center gap-4 hover:cursor-pointer">                    
-                    </div>{user?.firstName} {user?.lastName} <ChevronDown/></Button>} />
+                      <div className="hidden lg:flex items-center justify-center gap-4 hover:cursor-pointer py-5">   
+                        <span className="text-xl border text-whit bg-amber-600 rounded-full p-1">
+                          {`${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase()}
+                        </span>                 
+                      </div>{user?.firstName} {user?.lastName} <ChevronDown/></Button>} />
                     <DropdownMenuContent className={`mt-4`}>
                         <DropdownMenuItem>
                             <UserIcon />Profile
@@ -30,7 +33,7 @@ export default function UserAvatar() {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem variant="destructive">
-                            <LogOutIcon className="text-red-800" onClick={handleLogout}/><p className="text-red-800">Log out</p>
+                            <LogOutIcon/><button onClick={handleLogout}>Sign Out</button>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
