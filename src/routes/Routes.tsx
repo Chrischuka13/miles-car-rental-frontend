@@ -13,6 +13,7 @@ import SetNewPassword from "@/pages/auth/SetNewPassword.tsx";
 import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
 import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
 import AdminLayout from "@/layouts/AdminLayout.tsx";
+import { PublicRoute } from "./ProtectedRoutes.tsx";
 
 const Routes = () => {
   const routes = [
@@ -31,36 +32,44 @@ const Routes = () => {
         },
       ],
     },
+   {
+  path: "auth",
+  Component: AuthLayout,
+  children: [
     {
-      path: "auth",
-      Component: AuthLayout,
-      children: [
-        {
-          path: "login",
-          Component: Login,
-        },
-        {
-          path: "createAccount",
-          Component: SignUp,
-        },
-        {
-          path: "forgot-password",
-          Component: ForgotPassword,
-        },
-        {
-          path: "verify-otp",
-          Component: VerifyOtp,
-        },
-        {
-          path: "set-new-password",
-          Component: SetNewPassword,
-        },
-        {
-          path: "verify-Account",
-          Component: VerifyAccount,
-        },
-      ],
+      path: "login",
+      element: (
+        <PublicRoute>
+          <Login />
+        </PublicRoute>
+      ),
     },
+    {
+      path: "createAccount",
+      element: (
+        <PublicRoute>
+          <SignUp />
+        </PublicRoute>
+      ),
+    },
+    {
+      path: "forgot-password",
+      Component: ForgotPassword,
+    },
+    {
+      path: "verify-otp",
+      Component: VerifyOtp,
+    },
+    {
+      path: "set-new-password",
+      Component: SetNewPassword,
+    },
+    {
+      path: "verify-Account",
+      Component: VerifyAccount,
+    },
+  ],
+},
 
     {
       path: "admin",
@@ -103,6 +112,14 @@ const Routes = () => {
           lazy: async () => {
             const { default: Component } =
               await import("../pages/drivers/Drivers.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "bookings/:id",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/bookings/BookingDetails.tsx");
             return { Component };
           },
         },

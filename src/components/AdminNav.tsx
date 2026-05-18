@@ -6,7 +6,7 @@ import { BellDot, CalendarDays } from "lucide-react";
 import AdminDrawer from "./AdminDrawer";
 
 export default function AdminNav() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, ] = useSearchParams();
 
  
 
@@ -20,8 +20,8 @@ export default function AdminNav() {
   });
 
   return (
-    <div className="sticky bg-[#FFFFFF] top-0 w-full   p-4 z-30">
-      <div className="container mx-auto flex lg:gap-4 items-center justify-between">
+    <div className="fixed bg-[#FFFFFF] top-0 w-full  z-10 p-4 ">
+      <div className="lg:container lg:pr-30 flex  items-center justify-between">
         <label className="input flex gap-2 items-center text-black ">
           <svg
             className="h-[1em] opacity-50 "
