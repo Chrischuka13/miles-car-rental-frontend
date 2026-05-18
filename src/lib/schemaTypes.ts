@@ -3,12 +3,10 @@ import { z } from "zod";
 export const validateBookingSchema = z
   .object({
     car: z.string({ message: "Car is required" }).min(1, "Car is required"),
-
     pickupLocation: z
       .string({ message: "Pickup location is required" })
       .min(2, "Pickup location must be at least 2 characters")
       .trim(),
-
     returnLocation: z
       .string({ message: "Return location is required" })
       .min(2, "Return location must be at least 2 characters")
@@ -16,35 +14,18 @@ export const validateBookingSchema = z
 
     pickupDate: z
       .string({ message: "Pickup date is required" })
-      .refine((val) => !isNaN(Date.parse(val)), {
-        message: "Pickup date must be a valid date",
-      })
-      .refine(
-        (val) => new Date(val) >= new Date(new Date().setHours(0, 0, 0, 0)),
-        {
-          message: "Pickup date cannot be in the past",
-        }
-      ),
+      .min(1, { message: "Pickup date is required" }),
 
+    pickupTime: z.string({ message: "Pickup time is required" }),
     returnDate: z
       .string({ message: "Return date is required" })
-      .refine((val) => !isNaN(Date.parse(val)), {
-        message: "Return date must be a valid date",
-      }),
+      .min(1, { message: "Return date is required" }),
 
-    pickupTime: z
-      .string({ message: "Pickup time is required" })
-      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-        message: "Time must be in HH:MM (24-hour format)",
-      }),
+    returnTime: z.string({ message: "Return time is required" }),
 
-    returnTime: z
-      .string({ message: "Return time is required" })
-      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-        message: "Time must be in HH:MM (24-hour format)",
-      }),
-
-    driverOption: z.boolean(),
+    driverOption: z.boolean({
+      message: "Driver option must be a boolean",
+    }),
   })
   .refine((data) => new Date(data.returnDate) > new Date(data.pickupDate), {
     message: "Return date must be after pickup date",
@@ -52,3 +33,189 @@ export const validateBookingSchema = z
   });
 
 export type BookingForm = z.infer<typeof validateBookingSchema>;
+
+export const validateSignUpSchema = z.object({
+  firstName: z
+    .string()
+    .trim()
+    .min(1, { message: "First name is required" })
+    .max(50, { message: "First name is too long" }),
+  lastName: z
+    .string()
+    .trim()
+    .min(1, { message: "Last name is required" })
+    .max(50, { message: "Last name is too long" }),
+  email: z.string().trim().lowercase().email({
+    message: "Invalid email address",
+  }),
+  phone: z
+    .string()
+    .refine(
+      (num) => num === "" || /^\+\d{10,15}$/.test(num),
+      "Invalid phone number"
+    ),
+  password: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters long",
+    })
+    .regex(/[A-Z]/, {
+      message: "Password must contain at least one upper case letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must contain at least one lower case letter",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "Password must contain at least one special character",
+    }),
+});
+
+export type signUpSchemaType = z.infer<typeof validateSignUpSchema>;
+
+export const validateContactUsSchema = z.object({
+  fullName: z
+    .string()
+    .trim()
+    .min(2, { message: "Full name must be at least 2 characters" })
+    .max(50, { message: "Full name is too long" }),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Invalid email address" })
+    .lowercase(),
+  phone: z
+    .string()
+    .refine((num) => /^\+\d{10,15}$/.test(num), "Invalid phone number"),
+  subject: z
+    .string()
+    .trim()
+    .min(5, { message: "Subject must be at least 5 characters" })
+    .max(100, { message: "Subject is too long" }),
+  message: z
+    .string()
+    .trim()
+    .min(10, { message: "Message must be at least 10 characters" })
+    .max(1000, { message: "Message cannot exceed 1000 characters" }),
+});
+
+export type ContactUsSchemaType = z.infer<typeof validateContactUsSchema>;
+
+export const validateLoginUser = z.object({
+  email: z.string().trim().lowercase().email({
+    message: "Invalid email address",
+  }),
+  password: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters long",
+    })
+    .regex(/[A-Z]/, {
+      message: "Password must contain at least one upper case letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must contain at least one lower case letter",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "Password must contain at least one special character",
+    }),
+});
+
+export type loginSchemaType = z.infer<typeof validateLoginUser>;
+
+export const validateForgotPasswordSchema = z.object({
+  email: z.string().trim().toLowerCase().email({
+    message: "Valid Email is required",
+  }),
+});
+
+export type forgotPasswordSchemaType = z.infer<
+  typeof validateForgotPasswordSchema
+>;
+
+export const validateVerifyOtpSchema = z.object({
+  email: z.string().trim().toLowerCase().email({
+    message: "Valid email is required",
+  }),
+  otp: z
+    .string()
+    .trim()
+    .length(6, {
+      message: "OTP must be exactly 6 digits",
+    })
+    .regex(/^\d{6}$/, {
+      message: "OTP must contain only 6 digits",
+    }),
+});
+
+export type verifyOtpSchemaType = z.infer<typeof validateVerifyOtpSchema>;
+
+export const validateResetPasswordSchema = z.object({
+  newPassword: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters long",
+    })
+    .regex(/[A-Z]/, {
+      message: "Password must contain at least one uppercase letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must contain at least one lowercase letter",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "Password must contain at least one special character",
+    }),
+  confirmPassword: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters long",
+    })
+    .regex(/[A-Z]/, {
+      message: "Password must contain at least one uppercase letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must contain at least one lowercase letter",
+    })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      message: "Password must contain at least one special character",
+    }),
+});
+
+export type resetPasswordSchemaType = z.infer<
+  typeof validateResetPasswordSchema
+>;
+
+export const validateBookingSchema2 = z.object({
+  pickupDate: z.string().min(1, {
+    message: "Pickup date is required",
+  }),
+
+  returnDate: z.string().min(1, {
+    message: "Return date is required",
+  }),
+
+  pickupAddress: z.string().min(5, {
+    message: "Pickup address must be at least 5 characters long",
+  }),
+});
+
+export type BookingFormData = z.infer<typeof validateBookingSchema2>;
+
+export const paystackPaymentSchema = z.object({
+  bookingId: z.string().min(1, {
+    message: "Booking ID is required",
+  }),
+  carId: z.string().min(1, {
+    message: "Car ID is required",
+  }),
+  amount: z.number().min(1, {
+    message: "Amount is required",
+  }),
+  slug: z.string().min(1, {
+    message: "Slug is required",
+  }),
+  paymentMethod: z.string().min(1, {
+    message: "Payment method is required",
+  }),
+});
+
+export type PaystackPaymentData = z.infer<typeof paystackPaymentSchema>;

@@ -1,67 +1,77 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Stepper from "@/components/booking/Stepper";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import Success from "@/components/booking/Success";
-import { useForm } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validateBookingSchema, type BookingForm } from "@/lib/schemaTypes";
 import { createBooking } from "@/api/booking";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { initiatePayment } from "@/api/payment";
+import { getCarBySlug } from "@/api/cars/cars";
+import { errorHandler } from "@/lib/utils";
+import { toast } from "react-toastify";
+import { useAuth } from "@/hooks/useAuth";
 
+interface CarData {
+  images: {
+    url: string;
+  }[];
+  category: string;
+  modelName: string;
+  _id: string;
+  pricePerDay: number;
+}
 
 export default function Booking() {
+  const { slug } = useParams();
+  const { data } = useQuery({
+    queryKey: ["car", slug],
+    queryFn: () => getCarBySlug(slug as string),
+    enabled: !!slug,
+  });
+  const [bookingId, setBookingId] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const selectedCars: CarData | undefined = data?.data;
   const bookingStorage = JSON.parse(
-    localStorage.getItem("bookingData") || "{}"
+    localStorage.getItem("bookingData") || "null"
   );
 
-  const selectedVehicle = bookingStorage.car;
+  console.log("ss", selectedCars);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
+    control,
   } = useForm<BookingForm>({
     resolver: zodResolver(validateBookingSchema),
     defaultValues: {
-      driverOption: false,
       // PREFILL VALUES FROM LOCAL STORAGE
-      car: bookingStorage.carId || "",
-      pickupLocation: bookingStorage.pickupAddress || "",
-      returnLocation: bookingStorage.pickupAddress || "",
-      pickupDate: bookingStorage.pickupDate || "",
-      returnDate: bookingStorage.returnDate || "",
-      pickupTime: bookingStorage.pickupTime || "",
-      returnTime: bookingStorage.returnTime || "",
+      car: bookingStorage?.car || "",
+      pickupLocation: bookingStorage?.pickupLocation || "",
+      returnLocation: bookingStorage?.returnLocation || "",
+      pickupDate: bookingStorage?.pickupDate
+        ? new Date(bookingStorage?.pickupDate).toISOString().split("T")[0] || ""
+        : "",
+      returnDate: bookingStorage?.returnDate
+        ? new Date(bookingStorage?.returnDate).toISOString().split("T")[0] || ""
+        : "",
+      pickupTime: bookingStorage?.pickupTime || "",
+      returnTime: bookingStorage?.returnTime || "",
+      driverOption: bookingStorage?.driverOption || false,
     },
   });
-
-  const [addDriver, setAddDriver] = useState(false);
+  
   const [paymentMethod, setPaymentMethod] = useState("paystack");
   const [currentStep, setCurrentStep] = useState(1);
-
-  const totalDays = bookingStorage.totalDays || 0;
-  const rentalCost = bookingStorage.rentalCost || 0;
-  const serviceFee = bookingStorage.serviceFee || 0;
-
-  const driverFee = useMemo(() => {
-    return addDriver ? 25000 * totalDays : 0;
-  }, [addDriver, totalDays]);
-
-  // TOTAL
-  const total = useMemo(() => {
-    return rentalCost + serviceFee + driverFee;
-  }, [rentalCost, serviceFee, driverFee]);
-
-  //     const {
-  //   totalDays = 1,
-  //   rentalCost = 0,
-  //   serviceFee = 0,
-  // } = bookingStorage;
-  //   const driverFee = addDriver ? 25000 * totalDays : 0;
-
-  // const total = rentalCost + serviceFee + driverFee;
-
+  const [searchParams] = useSearchParams();
+  const step = searchParams.get("step");
   const handleNext = () => {
     setCurrentStep((prev) => Math.min(prev + 1, 3));
   };
@@ -70,124 +80,113 @@ export default function Booking() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  // const onFormSubmit = async (data: BookingForm) => {
-  //   try {
-  //     console.log("FormValues:", data);
+  useEffect(() => {
+    if (selectedCars) {
+      setValue("car", selectedCars?._id);
+    }
+  }, [selectedCars, setValue]);
 
-  //     const payload = {
-  //       car: bookingStorage?.carId || selectedVehicle?.id,
-  //       pickupLocation: data.pickupLocation,
-  //       returnLocation: data.returnLocation,
-  //       pickupDate: data.pickupDate,
-  //       returnDate: data.returnDate,
-  //       pickupTime: data.pickupTime,
-  //       returnTime: data.returnTime,
-  //       driverOption: addDriver,
-  //     };
+  useEffect(() => {
+    if (step) {
+      Promise.resolve().then(() => handleNext());
+    }
+  }, [step]);
 
-  //     const response = await createBooking(payload);
+  const watchPickUpLocation = useWatch({ control, name: "pickupLocation" });
+  const watchPickUpDate = useWatch({ control, name: "pickupDate" });
+  const watchReturnDate = useWatch({ control, name: "returnDate" });
+  const start = new Date(watchPickUpDate);
+  const end = new Date(watchReturnDate);
 
-  //     console.log("bookingCreated:", response);
+  const diffTime = end.getTime() - start.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-     
-  //     const finalBooking = {
-  //       ...bookingStorage,
-  //       ...data,
-  //       driverOption: addDriver,
-  //       // paymentMethod,
-  //       // total,
-  //       bookingResponse: response,
-  //       createdAt: new Date().toISOString(),
-  //     };
+  const finalDays = diffDays > 0 ? diffDays : 1;
 
-  //     localStorage.setItem("carBooking", JSON.stringify(finalBooking));
+  const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
 
-  //     setCurrentStep(2);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const totalDays = bookingStorage?.totalDays || finalDays;
+  const rentalCost = bookingStorage?.rentalCost || getRentalCost || 0;
+  const serviceFee = bookingStorage?.serviceFee || 10000;
 
-// const { mutate: createBookingMutate  } = useMutation({
-//     mutationFn: async (data: BookingForm) => {
-//       const payload = {
-//         car: bookingStorage?.carId || selectedVehicle?.id,
-//         pickupLocation: data.pickupLocation,
-//         returnLocation: data.returnLocation,
-//         pickupDate: data.pickupDate,
-//         returnDate: data.returnDate,
-//         pickupTime: data.pickupTime,
-//         returnTime: data.returnTime,
-//         driverOption: addDriver,
-//       };
+  const watchDriverOption = useWatch({ control, name: "driverOption" });
+  const driverFee = useMemo(() => {
+    return watchDriverOption ? 20000 * totalDays : 0;
+  }, [totalDays, watchDriverOption]);
 
-//       const response = await createBooking(payload);
-//       return response;
-//     },
-//     onSuccess: (response, variables) => {
-//       const finalBooking = {
-//         ...bookingStorage,
-//         ...variables,
-//         driverOption: addDriver,
-//         bookingResponse: response,
-//         createdAt: new Date().toISOString(),
-//       };
+  // TOTAL
+  const total = useMemo(() => {
+    return rentalCost + serviceFee + driverFee;
+  }, [rentalCost, serviceFee, driverFee]);
 
-//       localStorage.setItem("carBooking", JSON.stringify(finalBooking));
-//       setCurrentStep(2);
-//     },
-//     onError: (error) => {
-//       console.log("Error creating booking:", error);
-//     },
-//   });
-
-//   const onFormSubmit = (data: BookingForm) => {
-//     createBookingMutate(data);
-//   };
-
-
-
-
- const mutation = useMutation({
-    mutationFn: (data: BookingForm) => {
-      const payload = {
-        car: bookingStorage?.carId || selectedVehicle?.id,
-        pickupLocation: data.pickupLocation,
-        returnLocation: data.returnLocation,
-        pickupDate: data.pickupDate,
-        returnDate: data.returnDate,
-        pickupTime: data.pickupTime,
-        returnTime: data.returnTime,
-        driverOption: addDriver,
-      };
-      return createBooking(payload);
+  const bookDataMutation = useMutation({
+    mutationFn: createBooking,
+    onSuccess: async (response) => {
+      if (response.success) {
+        setBookingId(response.booking._id);
+        localStorage.setItem("bookingId", response.booking._id);
+        handleNext();
+      }
     },
-    onSuccess: (response, variables) => {
-      console.log("bookingCreated:", response);
-
-      const finalBooking = {
-        ...bookingStorage,
-        ...variables,
-        driverOption: addDriver,
-        bookingResponse: response,
-        createdAt: new Date().toISOString(),
-      };
-
-      localStorage.setItem("carBooking", JSON.stringify(finalBooking));
-
-      setCurrentStep(2);
-    },
-    onError: (error) => {
-      console.log(error);
+    onError: (error: Error) => {
+      errorHandler(error);
     },
   });
 
-  
+  const paymentDataMutation = useMutation({
+    mutationFn: initiatePayment,
+    onSuccess: async (response) => {
+      if (response.success) {
+        toast.info(
+          "Payment initiated successfully! Redirecting to Paystack..."
+        );
+        window.location.href = response.data.authorization_url;
+      }
+    },
+    onError: (error: Error) => {
+      errorHandler(error);
+    },
+  });
 
-  const onFormSubmit = (data: BookingForm) => {
-    mutation.mutate(data);
+  const createBookingData = (data: BookingForm) => {
+    localStorage.setItem(
+      "bookingData",
+      JSON.stringify({
+        ...data,
+        totalDays,
+        rentalCost,
+        serviceFee,
+      })
+    );
+
+    console.log(
+      "BOOKING STORAGE:",
+      JSON.parse(localStorage.getItem("bookingData") || "{}")
+    );
+
+    if (!user) {
+      toast.error("You are not logged in, please login to continue");
+      navigate("/auth/login");
+      return;
+    }
+
+    bookDataMutation.mutate(data);
   };
-  
+
+  const handlePaystack = () => {
+    if (!bookingId || !slug) {
+      toast.error("Missing booking ID or car slug");
+    }
+    const payload = {
+      bookingId,
+      slug,
+      paymentMethod,
+      amount: total,
+      carId: selectedCars?._id,
+    };
+    paymentDataMutation.mutate(payload);
+  };
+
   return (
     <>
       <main className="pt-20 px-4 pb-20 bg-[#F5F5F5] flex items-center justify-center lg:block min-h-screen">
@@ -195,10 +194,12 @@ export default function Booking() {
           {/* Header */}
           <div className="mb-10 space-y-3">
             {currentStep < 3 && (
-              <p className="text-sm text-gray-500 pt-5">&lt; Back to sign in</p>
+              <Link to="/cars/carlisting">
+                <p className="text-sm text-gray-500 pt-5">&lt; Back to cars</p>
+              </Link>
             )}
 
-            <h1 className="text-[#111827] text-2xl ">
+            <h1 className="text-DarkBlue text-2xl ">
               {currentStep === 1 && "Book your Trip"}
               {currentStep === 2 && "Secure payment"}
               {currentStep === 3 && <Success />}
@@ -213,7 +214,7 @@ export default function Booking() {
               <div className="  p-6 rounded-[15px] space-y-3 bg-white">
                 {currentStep === 1 && (
                   <form
-                    onSubmit={handleSubmit(onFormSubmit)}
+                    onSubmit={handleSubmit(createBookingData)}
                     className="space-y-3"
                   >
                     <>
@@ -227,8 +228,7 @@ export default function Booking() {
                           type="hidden"
                           className="w-full pl-12 p-4 rounded-3xl border border-[#C3C9D3]"
                           placeholder="car"
-                          //  value={bookingStorage?.carId || selectedVehicle?.id}
-                          value={selectedVehicle?.id}
+                          value={bookingStorage?.car || selectedCars?._id}
                         />
 
                         <p className="text-red-500 text-sm">
@@ -333,10 +333,17 @@ export default function Booking() {
                               +$25/day vetted, English-speaking
                             </p>
                           </div>
-                          <Switch
-                            // checked={addDriver}
-                            // onCheckedChange={setAddDriver}
-                            className="mt-3 md:mt-0 data-checked:bg-[#fa7315] data-unchecked:bg-gray-300"
+                          <Controller
+                            name="driverOption"
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <Switch
+                                id="driverOption"
+                                checked={value}
+                                onCheckedChange={onChange}
+                                className="mt-3 md:mt-0 data-checked:bg-[#fa7315] data-unchecked:bg-gray-800"
+                              />
+                            )}
                           />
                         </div>
                       </div>
@@ -344,10 +351,17 @@ export default function Booking() {
                         <div className="flex justify-end mt-6">
                           <Button
                             type="submit"
-                            className="flex items-center justify-end gap-2 bg-[#fa7315] rounded-full text-white py-5 lg:py-6 px-4"
+                            className="w-37.5 text-center  bg-[#fa7315] rounded-full text-white py-5 lg:py-6 px-4"
+                            disabled={bookDataMutation.isPending}
                           >
-                            Continue
-                            <img src="/arrow.svg" alt="" />
+                            {bookDataMutation.isPending ? (
+                              "Processing..."
+                            ) : (
+                              <div className="flex items-center justify-end gap-2">
+                                Continue
+                                <img src="/arrow.svg" alt="" />
+                              </div>
+                            )}
                           </Button>
                         </div>
                       )}
@@ -519,24 +533,29 @@ export default function Booking() {
                       {/* IMAGE */}
                       <div className="rounded-lg flex justify-center shrink-0 w-full sm:w-auto">
                         <img
-                          src={selectedVehicle?.images?.[0]?.url}
-                          alt={selectedVehicle?.modelName}
-                          className=" border-4 border-gray-100 rounded-2xl  w-full sm:w-[205px]  h-[220px] sm:h-[119px]   object-cover  "
+                          src={selectedCars?.images[0]?.url || ""}
+                          alt={selectedCars?.modelName}
+                          className=" border-4 border-gray-100 rounded-2xl  w-full sm:w-51.25  h-55 sm:h-29.75   object-cover  "
                         />
                       </div>
 
                       {/* TEXT */}
                       <div className="flex flex-col justify-center space-y-1 w-full">
                         <p className="text-[#9CA3AF] text-sm sm:text-[20px]">
-                          VEHICLE
+                          {selectedCars?.category}
                         </p>
 
                         <h2 className="text-2xl sm:text-[32px] font-extrabold leading-tight">
-                          {selectedVehicle?.modelName}
+                          {selectedCars?.modelName}
                         </h2>
 
                         <h1 className="text-[20px] font-semibold text-[#9CA3AF]">
-                          {totalDays} days . With Driver
+                          <h1 className="text-[20px] font-semibold text-[#9CA3AF]">
+                            {totalDays} days •{" "}
+                            {bookingStorage?.driverOption
+                              ? "With Driver"
+                              : "Self Drive"}
+                          </h1>
                         </h1>
                       </div>
                     </div>
@@ -546,7 +565,7 @@ export default function Booking() {
                         <div>
                           <img src="/Map.svg" alt="" className="w-5 h-5 " />
                           <p className="text-sm font-medium">
-                            {bookingStorage?.pickupAddress}
+                            {bookingStorage?.pickupLocation}
                           </p>
                           <p className="text-xs text-gray-500">
                             {bookingStorage?.pickupDate},{" "}
@@ -559,7 +578,7 @@ export default function Booking() {
                         <div>
                           <img src="/Map.svg" alt="" className="w-5 h-5" />
                           <p className="text-sm font-medium">
-                            {bookingStorage?.returnAddress}
+                            {bookingStorage?.returnLocation}
                           </p>
                           <p className="text-xs text-gray-500">
                             {bookingStorage?.returnDate},{" "}
@@ -606,19 +625,21 @@ export default function Booking() {
                     <div />
                   )}
 
-                  {/* RIGHT BUTTONS */}
-
-                  {/* STEP 1 → SUBMIT FORM */}
-
-                  {/* STEP 2 → MANUAL NAVIGATION */}
                   {currentStep === 2 && paymentMethod !== "card" && (
                     <Button
                       type="button"
-                      onClick={handleNext}
-                      className="flex items-center justify-center gap-2 bg-[#fa7315] rounded-full text-white py-5 lg:py-6 px-4"
+                      onClick={handlePaystack}
+                      className="w-50 bg-[#fa7315] rounded-full text-white py-5 lg:py-6 px-4"
+                      disabled={paymentDataMutation.isPending}
                     >
-                      Pay with Paystack
-                      <img src="/arrow.svg" alt="" />
+                      {paymentDataMutation.isPending ? (
+                        "Processing..."
+                      ) : (
+                        <div className="flex items-center justify-center gap-2">
+                          Pay with Paystack
+                          <img src="/arrow.svg" alt="" />
+                        </div>
+                      )}
                     </Button>
                   )}
                 </div>
@@ -628,27 +649,31 @@ export default function Booking() {
             {/* Right part */}
             <div className="col-span-12 md:col-span-4">
               {currentStep < 3 && (
-                <div className=" bg-white rounded-[15px] min-h-[637px] overflow-y-auto lg:p-3 ">
+                <div className=" bg-white rounded-[15px] min-h-159.25 overflow-y-auto lg:p-3 ">
                   <div className="p-4 md:sticky md:top-20 space-y-5 lg:space-y-3">
                     <div className="bg-gray-100 rounded-xl p-2">
                       <img
-                        src={selectedVehicle?.images?.[0]?.url}
-                        alt={selectedVehicle?.modelName}
+                        src={selectedCars?.images[0]?.url || ""}
+                        alt={selectedCars?.modelName}
                         className="w-full  object-contain rounded-lg "
                       />
                     </div>
 
                     <div className=" space-y-3">
-                      <p className="text-[#4B5563] text-[14px] pt-2">VEHICLE</p>
-                      <h2 className="text-[32px] font-extrabold">
-                        {selectedVehicle?.modelName}
+                      <p className="text-[#4B5563] text-[14px] pt-2">
+                        {selectedCars?.category}
+                      </p>
+                      <h2 className="text-2xl lg:text-[28px] font-extrabold">
+                        {selectedCars?.modelName}
                       </h2>
                       <hr className="border-[#A1A1A1]" />
                     </div>
 
                     <div className="relative ">
                       <p className="text-[16px] pl-7 text-[#232323] font-400 ">
-                        {bookingStorage.pickupAddress}
+                        {bookingStorage?.pickupLocation ||
+                          watchPickUpLocation ||
+                          "Pickup location not set"}
                       </p>
                       <img
                         src="/Map.svg"
@@ -658,8 +683,9 @@ export default function Booking() {
                     </div>
                     <div className="relative">
                       <p className="text-[16px]  text-[#232323] font-400  pl-7">
-                        {bookingStorage.pickupDate} -{" "}
-                        {bookingStorage.returnDate}
+                        {bookingStorage?.pickupDate || watchPickUpDate || "N/A"}{" "}
+                        -{" "}
+                        {bookingStorage?.returnDate || watchReturnDate || "N/A"}
                       </p>
                       <img
                         src="/Calendar Minimalistic.svg"
@@ -704,12 +730,15 @@ export default function Booking() {
               )}
 
               {/* final part step 3 */}
-              {currentStep === 3 && selectedVehicle && (
-                <div className="bg-white p-6 rounded-2xl space-y-4 min-h-[566px]">
+              {currentStep === 3 && bookingStorage?.car && (
+                <div className="bg-white p-6 rounded-2xl space-y-4 min-h-141.5">
                   <div className="flex items-center justify-center gap-2">
-                    <h2 className="text-center  text-gray-500 ">
+                    <Link
+                      to="/cars/carlisting"
+                      className="text-center  text-gray-500 "
+                    >
                       Browse more cars
-                    </h2>
+                    </Link>
                     <img src="/Arrow-Right.svg" alt="" />
                   </div>
 
@@ -732,8 +761,11 @@ export default function Booking() {
 
                   <div className="space-y-5 pt-3  ">
                     <div className="flex justify-between">
-                      <span className="text-[16px] text-[#A1A1A1] ">
-                        ₦{rentalCost.toLocaleString()} × {totalDays} days
+                      <span className="text-[#A1A1A1] ">
+                        ₦{selectedCars?.pricePerDay * 200} × {totalDays} days
+                      </span>
+                      <span className="font-medium ">
+                        ₦{rentalCost.toLocaleString()}
                       </span>
                     </div>
 
@@ -762,9 +794,16 @@ export default function Booking() {
                       Contact concierge
                     </button>
 
-                    <button className="border py-2   flex items-center justify-center gap-2 rounded-full  text-white bg-[#fa7315]">
-                      View Booking
-                      <img src="/arrow.svg" alt="" />
+                    <button
+                      className="border py-2 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315]"
+                    >
+                      <Link
+                        to={`/booking-details/${localStorage.getItem("bookingId")}`}
+                        className="flex items-center gap-2"
+                      >
+                        View Booking
+                        <img src="/arrow.svg" alt="" />
+                      </Link>
                     </button>
                   </div>
                 </div>
