@@ -35,108 +35,106 @@ interface Car {
 }
 
 export default function CarDetails() {
- const { slug } = useParams<{ slug: string }>();
-const navigate = useNavigate();
-const [openImage, setOpenImage] = useState<string | null>(null);
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const [openImage, setOpenImage] = useState<string | null>(null);
 
-const { data, isLoading } = useQuery({
-  queryKey: ["car", slug],
-  queryFn: () => getCarBySlug(slug as string),
-  enabled: !!slug,
-});
+  const [pickupDate, setPickupDate] = useState<string>("");
+  const [returnDate, setReturnDate] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
 
-const selectedCars: Car | undefined = data?.data;
-
-
-const [pickupDate, setPickupDate] = useState<string>("");
-const [returnDate, setReturnDate] = useState<string>("");
-const [address, setAddress] = useState<string>("");
-
-const [errors, setErrors] = useState<{
-  pickupDate?: string;
-  returnDate?: string;
-  pickupAddress?: string;
-}>({});
-
-const USD_TO_NGN = 200;
-
-const formatToNaira = (priceInUSD: number) => {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-  }).format(priceInUSD * USD_TO_NGN);
-};
-
-const SERVICE_FEE = 10000;
-
-const { totalDays, rentalCost, totalPrice } = useMemo(() => {
-  const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) * USD_TO_NGN;
-
-  if (!pickupDate || !returnDate || !selectedCars) {
-    return {
-      totalDays: 1,
-      rentalCost: pricePerDayInNaira,
-      totalPrice: pricePerDayInNaira + SERVICE_FEE,
-    };
-  }
-
-  const start = new Date(pickupDate);
-  const end = new Date(returnDate);
-
-  const diffTime = end.getTime() - start.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  const finalDays = diffDays > 0 ? diffDays : 1;
-
-  const rentalCost = finalDays * pricePerDayInNaira;
-
-  return {
-    totalDays: finalDays,
-    rentalCost,
-    totalPrice: rentalCost + SERVICE_FEE,
-  };
-}, [pickupDate, returnDate, selectedCars]);
-
-const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  if (!selectedCars) return;
-
-  const result = validateBookingSchema.safeParse({
-    pickupDate,
-    returnDate,
-    pickupAddress: address,
+  const { data, isLoading } = useQuery({
+    queryKey: ["car", slug],
+    queryFn: () => getCarBySlug(slug as string),
+    enabled: !!slug,
   });
 
-  setErrors({});
+  const selectedCars: Car | undefined = data?.data;
 
-  if (!result.success) {
-    const fieldErrors = result.error.flatten().fieldErrors;
+  const [errors, setErrors] = useState<{
+    pickupDate?: string;
+    returnDate?: string;
+    pickupAddress?: string;
+  }>({});
 
-    setErrors({
-      pickupDate: fieldErrors.pickupDate?.[0],
-      returnDate: fieldErrors.returnDate?.[0],
-      pickupAddress: fieldErrors.pickupAddress?.[0],
-    });
+  const USD_TO_NGN = 200;
 
-    return;
-  }
-
-  const bookingData = {
-    carId: selectedCars._id,
-    car: selectedCars,
-    pickupDate,
-    returnDate,
-    pickupAddress: address,
-    totalDays,
-    rentalCost,
-    serviceFee: SERVICE_FEE,
-    totalPrice,
+  const formatToNaira = (priceInUSD: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+    }).format(priceInUSD * USD_TO_NGN);
   };
 
-  localStorage.setItem("bookingData", JSON.stringify(bookingData));
+  const SERVICE_FEE = 10000;
 
-  navigate(`/booking/${selectedCars._id}`);
-};
+  const { totalDays, rentalCost, totalPrice } = useMemo(() => {
+    const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) * USD_TO_NGN;
+
+    if (!pickupDate || !returnDate || !selectedCars) {
+      return {
+        totalDays: 1,
+        rentalCost: pricePerDayInNaira,
+        totalPrice: pricePerDayInNaira + SERVICE_FEE,
+      };
+    }
+
+    const start = new Date(pickupDate);
+    const end = new Date(returnDate);
+
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    const finalDays = diffDays > 0 ? diffDays : 1;
+
+    const rentalCost = finalDays * pricePerDayInNaira;
+
+    return {
+      totalDays: finalDays,
+      rentalCost,
+      totalPrice: rentalCost + SERVICE_FEE,
+    };
+  }, [pickupDate, returnDate, selectedCars]);
+
+  const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedCars) return;
+
+    const result = validateBookingSchema.safeParse({
+      pickupDate,
+      returnDate,
+      pickupAddress: address,
+    });
+
+    setErrors({});
+
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+
+      setErrors({
+        pickupDate: fieldErrors.pickupDate?.[0],
+        returnDate: fieldErrors.returnDate?.[0],
+        pickupAddress: fieldErrors.pickupAddress?.[0],
+      });
+
+      return;
+    }
+
+    const bookingData = {
+      carId: selectedCars._id,
+      car: selectedCars,
+      pickupDate,
+      returnDate,
+      pickupAddress: address,
+      totalDays,
+      rentalCost,
+      serviceFee: SERVICE_FEE,
+      totalPrice,
+    };
+
+    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    navigate(`/booking/${selectedCars._id}`); 
+  };
 
   if (isLoading) {
     return (

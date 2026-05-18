@@ -1,8 +1,7 @@
 import axiosClient from "@/lib/utils";
 
 export const getAllCars = async (page = 1) => {
-  const response = await axiosClient.get(`/car/all?page=${page}&limit=10`);
-
+  const response = await axiosClient.get(`/car/all?page=${page}&limit=9`);
   return response.data;
 };
 
