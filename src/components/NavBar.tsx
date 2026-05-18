@@ -1,134 +1,76 @@
-import React from "react";
-import { useState } from "react";
-import { Menu } from "lucide-react";
-import { X } from "lucide-react";
-import { Link } from "react-router";
-// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-// import { Button } from "./ui/button";
 
-// import { Link } from "react-router"
+import React from "react";
+import { Link } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
+import UserAvatar from "./UserAvatar";
+import Logo from "./Logo";
+import Drawer from "./Drawer";
 
 const NavBar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-50 bg-neutral-50 transition hover:cursor-pointer ">
-          <div className="container p-4 mx-auto flex justify-between items-center">
-            <img src="/miles logo.svg" alt="logo" className="w-[100px]" />
-            <div className="hidden md:flex gap-7 justify-center  items-center text-DarkBlue">
+        <nav className="flex justify-center items-center px-2 fixed w-full z-20 bg-neutral-100 transition hover:cursor-pointer ">
+          <div className=" container p-3 mx-auto  flex justify-between items-center">
+            <Logo />
+            <div className="hidden lg:flex gap-6 justify-center items-center text-[#111827]">
               <a
                 href="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
               >
                 Home
               </a>
               <Link
-                to="cars/carListing"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                to={"/cars/carlisting"}
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
               >
                 Cars
               </Link>
               <a
-                href="/about"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                href="/"
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
               >
                 About Us
               </a>
               <a
                 href="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
               >
                 Contact Us
               </a>
             </div>
 
-            <div className="hidden lg:flex items-center justify-center gap-4 ">
-              <a href="/">Sign In</a>
-              <div className="flex bg-foreground items-center justify-center p-2 px-5 rounded-[25px]">
-                <p className="text-white">Get Started</p>
-                <div>
-                  <img src="/stash_arrow-down-duotone.svg" alt="" />
-                </div>
+            {/* Desktop auth section */}
+            {user ? (
+              <UserAvatar />
+            ) : (
+              <div className="hidden lg:flex items-center gap-3">
+                <Link
+                  to="/auth/login"
+                  className="text-xl font-normal hover:text-gray-400"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/auth/createAccount"
+                  className="bg-[#111827] flex justify-center items-center text-white px-3 py-2 rounded-4xl text-xl font-normal hover:opacity-90"
+                >
+                  Get started <div>
+                   <img src="/stash_arrow-down-duotone (1).svg" alt="" className=""/> </div> 
+                </Link>
               </div>
-            </div>
+            )}
 
-            {/* <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button variant="default"><div className="hidden lg:flex items-center justify-center gap-4 hover:cursor-pointer"><img className="w-10 rounded-full " alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/><p>Bright Ekpan</p></div></Button>} />
-                    <DropdownMenuContent className={`mt-4`}>
-                        <DropdownMenuItem>
-                            <UserIcon />Profile
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <CreditCardIcon />Billing
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <SettingsIcon />Settings
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem variant="destructive">
-                            <LogOutIcon className="text-red-800" /><p className="text-red-800">Log out</p>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu> */}
-
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden hover:cursor-pointer"
-            >
-              {isOpen ? <X /> : <Menu />}
-            </button>
+            {/* Hamburger — mobile only */}
+           
           </div>
-
-          {isOpen && (
-            <div className="lg:hidden bg-white text-[#0A0A0A] text-start md:h-full">
-              <div className="w-11/12 container mx-auto py-4">
-                <h6 className="mb-4">Discover</h6>
-                <a
-                  href="/"
-                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-                >
-                  Home
-                </a>
-                <a
-                  href="/"
-                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-                >
-                  Cars
-                </a>
-                <a
-                  href="/"
-                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-                >
-                  About Us
-                </a>
-                <a
-                  href="/"
-                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
-                >
-                  Contact Us
-                </a>
-
-                <div className="lg:hidden">
-                  <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
-                    Sign In
-                  </button>
-
-                  <div className="flex bg-[#111827] items-center justify-center p-2 px-5 rounded-[25px]">
-                    <button className="text-white">Get Started</button>
-                    <div>
-                      <img src="/stash_arrow-down-duotone.svg" alt="" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* <div className="lg:hidden flex items-center mt-10 gap-4 hover:cursor-pointer"><img className="w-10 rounded-full " alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/><p>Bright Ekpan</p></div> */}
-              </div>
-            </div>
-          )}
+        <Drawer />
         </nav>
+         
       </header>
+        
     </section>
   );
 };

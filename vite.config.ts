@@ -16,4 +16,16 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+  server: {
+    host: "0.0.0.0",
+    port: 4500,
+    open: true,
+    proxy: {
+      "/api/v1": {
+        target: "https://miles-rental-server.onrender.com",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+}); 
