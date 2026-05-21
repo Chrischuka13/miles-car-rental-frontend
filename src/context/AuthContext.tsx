@@ -3,7 +3,6 @@ import { AuthProviderContext } from "@/hooks/useAuth";
 import { getMeApi, logoutApi } from "@/api/auth";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
 // Reuse the User type from AuthProviderContext to avoid duplicate/conflicting 'User' definitions
 type ContextType = React.ContextType<typeof AuthProviderContext>;
 type User = ContextType extends { user: infer U } ? U : null;

@@ -7,6 +7,7 @@ import Banner from "@/components/ui/Banner";
 import Testimonial from "@/components/Testimonial";
 import FAQ from "@/components/FAQ";
 import TrendingCars from "@/features/TrendingCars";
+import { Link } from "react-router";
 
 export default function Home() {
 
@@ -17,7 +18,7 @@ export default function Home() {
       <section
         className="min-h-screen relative bg-cover bg-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.40), rgba(0,0,0,0.20)), url(${heroImage})`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.80), rgba(0,0,0,0.40)), url(${heroImage})`,
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14">
@@ -38,28 +39,10 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-              <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-                <button
-                  className="relative group flex items-center justify-center
-               bg-orange-500 hover:bg-orange-600
-               text-white font-medium
-               px-5 py-3 rounded-full
-               transition-all duration-200
-               shadow-md hover:shadow-lg active:scale-95 overflow-hidden"
-                >
-                  <span className="pr-12">Book Now</span>
-
-                  <img
-                    src="/stash_arrow-down-duotone.png"
-                    alt="arrow"
-                    className="absolute right-3 w-13 h-13
-                 pointer-events-none
-                 transition-transform duration-200
-                 group-hover:translate-y-1"
-                  />
-                </button>
-                <button className="btn bg-white rounded-full px-5 py-2 cursor-pointer text-gray-800 hover:bg-gray-100">
-                  Explore Cars
+              <div className="flex justify-center gap-4">
+                <button className="flex items-center justify-center px-6 bg-DeepOrange rounded-full p-2 cursor-pointer text-white">Book Now <img src="/arroww.png" alt="" className="w-6"/></button>
+                <button className="bg-white rounded-full p-2 cursor-pointer px-4 font-semibold text-gray-800 hover:bg-gray-100">
+                  <Link to='/cars/carListing'>Explore Cars</Link>
                 </button>
               </div>
             </div>

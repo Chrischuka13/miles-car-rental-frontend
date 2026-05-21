@@ -149,6 +149,7 @@ export const validateResetPasswordSchema = z.object({
 });
 
 export type resetPasswordSchemaType = z.infer<typeof validateResetPasswordSchema>;
+
 export const validateBookingSchema = z.object({
   pickupDate: z.string().min(1, {
     message: "Pickup date is required",

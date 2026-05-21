@@ -2,8 +2,11 @@ import WhyChooseUs from "@/components/whyChooseUs";
 import aboutImage from "/about.jpg";
 import OurService from "@/components/OurService";
 import Testimonial from "@/components/Testimonial";
+import { Link } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
 
 function About() {
+    const {user} = useAuth();
   return (
     <main className="">
       <section
@@ -153,14 +156,21 @@ function About() {
           <h3 className="text-3xl md:text-5xl text-white mb-2 font-semibold">Ready to move smarter?</h3>
           <p className="text-white text-xl mb-4">Book your next ride in minutes and experience a better way to travel. Your road, your rules</p>
 
-          <div className="md:flex justify-center items-center gap-4">
-            <div className="mb-2 md:mb-0">
-              <button className="bg-DarkBlue text-white p-3 rounded-4xl">Get Started<img src="/stash_arrow-down-duotone.svg" alt="" /></button>
+              {user? (
+                <button className="flex items-center justify-center px-6 bg-DarkBlue rounded-full p-2 cursor-pointer text-white">Book Now<img src="/arrow.png" alt="" className="w-6"/></button>
+                
+              ) : (
+            <div className="md:flex justify-center items-center gap-4">
+              <div className="flex justify-center gap-4">
+                <button className="flex items-center justify-center px-6 bg-DarkBlue rounded-full p-2 cursor-pointer text-white">Get Started<img src="/arrow.png" alt="" className="w-6"/></button>
+                <button className="bg-white rounded-full p-2 cursor-pointer px-4 font-semibold text-gray-800 hover:bg-gray-100">
+                  <Link to='/cars/carListing'>Talk to our team</Link>
+                </button>
+              </div>
             </div>
-            <div>
-              <button className="bg-white text-black p-3 rounded-4xl">Talk to our team</button>
-            </div>
-          </div>
+              )}
+
+
         </div>
       </div>
     </section>

@@ -59,7 +59,7 @@ const Footer = () => {
                 placeholder="Your email"
                 className="p-4  bg-[#FFFFFF33] rounded-[8px] w-full border-none text-[#D6D6D6]"
               />
-              <button className="absolute top-2 right-2 p-2 bg-[#FF4F00] rounded-[8px] w-22.5 text-white mb-4 hover:bg-[#FF4F39] hover:cursor-pointer font-semibold">
+              <button className="absolute top-2 right-2 p-2 bg-DeepOrange rounded-[8px] w-22.5 text-white mb-4 hover:bg-[#FF4F39] hover:cursor-pointer font-semibold">
                 JOIN
               </button>
             </div>

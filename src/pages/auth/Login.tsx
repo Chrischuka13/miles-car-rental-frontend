@@ -4,11 +4,10 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query"; // Added useQueryClient
+import { useMutation, useQueryClient } from "@tanstack/react-query"; 
 import { loginUserApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
-
 
 export default function Login() {
   const [revealPassword, setRevealPassword] = useState(false);
@@ -115,19 +114,13 @@ export default function Login() {
           <Link to="/auth/forgot-Password" className="flex justify-end text-DeepOrange mb-3">Forgot Password?</Link>
 
           <button
-            className="w-full p-3 bg-orange rounded-[24px] text-white text-xl cursor-pointer hover:bg-amber-600"
+            className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange"
             type="submit">
 
-            <div className="flex justify-center items-center">
-              <div>
-                <h1 className="text-xl">
-                  {mutation.isPending ? "Sending..." : "Login"}
-                </h1>
-              </div>
-              <div>
-                <img src="/stash_arrow-down-duotone.png" alt="" />
-              </div>
-            </div>
+            <span className="flex justify-center items-center ">
+              <svg className="animate-spin motion-reduce:hidden"></svg>{mutation.isPending ? "Processing..." : "Login"}
+                <img src="/arroww.png" alt="" className=""/>
+            </span>
           </button>
 
           <div className="flex items-center py-2">

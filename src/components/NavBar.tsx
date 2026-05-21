@@ -1,3 +1,5 @@
+
+
 import React from "react";
 import { useState } from "react";
 import { X, Menu } from "lucide-react";
@@ -54,7 +56,7 @@ const NavBar: React.FC = () => {
                 <div className="flex bg-DarkBlue items-center justify-center p-3 px-5 rounded-[25px]">
                   <Link to="/auth/register" className="text-white ">Get Started</Link>
                   <div>
-                    <img src="/stash_arrow-down-duotone.svg" alt="" />
+                    <img src="/arroww.png" alt="" />
                   </div>
                 </div>
               
@@ -63,12 +65,10 @@ const NavBar: React.FC = () => {
             </div>
               )}
 
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden hover:cursor-pointer"
-            >
-              {isOpen ? <X /> : <Menu />}
-            </button>
+            {/* Hamburger — mobile only */}
+                    <div onClick={()=> setIsOpen(!isOpen)} className="md:hidden block hover:cursor-pointer">
+                        {isOpen? <X/> : <Menu/>} 
+                    </div>
           </div>
           
 
@@ -131,7 +131,9 @@ const NavBar: React.FC = () => {
             </div>
           )}
         </nav>
+         
       </header>
+        
     </section>
   );
 };

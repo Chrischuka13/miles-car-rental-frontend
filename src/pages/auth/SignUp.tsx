@@ -142,22 +142,15 @@ export default function SignUp() {
             )}
           </div>
 
-          <button
-            className="w-full p-3 bg-orange rounded-[24px] text-white text-xl cursor-pointer hover:bg-amber-600 mt-4"
-            type="submit"
-          >
-            <div className="flex justify-center items-center">
-              <div>
-                <h1 className="text-xl">
-                  {mutation.isPending ? "Sending..." : "Create Account"}
-                </h1>
-              </div>
-              <div>
-                <img src="/stash_arrow-down-duotone.png" alt="" />
-              </div>
-            </div>
+          <button className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange mt-4"
+            type="submit">
 
+            <span className="flex justify-center items-center ">
+              <span className="animate-spin motion-reduce:hidden"></span>{mutation.isPending ? "Processing..." : "Sign Up"}
+                <img src="/arroww.png" alt="" className=""/>
+            </span>
           </button>
+
           <div className="flex items-center py-2">
             <div className="grow h-px bg-gray-200"></div>
             <span className="px-4 text-sm text-gray-400 font-medium">OR</span>

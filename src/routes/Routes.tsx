@@ -13,6 +13,7 @@ import SetNewPassword from "@/pages/auth/SetNewPassword.tsx";
 import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
 import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
 import AuthLayout from "@/layouts/AuthLayout.tsx";
+import AdminLayout from "@/layouts/AdminLayout.tsx";
 
 const Routes = () => {
   const routes = [
@@ -113,10 +114,55 @@ const Routes = () => {
         },
       ],
     },
+
+    {
+      path: "admin",
+      Component: AdminLayout,
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/dashboard/Dashboard.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "bookings",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/bookings/Bookings.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "fleet",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/fleet/Fleet.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "customers",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/customers/Customers.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "drivers",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/drivers/Drivers.tsx");
+            return { Component };
+          },
+        },
+      ],
+    },
   ] satisfies RouteObject[];
-
   const router = createBrowserRouter(routes);
-
   return <RouterProvider router={router} />;
 };
 
