@@ -14,6 +14,7 @@ export default function ContactUs() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm<ContactUsSchemaType>({
     resolver: zodResolver(validateContactUsSchema),
@@ -21,27 +22,28 @@ export default function ContactUs() {
 
   const mutation = useMutation({
     mutationFn: contactUsApi,
- onSuccess: (data) => {
-  toast.success(data.message || "Message sent successfully");
-},
-onError: (error) => {
-  if (import.meta.env.DEV) {
-    console.error(error);
-  }
-  if (axios.isAxiosError(error)) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
-  } else {
-    toast.error("Something went wrong");
-  }
-},
+    onSuccess: (data) => {
+      toast.success(data.message || "Message sent successfully");
+      reset();
+    },
+    onError: (error) => {
+      if (import.meta.env.DEV) {
+        console.error(error);
+      }
+      if (axios.isAxiosError(error)) {
+        toast.error(error?.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
   });
   const onSubmitForm: SubmitHandler<ContactUsSchemaType> = (data) => {
     mutation.mutate({
       fullName: data.fullName,
-    email: data.email,
-    phone: data.phone,
-    subject: data.subject,
-    message: data.message,
+      email: data.email,
+      phone: data.phone,
+      subject: data.subject,
+      message: data.message,
     });
   };
 
