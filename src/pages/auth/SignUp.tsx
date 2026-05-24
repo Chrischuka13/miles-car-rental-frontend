@@ -154,7 +154,7 @@ export default function SignUp() {
                 </h1>
               </div>
               <div>
-                <img src="/stash_arrow-down-duotone.svg" alt="" />
+                <img src="/stasharrow.png" alt="" />
               </div>
             </div>
           </button>
