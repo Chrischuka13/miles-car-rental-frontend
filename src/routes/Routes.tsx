@@ -36,24 +36,62 @@ const Routes = () => {
             {
               path: "carlisting",
               lazy: async () => {
-                const { default: Component } =
-                  await import("../pages/cars/CarListing");
+                const { default: Component } = await import(
+                  "../pages/cars/CarListing"
+                );
                 return { Component };
               },
             },
             {
               path: "cardetails/:slug",
               lazy: async () => {
-                const { default: Component } =
-                  await import("../pages/cars/CarDetails");
+                const { default: Component } = await import(
+                  "../pages/cars/CarDetails"
+                );
                 return { Component };
               },
             },
           ],
         },
+        {
+          path: "booking/:slug",
+          lazy: async () => {
+            const { default: Component } = await import(
+              "../pages/booking/Booking"
+            );
+            return { Component };
+          },
+        },
+        {
+          path: "my-bookings",
+          lazy: async () => {
+            const { default: Component } = await import(
+              "../pages/booking/MyBookings"
+            );
+            return { Component };
+          },
+        },
+        {
+          path: "verify-payment",
+          lazy: async () => {
+            const { default: Component } = await import(
+              "../pages/booking/VerifyPayment.tsx"
+            );
+            return { Component };
+          },
+        },
+        {
+          path: "booking-details/:id",
+          lazy: async () => {
+            const { default: Component } = await import(
+              "../pages/booking/BookingDetails.tsx"
+            );
+            return { Component };
+          },
+        },
       ],
     },
-      {
+    {
       path: "about",
       Component: RootLayout,
       hydrateFallbackElement: <SuspenseUi />,
@@ -61,14 +99,15 @@ const Routes = () => {
         {
           index: true,
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/about/About.tsx");
+            const { default: Component } = await import(
+              "../pages/about/About.tsx"
+            );
             return { Component };
           },
         },
       ],
     },
-          {
+    {
       path: "contact",
       Component: RootLayout,
       hydrateFallbackElement: <SuspenseUi />,
@@ -76,8 +115,9 @@ const Routes = () => {
         {
           index: true,
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/contactus/ContactUs.tsx");
+            const { default: Component } = await import(
+              "../pages/contactus/ContactUs.tsx"
+            );
             return { Component };
           },
         },

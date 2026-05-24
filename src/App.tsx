@@ -6,12 +6,14 @@ import AuthProvider from "./context/AuthContext";
 const queryClient = new QueryClient();
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Routes />
-        <ToastContainer position="top-right" autoClose={3000} />
-      </AuthProvider>
-    </QueryClientProvider>
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </QueryClientProvider>
+    </>
   );
 }
 

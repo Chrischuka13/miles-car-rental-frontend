@@ -1,14 +1,14 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { ArrowLeft } from "lucide-react";
 
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import TrendingCars from "@/features/TrendingCars";
 import { useQuery } from "@tanstack/react-query";
 import { getCarBySlug } from "@/api/cars/cars";
 
-import { validateBookingSchema } from "@/lib/schemaTypes";
+import { validateBookingSchema2 } from "@/lib/schemaTypes";
 
-interface Car {
+export interface Car {
   _id: string;
   brand: string;
   description: string;
@@ -35,108 +35,122 @@ interface Car {
 }
 
 export default function CarDetails() {
- const { slug } = useParams<{ slug: string }>();
-const navigate = useNavigate();
-const [openImage, setOpenImage] = useState<string | null>(null);
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const [openImage, setOpenImage] = useState<string | null>(null);
+  const [addDriver, setAddDriver] = useState<boolean>(false);
 
-const { data, isLoading } = useQuery({
-  queryKey: ["car", slug],
-  queryFn: () => getCarBySlug(slug as string),
-  enabled: !!slug,
-});
-
-const selectedCars: Car | undefined = data?.data;
-
-
-const [pickupDate, setPickupDate] = useState<string>("");
-const [returnDate, setReturnDate] = useState<string>("");
-const [address, setAddress] = useState<string>("");
-
-const [errors, setErrors] = useState<{
-  pickupDate?: string;
-  returnDate?: string;
-  pickupAddress?: string;
-}>({});
-
-const USD_TO_NGN = 200;
-
-const formatToNaira = (priceInUSD: number) => {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-  }).format(priceInUSD * USD_TO_NGN);
-};
-
-const SERVICE_FEE = 10000;
-
-const { totalDays, rentalCost, totalPrice } = useMemo(() => {
-  const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) * USD_TO_NGN;
-
-  if (!pickupDate || !returnDate || !selectedCars) {
-    return {
-      totalDays: 1,
-      rentalCost: pricePerDayInNaira,
-      totalPrice: pricePerDayInNaira + SERVICE_FEE,
-    };
-  }
-
-  const start = new Date(pickupDate);
-  const end = new Date(returnDate);
-
-  const diffTime = end.getTime() - start.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  const finalDays = diffDays > 0 ? diffDays : 1;
-
-  const rentalCost = finalDays * pricePerDayInNaira;
-
-  return {
-    totalDays: finalDays,
-    rentalCost,
-    totalPrice: rentalCost + SERVICE_FEE,
-  };
-}, [pickupDate, returnDate, selectedCars]);
-
-const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  if (!selectedCars) return;
-
-  const result = validateBookingSchema.safeParse({
-    pickupDate,
-    returnDate,
-    pickupAddress: address,
+  const { data, isLoading } = useQuery({
+    queryKey: ["car", slug],
+    queryFn: () => getCarBySlug(slug as string),
+    enabled: !!slug,
   });
 
-  setErrors({});
+  const selectedCars: Car | undefined = data?.data;
+  console.log(selectedCars);
+  
 
-  if (!result.success) {
-    const fieldErrors = result.error.flatten().fieldErrors;
+  const [pickupDate, setPickupDate] = useState<string>("");
+  const [returnDate, setReturnDate] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
 
-    setErrors({
-      pickupDate: fieldErrors.pickupDate?.[0],
-      returnDate: fieldErrors.returnDate?.[0],
-      pickupAddress: fieldErrors.pickupAddress?.[0],
-    });
+  const [errors, setErrors] = useState<{
+    pickupDate?: string;
+    returnDate?: string;
+    pickupAddress?: string;
+  }>({});
 
-    return;
-  }
+  const USD_TO_NGN = 200;
 
-  const bookingData = {
-    carId: selectedCars._id,
-    car: selectedCars,
-    pickupDate,
-    returnDate,
-    pickupAddress: address,
-    totalDays,
-    rentalCost,
-    serviceFee: SERVICE_FEE,
-    totalPrice,
+  const formatToNaira = (priceInUSD: number) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+    }).format(priceInUSD * USD_TO_NGN);
   };
 
-  localStorage.setItem("bookingData", JSON.stringify(bookingData));
+  const SERVICE_FEE = 10000;
 
-  navigate(`/booking/${selectedCars._id}`);
-};
+  const { totalDays, rentalCost, totalPrice } = useMemo(() => {
+    const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) * USD_TO_NGN;
+
+    if (!pickupDate || !returnDate || !selectedCars) {
+      return {
+        totalDays: 1,
+        rentalCost: pricePerDayInNaira,
+        totalPrice: pricePerDayInNaira + SERVICE_FEE,
+      };
+    }
+
+    const start = new Date(pickupDate);
+    const end = new Date(returnDate);
+
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    const finalDays = diffDays > 0 ? diffDays : 1;
+
+    const rentalCost = finalDays * pricePerDayInNaira;
+
+    return {
+      totalDays: finalDays,
+      rentalCost,
+      totalPrice: rentalCost + SERVICE_FEE,
+    };
+  }, [pickupDate, returnDate, selectedCars]);
+
+  const addDriveToggle = () => {
+    setAddDriver((prev) => !prev);
+    const data = {
+      driverOption: addDriver,
+    };
+    localStorage.setItem("bookingData", JSON.stringify(data));
+  };
+
+  const handleBooking = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedCars) return;
+
+    const result = validateBookingSchema2.safeParse({
+      pickupDate,
+      returnDate,
+      pickupAddress: address,
+    });
+
+    setErrors({});
+
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+
+      setErrors({
+        pickupDate: fieldErrors.pickupDate?.[0],
+        returnDate: fieldErrors.returnDate?.[0],
+        pickupAddress: fieldErrors.pickupAddress?.[0],
+      });
+
+      return;
+    }
+
+    const bookingData = {
+      car: selectedCars._id,
+      carData: {
+        images: selectedCars.images[0]?.url,
+        category: selectedCars.category,
+        name: selectedCars.modelName,
+      },
+      pickupDate,
+      returnDate,
+      pickupLocation: address,
+      totalDays,
+      rentalCost,
+      driverOption: addDriver,
+      serviceFee: SERVICE_FEE,
+      totalPrice,
+    };
+
+    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    navigate(`/booking/${selectedCars.slug}`);
+  };
 
   if (isLoading) {
     return (
@@ -155,7 +169,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <>
-      <section className="min-h-screen flex flex-col bg-[#F6F6F6] px-2">
+      <section className="min-h-screen flex flex-col bg-[#F6F6F6] pt-20 px-2">
         {/* back to fleet navigation */}
         <div
           className=" w-11/12 container mx-auto flex items-center gap-3 sm:gap-3 mt-8 sm:mt-6 lg:mt-10 cursor-pointer"
@@ -175,7 +189,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                 <img
                   src={selectedCars.images?.[0]?.url || "/placeholder.png"}
                   alt={selectedCars.modelName}
-                  className="rounded-2xl cursor-pointer object-fill w-full h-[220px] sm:h-[280px] md:h-[320px] lg:h-[370px] xl:h-[450px]"
+                  className="rounded-2xl cursor-pointer object-contain w-full h-[220px] sm:h-[280px] md:h-[320px] lg:h-[370px] xl:h-[450px]"
                 />
               </div>
 
@@ -266,8 +280,9 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                   </span>
                 </span>
               </span>
-              <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
-                <button
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
+                <Link
+                  to={`/booking/${selectedCars.slug}`}
                   // onClick={handleBooking}
                   className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer"
                 >
@@ -275,12 +290,15 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                   <span>
                     <img src="/stasharrow.png" alt="" className="w-4 sm:w-6" />
                   </span>
-                </button>
+                </Link>
 
-                <button className="border border-[#4B5563] px-4 py-2 rounded-full w-full sm:w-auto text-sm sm:text-base cursor-pointer">
+                <button
+                  className="border border-[#4B5563] px-4 py-2 rounded-full w-full sm:w-auto text-sm sm:text-base cursor-pointer"
+                  onClick={addDriveToggle}
+                >
                   <p>Add a driver</p>
                 </button>
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -488,7 +506,8 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                   {/* book now button */}
                   <div className="w-full bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={handleBooking}
                       className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto"
                     >
                       <p className="text-sm sm:text-base w-full">

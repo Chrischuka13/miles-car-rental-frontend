@@ -7,9 +7,6 @@ import { Link, NavLink } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import UserAvatar from "./UserAvatar";
 
-
-
-
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Cars", path: "/cars/carListing" },
@@ -24,7 +21,7 @@ const NavBar: React.FC = () => {
   return (
     <section>
       <header className="">
-        <nav className="fixed w-full z-50  hover:backdrop-blur-sm bg-white hover:text-black transition">
+        <nav className="fixed top-0 w-full z-50 hover:backdrop-blur-sm bg-white hover:text-black transition hover:cursor-pointer">
           <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
             <Link to='/'><img src="/miles logo.svg" alt="logo" className="w-25" /></Link>
             <div className="hidden md:flex gap-7 items-center text-DarkBlue">

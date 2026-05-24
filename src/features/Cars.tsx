@@ -52,7 +52,7 @@ export default function Cars() {
     queryFn: () => getAllCars(page),
   });
 
-  const cars = data?.data || [];
+  const cars = useMemo(() => data?.data || [], [data]);
 
   const filteredCars = useMemo(() => {
     let filtered =
@@ -72,7 +72,7 @@ export default function Cars() {
         ]
           .join(" ")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase()),
+          .includes(searchTerm.toLowerCase())
       );
     }
 
@@ -227,7 +227,7 @@ export default function Cars() {
             ) : (
               filteredCars.map((car: Car) => (
                 <div
-                  className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden"
+                  className="flex flex-col items-center border border-[#E6E0E0] bg-gray-50 rounded-2xl overflow-hidden"
                   key={car._id}
                 >
                   <div className="relative w-full h-62.5 md:h-75 overflow-hidden">
@@ -238,7 +238,7 @@ export default function Cars() {
                           : "/placeholder-car.png"
                       }
                       alt={car.modelName}
-                      className="w-full h-62.5 md:h-75 object-fit transition-transform duration-300 hover:scale-105 cursor-pointer"
+                      className="w-full h-62.5 md:h-75 object-contain transition-transform duration-300 hover:scale-105 cursor-pointer"
                     />
 
                     <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">

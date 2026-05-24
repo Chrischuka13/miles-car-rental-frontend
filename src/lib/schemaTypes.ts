@@ -1,5 +1,39 @@
 import { z } from "zod";
 
+export const validateBookingSchema = z
+  .object({
+    car: z.string({ message: "Car is required" }).min(1, "Car is required"),
+    pickupLocation: z
+      .string({ message: "Pickup location is required" })
+      .min(2, "Pickup location must be at least 2 characters")
+      .trim(),
+    returnLocation: z
+      .string({ message: "Return location is required" })
+      .min(2, "Return location must be at least 2 characters")
+      .trim(),
+
+    pickupDate: z
+      .string({ message: "Pickup date is required" })
+      .min(1, { message: "Pickup date is required" }),
+
+    pickupTime: z.string({ message: "Pickup time is required" }),
+    returnDate: z
+      .string({ message: "Return date is required" })
+      .min(1, { message: "Return date is required" }),
+
+    returnTime: z.string({ message: "Return time is required" }),
+
+    driverOption: z.boolean({
+      message: "Driver option must be a boolean",
+    }),
+  })
+  .refine((data) => new Date(data.returnDate) > new Date(data.pickupDate), {
+    message: "Return date must be after pickup date",
+    path: ["returnDate"],
+  });
+
+export type BookingForm = z.infer<typeof validateBookingSchema>;
+
 export const validateSignUpSchema = z.object({
   firstName: z
     .string()
@@ -18,7 +52,7 @@ export const validateSignUpSchema = z.object({
     .string()
     .refine(
       (num) => num === "" || /^\+\d{10,15}$/.test(num),
-      "Invalid phone number",
+      "Invalid phone number"
     ),
   password: z
     .string()
@@ -51,10 +85,7 @@ export const validateContactUsSchema = z.object({
     .lowercase(),
   phone: z
     .string()
-    .refine(
-      (num) => /^\+\d{10,15}$/.test(num),
-      "Invalid phone number",
-    ),
+    .refine((num) => /^\+\d{10,15}$/.test(num), "Invalid phone number"),
   subject: z
     .string()
     .trim()
@@ -97,7 +128,9 @@ export const validateForgotPasswordSchema = z.object({
   }),
 });
 
-export type forgotPasswordSchemaType = z.infer<typeof validateForgotPasswordSchema>;
+export type forgotPasswordSchemaType = z.infer<
+  typeof validateForgotPasswordSchema
+>;
 
 export const validateVerifyOtpSchema = z.object({
   email: z.string().trim().toLowerCase().email({
@@ -115,7 +148,6 @@ export const validateVerifyOtpSchema = z.object({
 });
 
 export type verifyOtpSchemaType = z.infer<typeof validateVerifyOtpSchema>;
-
 
 export const validateResetPasswordSchema = z.object({
   newPassword: z
@@ -148,9 +180,11 @@ export const validateResetPasswordSchema = z.object({
     }),
 });
 
-export type resetPasswordSchemaType = z.infer<typeof validateResetPasswordSchema>;
+export type resetPasswordSchemaType = z.infer<
+  typeof validateResetPasswordSchema
+>;
 
-export const validateBookingSchema = z.object({
+export const validateBookingSchema2 = z.object({
   pickupDate: z.string().min(1, {
     message: "Pickup date is required",
   }),
@@ -163,5 +197,100 @@ export const validateBookingSchema = z.object({
     message: "Pickup address must be at least 5 characters long",
   }),
 });
-    
-export type BookingFormData = z.infer<typeof validateBookingSchema>;
+
+export type BookingFormData = z.infer<typeof validateBookingSchema2>;
+
+export const paystackPaymentSchema = z.object({
+  bookingId: z.string().min(1, {
+    message: "Booking ID is required",
+  }),
+  carId: z.string().min(1, {
+    message: "Car ID is required",
+  }),
+  amount: z.number().min(1, {
+    message: "Amount is required",
+  }),
+  slug: z.string().min(1, {
+    message: "Slug is required",
+  }),
+  paymentMethod: z.string().min(1, {
+    message: "Payment method is required",
+  }),
+});
+
+export type PaystackPaymentData = z.infer<typeof paystackPaymentSchema>;
+
+
+export const validateDriverSchema = z.object({
+  fullName: z.string().trim().min(3, {
+    message: "Full name must be at least 3 characters long",
+  }),
+
+  phoneNumber: z
+    .string()
+    .trim()
+    .min(1, {
+      message: "Phone number is required",
+    })
+    .refine((num) => /^\+\d{10,15}$/.test(num), {
+      message: "Invalid phone number",
+    }),
+
+  email: z
+    .string({
+      message: "Email address is required",
+    })
+    .trim()
+    .toLowerCase()
+    .email({
+      message: "Please enter a valid email address",
+    }),
+
+  baseCity: z.string().trim().min(2, {
+    message: "Base city is required",
+  }),
+
+  yearsOfExperience: z
+    .number({
+      message: "Years of experience must be a number",
+    })
+    .min(0, {
+      message: "Years of experience cannot be negative",
+    })
+    .max(60, {
+      message: "Invalid years of experience",
+    }),
+
+  languages: z
+    .array(z.enum(["en", "yoruba", "igbo", "hausa", "fr", "pidgin"]))
+    .min(1, { message: "select a language" }),
+
+  licenseNumber: z.string().trim().min(3, {
+    message: "License number is required",
+  }),
+
+  expiryDate: z
+    .string({
+      message: "Expiry date is required",
+    })
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Expiry date must be valid",
+    })
+    .refine((val) => new Date(val) > new Date(), {
+      message: "License expiry date cannot be in the past",
+    }),
+
+  isVerified: z.boolean().default(false),
+
+  status: z
+    .enum(["available", "on-trip", "off-duty", "inactive"], {
+      message: "select a driver status",
+    })
+    .default("available"),
+  trips: z
+    .number({
+      message: "Trips must be a valid number",
+    })
+    .min(0, { message: "Trips cannot be negative" })
+    .default(0),
+});
