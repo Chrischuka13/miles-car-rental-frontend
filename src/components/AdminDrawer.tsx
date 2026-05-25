@@ -13,7 +13,7 @@ export default function AdminDrawer() {
       {/* Hamburger button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden p-2 text-[#F97316]"
+        className="lg:hidden p-2 text-DeepOrange"
       >
         <Menu size={28} />
       </button>
@@ -93,7 +93,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-DeepOrange"
             }`
           }
         >

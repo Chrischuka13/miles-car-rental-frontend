@@ -104,7 +104,7 @@ export default function VerifyAccount() {
           <button
             onClick={handleResend}
             disabled={resendMutation.isPending}
-            className="text-[#F97316] font-medium"
+            className="text-DeepOrange font-medium"
             type="button"
           >
             {resendMutation.isPending ? "Sending..." : "Resend OTP"}
@@ -114,7 +114,7 @@ export default function VerifyAccount() {
         <button
           onClick={handleSubmit}
           disabled={mutation.isPending || otp.length < 6}
-          className="btn btn-neutral w-full lg:w-110 bg-[#F97316] text-white mt-8 border rounded-3xl"
+          className="btn btn-neutral w-full lg:w-110 bg-DeepOrange text-white mt-8 border rounded-3xl p-2 font-semibold"
           type="button"
         >
           <div className="flex justify-center items-center">

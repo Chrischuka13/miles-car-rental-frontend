@@ -1,6 +1,7 @@
-import { useContext, createContext } from "react";
+import { useContext, createContext, type ReactNode } from "react";
 
 interface User {
+  [x: string]: ReactNode;
   _id: string;
   firstName: string;
   lastName: string;
@@ -26,7 +27,7 @@ const initialState: AuthContextType = {
   setUser: () => null,
   isAuthenticating: false,
   setIsAuthenticating: () => null,
- handleLogout: async () => {}, 
+   handleLogout: async () => {},
 };
 
 // create the store

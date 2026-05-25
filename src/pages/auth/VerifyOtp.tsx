@@ -74,7 +74,7 @@ export default function VerifyForgotPasswordOtp() {
         <button
           onClick={handleSubmit}
           disabled={mutation.isPending || otp.length < 6}
-          className="btn btn-neutral w-full lg:w-110 bg-[#F97316] text-white mt-8 border rounded-3xl"
+          className="btn btn-neutral w-full lg:w-110 bg-DeepOrange text-white mt-8 border rounded-3xl"
           type="button"
         >
           <div className="flex justify-center items-center">

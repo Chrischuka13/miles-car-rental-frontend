@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export interface RegisterPayload {
   firstName: string;
   lastName: string;
@@ -112,7 +111,6 @@ export const resendVerifyOtpApi = async (formData: { email: string }) => {
     },
   );
 };
-
 
 export const getMeApi = async () => {
   return await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/me`, {

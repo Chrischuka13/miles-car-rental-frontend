@@ -1,10 +1,14 @@
-import WhyChooseUs from "@/components/ui/whyChooseUs";
+import WhyChooseUs from "@/components/whyChooseUs";
 import aboutImage from "/about.jpg";
-import OurService from "@/components/ui/OurService";
+import OurService from "@/components/OurService";
+import Testimonial from "@/components/Testimonial";
+import { Link } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
 
 function About() {
+    const {user} = useAuth();
   return (
-    <main className="text-base-content bg-[#F9F9F9]">
+    <main className="">
       <section
         className="relative min-h-[85vh] md:min-h-[80vh] w-full bg-cover bg-center flex items-center justify-center"
         style={{
@@ -54,7 +58,7 @@ function About() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="bg-white rounded-3xl p-10 shadow-sm h-full flex flex-col">
+            <div className="bg-white rounded-3xl p-4 shadow-sm h-full flex flex-col">
               <div className="text-4xl text-orange-400 mb-10 mt-10">
                 <img src="Vector.svg" className="mb-4" alt="quote-Img" />
               </div>
@@ -108,7 +112,7 @@ function About() {
 
           <section className="w-full bg-[#f7f7f7] py-16 ">
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
-              <div className="bg-white rounded-2xl p-6 md:p-10">
+              <div className="bg-white rounded-2xl p-4 md:p-10">
                 <div className="flex flex-col gap-3 mb-6">
                   <div>
                 <img src="/Frame 114 (2).png" className="w-10 h-10 mb-3" alt="" />
@@ -122,7 +126,7 @@ function About() {
                 </h2>
               </div>
 
-              <div className="bg-[#111827] rounded-2xl p-6 md:p-10">
+              <div className="bg-DarkBlue rounded-2xl p-6 md:p-10">
                 <div className="flex flex-col gap-3 mb-6">
                   <div>
                 <img src="/Frame 114 (3).png" className="w-10 h-10 mb-3" alt="" />
@@ -140,79 +144,35 @@ function About() {
         </div>
       </section>
 
-        <WhyChooseUs/>
+      <WhyChooseUs/>
 
-        <OurService/>
+      <OurService/>
+        
+      <Testimonial/>
+
+   <section className="py-12">
+      <div className="w-11/12 container mx-auto">
+        <div className="bg-DeepOrange flex flex-col justify-center items-center p-4 md:p-10 rounded-lg text-center md:text-start">
+          <h3 className="text-3xl md:text-5xl text-white mb-2 font-semibold">Ready to move smarter?</h3>
+          <p className="text-white text-xl mb-4">Book your next ride in minutes and experience a better way to travel. Your road, your rules</p>
+
+              {user? (
+                <button className="flex items-center justify-center px-6 bg-DarkBlue rounded-full p-2 cursor-pointer text-white">Book Now<img src="/arrow.png" alt="" className="w-6"/></button>
+                
+              ) : (
+            <div className="md:flex justify-center items-center gap-4">
+              <div className="flex justify-center gap-4">
+                <button className="flex items-center justify-center px-6 bg-DarkBlue rounded-full p-2 cursor-pointer text-white">Get Started<img src="/arrow.png" alt="" className="w-6"/></button>
+                <button className="bg-white rounded-full p-2 cursor-pointer px-4 font-semibold text-gray-800 hover:bg-gray-100">
+                  <Link to='/cars/carListing'>Talk to our team</Link>
+                </button>
+              </div>
+            </div>
+              )}
 
 
- <section className="w-full bg-white py-16 mt-12">
-  <div className="w-11/12 container mx-auto ">
-    <div className="grid w-full grid-cols-2 md:grid-cols-4  border-gray-100 py-4 text-center items-center justify-items-center">
-      
-      <div className="flex flex-col items-center ">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          500+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Verified Cars Available
-        </p>
+        </div>
       </div>
-
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          34k+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Happy Customers
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          50+
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Trusted Partners
-        </p>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <h3 className="text-3xl md:text-4xl font-bold text-slate-700">
-          98%
-        </h3>
-        <p className="text-gray-500 text-sm mt-2">
-          Satisfaction Rate
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-   <section className="py-16">
-      <div className="w-11/12 container p-4 mx-auto">
-  <div className="rounded-3xl bg-orange-500 text-white p-8 md:p-12 flex flex-col md:flex-row items-center">
-    <div className="w-full flex flex-col items-center">
-      <h3 className="text-2xl whitespace-nowrap">
-        Ready to move smarter?
-      </h3>
-      <p className="text-center text-gray-50 leading-6 mt-2">
-        Book your next ride in minutes and experience a better way to travel. Your road, your rules.
-      </p>
-      <div className="w-full md:w-auto mt-6 flex flex-col md:flex-row gap-4 justify-center items-center">
- <div>
-        <button className="btn bg-black py-2 px-5 mt-5 rounded-2xl">
-        Get Started
-      </button>
-      </div>
-      <div>
-        <button className="btn bg-white text-black py-2 px-5 mt-5 rounded-2xl">
-        Talk to our team
-      </button>
-      </div>
-      </div>
-    </div>
-    </div>
-    </div>
     </section>
     </main>
   );

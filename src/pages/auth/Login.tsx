@@ -31,10 +31,12 @@ export default function Login() {
     onSuccess: async (res) => {
       toast.success(res.data.message || "Login Successful");
       const user = res.data.data;
+      console.log(user);
+      
       await queryClient.invalidateQueries({ queryKey: ["getMe"] });
 
       if (!user.emailVerified) {
-        navigate("/auth/verify-Account");
+        navigate("/auth/verify-account");
       } else {
         navigate("/");
       }
@@ -55,48 +57,51 @@ export default function Login() {
     mutation.mutate(data);
   };
 
+  
 
+  // ... rest of your component JSX
 
   return (
-    <div className="container mx-auto mt-10 h-full flex flex-col justify-center items-center max-w-lg md:mt-10">
-      <div>
-        <h1 className="text-4xl   text-center lg:text-start ">Welcome Back</h1>
-        <p className="text-sm pt-2 text-[#393E46] text-center lg:text-start font-semibold">
+    <div className="">
+      <div className="">
+        <h1 className="text-4xl mb-2 font-semibold">Welcome Back</h1>
+        <p className="text-[18px] mb-2">
           Enter your details to access your dashboard{" "}
         </p>
         <form
           onSubmit={handleSubmit(onSubmitForm)}
-          className="fieldset bg-base-200 border-base-300 rounded flex flex-col w-90 md:w-120 lg:w-110 justify-between gap-4  pt-4"
+          className=""
         >
           <div>
-            <p className="pb-1">
+           <p className="mb-1">
               Email Address<span className="text-red-700">*</span>
             </p>
             <input
               type="name"
               {...register("email")}
-              className="input w-full text-[#A1A1A1]  border border-[#C3C9D3]  p-2 rounded-2xl"
-              placeholder="you@example.com"
+              className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] text-xl mb-2"
+              placeholder="Your Email"
             />
-          
+            <p className="text-red-500 text-sm "></p>
             {errors.email && (
               <p className="text-red-500 text-sm">{errors?.email.message}</p>
             )}
           </div>
+
           <div className="relative ">
-            <p className="pb-1">
+            <p className="mb-1">
               Password<span className="text-red-700">*</span>
             </p>
             <input
               type={revealPassword ? "text" : "password"}
               {...register("password")}
-              className="input border text-[#A1A1A1]  border-[#C3C9D3] w-full p-2 rounded-2xl  "
+              className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] text-xl"
               placeholder="••••••••"
             />
             <button
               type="button"
               onClick={togglePasswordReveal}
-              className="absolute  right-3  translate-y-3 text-gray-600 z-10"
+              className="absolute right-5 bottom-4"
             >
               {revealPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
@@ -104,30 +109,23 @@ export default function Login() {
               <p className="text-red-500 text-sm">{errors?.password.message}</p>
             )}
           </div>
-          <Link to="/auth/forgot-Password" className="text-end text-[#F97316]">
-            Forgot Password?
-          </Link>
+          
+          <Link to="/auth/forgot-Password" className="flex justify-end text-DeepOrange mb-3">Forgot Password?</Link>
 
           <button
-            className="btn btn-neutral bg-[#F97316] text-white mt-4 border p- rounded-3xl"
-            type="submit"
-          >
-            <div className="flex justify-center items-center">
-              <div>
-                {" "}
-                <h1 className="text-xl">
-                  {mutation.isPending ? "Loading..." : "Login"}                                           
-                </h1>
-              </div>
-              <div>
-                <img src="/stasharrow.png" alt="" />
-              </div>
+            className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange"
+            type="submit">
+
+            <div className="flex justify-center items-center ">
+              {mutation.isPending ? "Processing..." : "Login"}
+                <img src="/arroww.png" alt="" className=""/>
             </div>
           </button>
-          <div className="flex items-center ">
-            <div className="flex-grow h-px bg-gray-200"></div>
+
+          <div className="flex items-center py-2">
+            <div className="grow h-px bg-gray-200"></div>
             <span className="px-4 text-sm text-gray-400 font-medium">OR</span>
-            <div className="flex-grow h-px bg-gray-200"></div>
+            <div className="grow h-px bg-gray-200"></div>
           </div>
 
           {/* Google Button */}
@@ -153,10 +151,10 @@ export default function Login() {
             Continue with Google
           </button>
 
-          <h1 className="text-center text-[#393E46]">
+          <h1 className="text-center text-[#393E46] mt-1">
             Don't have an account?{" "}
-            <span className="text-[#F97316] ">
-              <Link to="/auth/createAccount">SignUp</Link>
+            <span className="text-DeepOrange">
+              <Link to="/auth/register">SignUp</Link>
             </span>{" "}
           </h1>
         </form>

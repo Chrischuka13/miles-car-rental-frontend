@@ -1,72 +1,135 @@
 
 import React from "react";
-import { Link } from "react-router";
+import { useState } from "react";
+import { X, Menu } from "lucide-react";
+import { Link, NavLink } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import UserAvatar from "./UserAvatar";
-import Logo from "./Logo";
-import Drawer from "./Drawer";
+
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "Cars", path: "/cars/carListing" },
+  { name: "About Us", path: "/about" },
+  { name: "Contact Us", path: "/contact" },
+];
 
 const NavBar: React.FC = () => {
-  const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const {user, handleLogout} = useAuth();
 
   return (
     <section>
       <header className="">
-        <nav className="flex justify-center items-center px-2 fixed w-full z-20 bg-neutral-100 transition hover:cursor-pointer ">
-          <div className=" container p-3 mx-auto  flex justify-between items-center">
-            <Logo />
-            <div className="hidden lg:flex gap-6 justify-center items-center text-[#111827]">
-              <a
-                href="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
-              >
-                Home
-              </a>
-              <Link
-                to={"/cars/carlisting"}
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
-              >
-                Cars
-              </Link>
-              <a
-                href="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
-              >
-                About Us
-              </a>
-              <a
-                href="/"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
-              >
-                Contact Us
-              </a>
+        <nav className="fixed top-0 w-full z-50 hover:backdrop-blur-sm bg-white hover:text-black transition hover:cursor-pointer">
+          <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
+            <Link to='/'><img src="/miles logo.svg" alt="logo" className="w-25" /></Link>
+            <div className="hidden md:flex gap-7 items-center text-DarkBlue">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end
+              className={({ isActive }) =>
+                `px-4 py-2 rounded-md font-medium transition-all duration-200 ${
+                  isActive
+                    ? "border-b-2 border-DeepOrange "
+                    : "text-DarkBlue hover:bg-gray-200"
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
             </div>
 
-            {/* Desktop auth section */}
-            {user ? (
-              <UserAvatar />
-            ) : (
-              <div className="hidden lg:flex items-center gap-3">
-                <Link
-                  to="/auth/login"
-                  className="text-xl font-normal hover:text-gray-400"
-                >
-                  Sign In
+              {user? (
+                <div className="hidden lg:flex">
+                  <UserAvatar/>
+                </div>
+                
+              ) : (
+             <div className=" hidden lg:flex items-center justify-center gap-4 ">
+                <Link to="/auth/login">Sign In</Link>
+                <Link to='/auth/register' >
+                  <div className="flex relative bg-DarkBlue items-center justify-center gap-2 p-1 px-5 rounded-[25px] overflow-hidden font-medium hover:text-white group hover:bg-gray-50">
+                  <span className="absolute left-0 block w-full h-0 transition-all bg-DeepOrange opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
+                    
+                  <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                  </span>
+                  <div className="relative flex justify-center items-center text-white">Get started<img src="/arrow.png" alt="" className="inset-0  object-cover transition-opacity duration-300 group-hover:opacity-0"/></div>
+                  </div>
                 </Link>
-                <Link
-                  to="/auth/createAccount"
-                  className="bg-[#111827] flex justify-center items-center text-white px-3 py-2 rounded-4xl text-xl font-normal hover:opacity-90"
-                >
-                  Get started <div>
-                   <img src="/stash_arrow-down-duotone (1).svg" alt="" className=""/> </div> 
-                </Link>
-              </div>
-            )}
+
+
+            </div>
+              )}
 
             {/* Hamburger — mobile only */}
-           
+                    <div onClick={()=> setIsOpen(!isOpen)} className="md:hidden block hover:cursor-pointer">
+                        {isOpen? <X/> : <Menu/>} 
+                    </div>
           </div>
-        <Drawer />
+          
+
+          {isOpen && (
+            <div className="lg:hidden bg-white text-[#0A0A0A] text-start md:h-full">
+              <div className="w-11/12 container mx-auto py-4">
+                <h6 className="mb-4">Discover</h6>
+                <NavLink
+                  to="/"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to="/"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  Cars
+                </NavLink>
+                <NavLink
+                  to="/about"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  About Us
+                </NavLink>
+                <NavLink
+                  to="/contact"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  Contact Us
+                </NavLink>
+
+                <div className="lg:hidden">
+                  {user? (
+                    <div className="flex justify-between">
+                      <div className="bg-DarkBlue p-2 text-white rounded-lg max-w-30">{user.firstName}</div>
+                      <button onClick={handleLogout} className="text-white rounded-lg max-w-30 p-2 bg-red-800">Sign Out</button>
+                    </div>
+                    
+                  ):(
+                    <div>
+                  <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
+                    <Link to="/auth/login">Sign in</Link>
+                  </button>
+
+                  <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
+                    <button className="text-white">
+                      <Link to='/auth/register'>Get Started</Link></button>
+                    <div>
+                      <img src="/stash_arrow-down-duotone.svg" alt="" />
+                    </div>
+                  </div>
+                    </div>
+                  )}
+
+                </div>
+
+                {/* <div className="lg:hidden flex items-center mt-10 gap-4 hover:cursor-pointer"><img className="w-10 rounded-full " alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/><p>Bright Ekpan</p></div> */}
+              </div>
+            </div>
+          )}
         </nav>
          
       </header>

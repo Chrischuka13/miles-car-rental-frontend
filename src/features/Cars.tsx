@@ -52,7 +52,7 @@ export default function Cars() {
     queryFn: () => getAllCars(page),
   });
 
-  const cars = data?.data || [];
+  const cars = useMemo(() => data?.data || [], [data]);
 
   const filteredCars = useMemo(() => {
     let filtered =
@@ -72,7 +72,7 @@ export default function Cars() {
         ]
           .join(" ")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase()),
+          .includes(searchTerm.toLowerCase())
       );
     }
 
@@ -110,7 +110,7 @@ export default function Cars() {
             {/* search */}
             <div className="w-full lg:flex-1 min-w-0">
               <div className="relative w-full">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 point zer-events-none">
                   <svg
                     className="w-5 h-5 text-gray-500"
                     fill="none"
@@ -141,9 +141,9 @@ export default function Cars() {
               <div className="flex items-center justify-start xl:justify-between gap-3 overflow-x-auto pb-2 lg:pb-0 no-scrollbar min-w-0">
                 <span
                   onClick={() => setActiveCategory("ALL")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
                     activeCategory === "ALL"
-                      ? "text-white bg-[#F97316]"
+                      ? "text-white bg-DeepOrange"
                       : "bg-[#F4F0EC]"
                   }`}
                 >
@@ -152,9 +152,9 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("SEDAN")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
                     activeCategory === "SEDAN"
-                      ? "text-white bg-[#F97316]"
+                      ? "text-white bg-DeepOrange"
                       : "bg-[#F4F0EC]"
                   }`}
                 >
@@ -163,9 +163,9 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("SUV")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
                     activeCategory === "SUV"
-                      ? "text-white bg-[#F97316]"
+                      ? "text-white bg-DeepOrange"
                       : "bg-[#F4F0EC]"
                   }`}
                 >
@@ -174,9 +174,9 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("LUXURY")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
                     activeCategory === "LUXURY"
-                      ? "text-white bg-[#F97316]"
+                      ? "text-white bg-DeepOrange"
                       : "bg-[#F4F0EC]"
                   }`}
                 >
@@ -185,9 +185,9 @@ export default function Cars() {
 
                 <span
                   onClick={() => setActiveCategory("TRUCK")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap flex-shrink-0 ${
+                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
                     activeCategory === "TRUCK"
-                      ? "text-white bg-[#F97316]"
+                      ? "text-white bg-DeepOrange"
                       : "bg-[#F4F0EC]"
                   }`}
                 >
@@ -227,10 +227,10 @@ export default function Cars() {
             ) : (
               filteredCars.map((car: Car) => (
                 <div
-                  className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden"
+                  className="flex flex-col items-center border border-[#E6E0E0] bg-gray-50 rounded-2xl overflow-hidden"
                   key={car._id}
                 >
-                  <div className="relative w-full h-[250px] md:h-[300px] overflow-hidden">
+                  <div className="relative w-full h-62.5 md:h-75 overflow-hidden">
                     <img
                       src={
                         car.images && car.images.length > 0
@@ -238,7 +238,7 @@ export default function Cars() {
                           : "/placeholder-car.png"
                       }
                       alt={car.modelName}
-                      className="w-full h-[250px] md:h-[300px] object-fit transition-transform duration-300 hover:scale-105 cursor-pointer"
+                      className="w-full h-62.5 md:h-75 object-contain transition-transform duration-300 hover:scale-105 cursor-pointer"
                     />
 
                     <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
@@ -293,8 +293,7 @@ export default function Cars() {
 
                       <Link
                         to={`/cars/cardetails/${car.slug}`}
-    
-                        className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full text-center font-medium"
+                        className="w-full xl:w-auto cursor-pointer px-4 py-2 text-white bg-DeepOrange transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full text-center font-medium"
                       >
                         Book
                       </Link>

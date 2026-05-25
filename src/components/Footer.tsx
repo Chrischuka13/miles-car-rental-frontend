@@ -1,13 +1,16 @@
+import { Link } from "react-router";
+
+
 const Footer = () => {
   return (
-    <footer className="bg-[#111827]">
+    <footer className="bg-DarkBlue mt-6">
       <div className="w-11/12 mx-auto py-12">
         <div className="md:grid grid-cols-4 gap-5 text-[#D6D6D6] ">
           <div className="mb-6">
             <img
               src="/miles white.png"
               alt=""
-              className="w-[102px] mb-4"
+              className="w-25.5 mb-4"
             />
             <h5 className="mb-4">
               Nigeria's most loved car rental — built around your journey. From
@@ -15,15 +18,15 @@ const Footer = () => {
             </h5>
             <div className="">
               <div className="flex items-center mb-2 gap-2.5">
-                <img src="public/location.svg" alt="" />
+                <img src="/location.svg" alt="" />
                 <a href="">13, Alfred Bani Road, Lagos Island</a>
               </div>
               <div className="flex items-center mb-2 gap-2.5">
-                <img src="public/call.svg" alt="" />
+                <img src="/call.svg" alt="" />
                 <a href="">+23470-000-0000-00</a>
               </div>
               <div className="flex items-center mb-2 gap-2.5">
-                <img src="public/mail.svg" alt="" />
+                <img src="/mail.svg" alt="" />
                 <a href="">hello@milescarrental.com</a>
               </div>
             </div>
@@ -31,10 +34,10 @@ const Footer = () => {
 
           <div className="flex flex-col gap-3 mb-6">
             <h5 className="font-medium text-white text-2xl">Quick Links</h5>
-            <a href="">Home</a>
-            <a href="">Cars</a>
-            <a href="">About Us</a>
-            <a href="">Contact Us</a>
+            <Link to='/'>Home</Link>
+            <Link to='/cars/carListing'>Cars</Link>
+            <Link to='/about'>About Us</Link>
+            <Link to='/contact'>Contact Us</Link>
           </div>
 
           <div className="flex flex-col gap-3 mb-6">
@@ -59,31 +62,31 @@ const Footer = () => {
                 placeholder="Your email"
                 className="p-4  bg-[#FFFFFF33] rounded-[8px] w-full border-none text-[#D6D6D6]"
               />
-              <button className="absolute top-2 right-2 p-2 bg-[#FF4F00] rounded-[8px] w-[90px] text-white mb-4 hover:bg-[#FF4F39] hover:cursor-pointer font-semibold">
+              <button className="absolute top-2 right-2 p-2 bg-DeepOrange rounded-[8px] w-22.5 text-white mb-4 hover:bg-[#FF4F39] hover:cursor-pointer font-semibold">
                 JOIN
               </button>
             </div>
             <div className="flex items-center gap-4 mt-4">
               <a href="/" target="_blank">
-                <img src="public/streamline-plump_facebook-1.svg" alt="" />
+                <img src="/streamline-plump_facebook-1.svg" alt="" />
               </a>
               <a href="http://" target="_blank" rel="noopener noreferrer">
-                <img src="public/linkedin-01.svg" alt="" />
+                <img src="/linkedin-01.svg" alt="" />
               </a>
               <a href="http://" target="_blank" rel="noopener noreferrer">
-                <img src="public/iconoir_google.svg" alt="" />
+                <img src="/iconoir_google.svg" alt="" />
               </a>
               <a href="http://" target="_blank" rel="noopener noreferrer">
-                <img src="public/instagram.svg" alt="" />
+                <img src="/instagram.svg" alt="" />
               </a>
               <a href="http://" target="_blank" rel="noopener noreferrer">
-                <img src="public/new-twitter-rectangle.svg" alt="" />
+                <img src="/new-twitter-rectangle.svg" alt="" />
               </a>
             </div>
           </div>
         </div>
 
-        <div className="md:flex justify-between mt-12 ">
+        <div className="md:flex justify-between mt-6">
           <div className="text-[#A1A1A1] mb-4">
             ©2026 Miles car rental. All rights reserved.
           </div>
@@ -100,7 +103,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-2">
           <img src="/miles1.png" alt="" />
         </div>
       </div>

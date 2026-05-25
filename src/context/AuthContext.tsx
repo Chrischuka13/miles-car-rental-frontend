@@ -1,20 +1,11 @@
 import { AuthProviderContext } from "@/hooks/useAuth";
 // import { useQueryClient } from "@tanstack/react-query";
 import { getMeApi, logoutApi } from "@/api/auth";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-// import { toast } from "react-toastify";
-
-interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  emailVerified: boolean;
-  isOnboarded: boolean;
-  role: string;
-}
+// Reuse the User type from AuthProviderContext to avoid duplicate/conflicting 'User' definitions
+type ContextType = React.ContextType<typeof AuthProviderContext>;
+type User = ContextType extends { user: infer U } ? U : null;
 
 export default function AuthProvider({
   children,
@@ -42,6 +33,8 @@ export default function AuthProvider({
     fetchUser();
   }, []);
 
+
+
 const handleLogout = async () => {
   try {
     if (user?.email) {
@@ -54,7 +47,6 @@ const handleLogout = async () => {
     setUser(null); // always clears user even if API fails
   }
 };
-
 
   const contextValue = {
     user,

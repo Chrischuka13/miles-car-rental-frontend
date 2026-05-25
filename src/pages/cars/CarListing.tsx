@@ -22,7 +22,7 @@ export default function CarListing() {
               <div className=" py-6">
                 <h1 className="text-white text-4xl md:text-5xl lg:text-7xl font-semibold tracking-wide">
                   Find your{" "}
-                  <span className="text-[#F97316]">perfect ride.</span>
+                  <span className="text-DeepOrange">perfect ride.</span>
                 </h1>
                 <p className="text-white text-xl mt-5 tracking-wide">
                   From economy sedans to head-turning luxury SUVs and heavy-duty{" "}
