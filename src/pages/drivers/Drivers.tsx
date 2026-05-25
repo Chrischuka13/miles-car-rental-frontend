@@ -1,4 +1,4 @@
-import { Textarea } from "@/components/ui/textarea";
+
 import Toggle from "@/components/ui/Toggle";
 import { useState } from "react";
 // import { boolean } from "zod";
@@ -222,7 +222,8 @@ function StepItem({
   completed: boolean;
   label: string;
   step: number;
-}) {
+})
+ {
   return (
     <div className="flex items-center gap-3">
       <div
@@ -373,7 +374,11 @@ function LicenseStep({ formData, updateField }: any) {
             <p className="text-sm">Toggle on once compliance approves the driver.</p>
           </div>
         </div>
-        <Toggle/>
+        
+        <Toggle 
+          checked={formData.verified}
+          onChange={(v: boolean) => updateField("verified", v)}
+        />
       </div>
 
       <p className="p-2 border rounded-xl text-[#656565]">Upload license scan, LASDRI permit and a recent passport from the driver detail page after creation.</p>
@@ -400,29 +405,53 @@ function AssignmentStep({ formData, updateField }: any) {
             onChange={(e) => updateField("shift", e.target.value)}
             className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
           >
-            <option value="">Available</option>
-            <option value="Morning">On trip</option>
-            <option value="Afternoon">Off duty</option>
-            <option value="Night">Inactive</option>
+            <option value="Available">Available</option>
+            <option value="On trip">On trip</option>
+            <option value="Off duty">Off duty</option>
+            <option value="Inactive">Inactive</option>
           </select>
         </div>
 
-        {/* <Input
+        <Input
           label="Internal notes"
           value={formData.assignedVehicle}
           placeholder="Strong on long-distance routes, prefers weekday shifts..."
           onChange={(v) => updateField("assignedVehicle", v)}
-        /> */}
+        />
 
-        <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">
-            Internal notes
-          </label>
-          <Textarea
-            value={formData.assignedVehicle}
-            placeholder="Strong on long-distance routes, prefers weekday shifts..."
-            onChange={(v) => updateField("assignedVehicle", v)}
-          />
+        {/* Add driver summary */}
+        <div className="bg-[#E9E9E9] p-4 rounded-2xl text-[#484848]" >
+          <h4>SUMMARY</h4>
+          <div className="space-y-2 mt-3">
+            <div className="flex justify-between">
+              <p>Name</p>
+              <p>{formData.fullName}</p>
+            </div>
+            <div className="flex justify-between">
+              <p>Phone</p>
+              <p>{formData.phone}</p>
+            </div>
+            <div className="flex justify-between">
+              <p>License</p>
+              <p>{formData.licenseNumber}</p>
+            </div>
+            <div className="flex justify-between">
+              <p>Language</p>
+              <p>{formData.languages}</p>
+            </div>
+            <div className="flex justify-between">
+              <p>Email</p>
+              <p>{formData.email}</p>
+            </div>
+            <div className="flex justify-between">
+              <p>Status</p>
+              <p>{formData.shift}</p>    
+            </div>
+            <div className="flex justify-between">
+              <p>Verified</p>
+              <p>{formData.verified ? "Verified" : "Not verified"}</p>
+            </div>
+          </div>
         </div>
 
       </div>

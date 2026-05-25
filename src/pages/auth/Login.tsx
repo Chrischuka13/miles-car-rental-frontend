@@ -117,10 +117,10 @@ export default function Login() {
             className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange"
             type="submit">
 
-            <span className="flex justify-center items-center ">
-              <svg className="animate-spin motion-reduce:hidden"></svg>{mutation.isPending ? "Processing..." : "Login"}
+            <div className="flex justify-center items-center ">
+              {mutation.isPending ? "Processing..." : "Login"}
                 <img src="/arroww.png" alt="" className=""/>
-            </span>
+            </div>
           </button>
 
           <div className="flex items-center py-2">
@@ -154,7 +154,7 @@ export default function Login() {
 
           <h1 className="text-center text-[#393E46] mt-1">
             Don't have an account?{" "}
-            <span className="">
+            <span className="text-DeepOrange">
               <Link to="/auth/register">SignUp</Link>
             </span>{" "}
           </h1>

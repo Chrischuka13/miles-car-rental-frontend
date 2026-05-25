@@ -40,7 +40,7 @@ export default function Home() {
 
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               <div className="flex justify-center gap-4">
-                <button className="flex items-center justify-center px-6 bg-DeepOrange rounded-full p-2 cursor-pointer text-white">Book Now <img src="/arroww.png" alt="" className="w-6"/></button>
+                <button className="flex items-center justify-center px-6 bg-DeepOrange rounded-full p-2 cursor-pointer text-white"><Link to='/booking'></Link>Book Now <img src="/arroww.png" alt="" className="w-6"/></button>
                 <button className="bg-white rounded-full p-2 cursor-pointer px-4 font-semibold text-gray-800 hover:bg-gray-100">
                   <Link to='/cars/carListing'>Explore Cars</Link>
                 </button>
@@ -105,11 +105,14 @@ export default function Home() {
               <p className="text-2xl md:text-4xl mt-4">
                 Book Cyber Truck <br /> with a big discount!
               </p>
+              
+              <Link to='/cars/carListing'>
+                <button className="btn bg-black py-2 px-5 mt-5 rounded-full flex justify-center items-center gap-2">
+                  Book Now{" "}
+                  <img src="/stash_arrow-down.png" className="" alt="arrow" />
+                </button>
+              </Link>
 
-              <button className="btn bg-black py-2 px-5 mt-5 rounded-full flex justify-center items-center gap-2">
-                Book Now{" "}
-                <img src="/stash_arrow-down.png" className="" alt="arrow" />
-              </button>
             </div>
 
             {/* image side */}

@@ -1,3 +1,6 @@
+import { Link } from "react-router";
+
+
 const Footer = () => {
   return (
     <footer className="bg-DarkBlue mt-6">
@@ -31,10 +34,10 @@ const Footer = () => {
 
           <div className="flex flex-col gap-3 mb-6">
             <h5 className="font-medium text-white text-2xl">Quick Links</h5>
-            <a href="">Home</a>
-            <a href="">Cars</a>
-            <a href="">About Us</a>
-            <a href="">Contact Us</a>
+            <Link to='/'>Home</Link>
+            <Link to='/cars/carListing'>Cars</Link>
+            <Link to='/about'>About Us</Link>
+            <Link to='/contact'>Contact Us</Link>
           </div>
 
           <div className="flex flex-col gap-3 mb-6">

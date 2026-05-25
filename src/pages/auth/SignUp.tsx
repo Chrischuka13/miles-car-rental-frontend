@@ -145,10 +145,10 @@ export default function SignUp() {
           <button className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange mt-4"
             type="submit">
 
-            <span className="flex justify-center items-center ">
-              <span className="animate-spin motion-reduce:hidden"></span>{mutation.isPending ? "Processing..." : "Sign Up"}
+            <div className="flex justify-center items-center ">
+              {mutation.isPending ? "Processing..." : "Sign Up"}
                 <img src="/arroww.png" alt="" className=""/>
-            </span>
+            </div>
           </button>
 
           <div className="flex items-center py-2">
