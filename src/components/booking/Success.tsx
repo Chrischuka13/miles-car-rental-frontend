@@ -1,5 +1,4 @@
 import { useAuth } from '@/hooks/useAuth';
-import React from 'react'
 
 
 
@@ -15,10 +14,10 @@ export default function Success() {
                     alt="success"
                     className=" mx-auto mb-4 "
                   />
-                  <h1 className="text-[14px] text-[#F97316] ">
+                  <h1 className="text-[14px] text-DeepOrange ">
                     BOOKING CONFIRMED
                   </h1>
-                  <p className="text-[#111827] lg:text-[32px] text-bold  ">
+                  <p className="text-DarkBlue lg:text-[32px] text-bold  ">
                     You’re all set, {user?.firstName}
                   </p>
                   <p className=" text-center  w-[79%] lg:w-[33%] mx-auto text-[14px] text-[#4B5563] ">

@@ -1,4 +1,4 @@
-import React from "react";
+
 
 type StepperProps = {
   currentStep: number;
@@ -47,7 +47,7 @@ export default function Stepper({ currentStep }: StepperProps) {
           {/* Line */}
           {index < steps.length - 1 && (
             <div
-              className={`h-[1px] mx-2 flex-1  ${
+              className={`h-px mx-2 flex-1  ${
                 currentStep > step.id ? "bg-orange-500" : "bg-gray-300"
               }`}
             />
