@@ -14,6 +14,7 @@ import { getCarBySlug } from "@/api/cars/cars";
 import { errorHandler } from "@/lib/utils";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
+import { Loader } from "lucide-react";
 
 interface CarData {
   images: {
@@ -27,7 +28,7 @@ interface CarData {
 
 export default function Booking() {
   const { slug } = useParams();
-  const { data } = useQuery({
+  const { data, isLoading, error} = useQuery({
     queryKey: ["car", slug],
     queryFn: () => getCarBySlug(slug as string),
     enabled: !!slug,
@@ -49,8 +50,10 @@ export default function Booking() {
     setValue,
     formState: { errors },
     control,
-  } = useForm<BookingForm>({
+  } = useForm({
     resolver: zodResolver(validateBookingSchema),
+     // } = useForm<BookingForm>({
+    // resolver: zodResolver(validateBookingSchema),
     defaultValues: {
       // PREFILL VALUES FROM LOCAL STORAGE
       car: bookingStorage?.car || "",
@@ -65,6 +68,7 @@ export default function Booking() {
       pickupTime: bookingStorage?.pickupTime || "",
       returnTime: bookingStorage?.returnTime || "",
       driverOption: bookingStorage?.driverOption || false,
+      
     },
   });
   
@@ -186,6 +190,15 @@ export default function Booking() {
     };
     paymentDataMutation.mutate(payload);
   };
+
+  if (isLoading)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Loader className="animate-spin w-4 h-4 text-DeepOrange" />
+      </div>
+    );
+
+ if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
@@ -612,7 +625,7 @@ export default function Booking() {
                 )}
                 <div className="flex justify-between items-center mt-6">
                   {/* BACK BUTTON (unchanged) */}
-                  {currentStep > 1 && paymentMethod !== "card" ? (
+                  {currentStep < 3 && paymentMethod !== "card" ? (
                     <Button
                       type="button"
                       onClick={handleBack}

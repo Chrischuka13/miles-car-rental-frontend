@@ -1,12 +1,45 @@
 import { z } from "zod";
 
-export const validateBookingSchema = z
+// export const validateBookingSchema = z
+//   .object({
+//     car: z.string({ message: "Car is required" }).min(1, "Car is required"),
+//     pickupLocation: z
+//       .string({ message: "Pickup location is required" })
+//       .min(2, "Pickup location must be at least 2 characters")
+//       .trim(),
+//     returnLocation: z
+//       .string({ message: "Return location is required" })
+//       .min(2, "Return location must be at least 2 characters")
+//       .trim(),
+
+//     pickupDate: z
+//       .string({ message: "Pickup date is required" })
+//       .min(1, { message: "Pickup date is required" }),
+
+//     pickupTime: z.string({ message: "Pickup time is required" }),
+//     returnDate: z
+//       .string({ message: "Return date is required" })
+//       .min(1, { message: "Return date is required" }),
+
+//     returnTime: z.string({ message: "Return time is required" }),
+
+//     driverOption: z.boolean({
+//       message: "Driver option must be a boolean",
+//     }),
+//   })
+//   .refine((data) => new Date(data.returnDate) > new Date(data.pickupDate), {
+//     message: "Return date must be after pickup date",
+//     path: ["returnDate"],
+//   });
+ export const validateBookingSchema = z
   .object({
     car: z.string({ message: "Car is required" }).min(1, "Car is required"),
+
     pickupLocation: z
       .string({ message: "Pickup location is required" })
       .min(2, "Pickup location must be at least 2 characters")
       .trim(),
+
     returnLocation: z
       .string({ message: "Return location is required" })
       .min(2, "Return location must be at least 2 characters")
@@ -14,23 +47,74 @@ export const validateBookingSchema = z
 
     pickupDate: z
       .string({ message: "Pickup date is required" })
-      .min(1, { message: "Pickup date is required" }),
+      .refine((val) => !isNaN(Date.parse(val)), {
+        message: "Pickup date must be a valid date",
+      })
+      .refine(
+        (val) => {
+          // 1. Cleanly isolate just the YYYY-MM-DD part of the incoming value
+          const inputDateString = new Date(val).toISOString().split("T")[0];
 
-    pickupTime: z.string({ message: "Pickup time is required" }),
+          // 2. Get today's calendar date string using your local timezone context
+          const today = new Date();
+          const year = today.getFullYear();
+          const month = String(today.getMonth() + 1).padStart(2, "0");
+          const day = String(today.getDate()).padStart(2, "0");
+          const todayDateString = `${year}-${month}-${day}`;
+
+          // 3. Directly compare strings lexicographically ("2026-05-19" >= "2026-05-19")
+          return inputDateString >= todayDateString;
+        },
+        {
+          message: "Pickup date cannot be in the past",
+        },
+      ),
+
     returnDate: z
       .string({ message: "Return date is required" })
-      .min(1, { message: "Return date is required" }),
+      .refine((val) => !isNaN(Date.parse(val)), {
+        message: "Return date must be a valid date",
+      }),
 
-    returnTime: z.string({ message: "Return time is required" }),
+    pickupTime: z.string({ message: "Pickup time is required" }).min(1, "Pickup time is required"),
 
-    driverOption: z.boolean({
-      message: "Driver option must be a boolean",
-    }),
+    returnTime: z.string({ message: "Return time is required" }).min(1, "Return time is required"),
+
+    driverOption: z.boolean().default(false),
   })
   .refine((data) => new Date(data.returnDate) > new Date(data.pickupDate), {
     message: "Return date must be after pickup date",
     path: ["returnDate"],
   });
+
+// FIXED: Cleaned up the .merge() crash over refinements by destructuring the core shapes safely inside the body block
+export const validateAdminNewBookingSchema = z
+  .object({
+    ...validateBookingSchema.shape,
+    fullname: z.string().min(3, "Full name must be at least 3 characters long"),
+    phone: z
+      .string()
+      .min(1, "Phone is required")
+      .refine(
+        (num) => num === "" || /^\+\d{10,15}$/.test(num),
+        "Invalid phone number",
+      ),
+    email: z
+      .string({ message: "Email address is required" })
+      .email("Please enter a valid email address")
+      .trim()
+      .toLowerCase(),
+    paymentMethod: z
+      .string({ message: "Payment method is required" })
+      .refine((val) => val === "Pay_with_Bank_Transfer", {
+        message: "Admin bookings must use 'Pay_with_Bank_Transfer' only",
+      }),
+  })
+  .refine((data) => new Date(data.returnDate) > new Date(data.pickupDate), {
+    message: "Return date must be after pickup date",
+    path: ["returnDate"],
+  });
+
 
 export type BookingForm = z.infer<typeof validateBookingSchema>;
 

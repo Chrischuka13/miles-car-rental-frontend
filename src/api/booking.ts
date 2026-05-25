@@ -12,6 +12,7 @@ export type CreateBookingPayload = {
   pickupTime: string;
   returnTime: string;
   driverOption: boolean;
+ 
 };
 
 export const createBooking = async (data: CreateBookingPayload) => {
@@ -52,6 +53,8 @@ export interface Booking {
   createdAt: string;
 }
 
+
+
 export const getMyBookings = async () => {
   const response = await axios.get<BookingResponse>(
     `${BASE_URL}/api/v1/booking/my-bookings`,
@@ -59,3 +62,19 @@ export const getMyBookings = async () => {
   return response.data;
 
 }
+
+export const getBookingById = async (id: string) => {
+  const response = await axios.get(
+    `${BASE_URL}/api/v1/booking/single-booking/${id}`,
+  );
+  return response.data;
+
+}
+
+export const cancelBooking = async (id: string) => {
+  const response = await axios.post(
+    `${BASE_URL}/api/v1/booking/cancel-booking/${id}`,
+  );
+
+  return response.data;
+};
