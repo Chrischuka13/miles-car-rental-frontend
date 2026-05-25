@@ -118,3 +118,82 @@ export const validateResetPasswordSchema = z.object({
 });
 
 export type resetPasswordSchemaType = z.infer<typeof validateResetPasswordSchema>;
+
+
+
+
+export const validateBookingSchema = z
+  .object({
+    car: z.string({ message: "Car is required" }).min(1, "Car is required"),
+
+    pickupLocation: z
+      .string({ message: "Pickup location is required" })
+      .min(2, "Pickup location must be at least 2 characters")
+      .trim(),
+
+    returnLocation: z
+      .string({ message: "Return location is required" })
+      .min(2, "Return location must be at least 2 characters")
+      .trim(),
+
+    pickupDate: z
+      .string({ message: "Pickup date is required" })
+      .refine((val) => !val || !isNaN(Date.parse(val)), {
+        message: "Pickup date must be a valid date",
+      })
+      .refine(
+        (val) => {
+          if (!val) return true; 
+          const inputDateString = new Date(val).toISOString().split("T")[0];
+          const today = new Date();
+          const todayDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+          return inputDateString >= todayDateString;
+        },
+        { message: "Pickup date cannot be in the past" }
+      ),
+
+    returnDate: z
+      .string({ message: "Return date is required" })
+      .refine((val) => !val || !isNaN(Date.parse(val)), {
+        message: "Return date must be a valid date",
+      }),
+
+    pickupTime: z.string().optional(),
+    returnTime: z.string().optional(),
+    driverOption: z.boolean().default(false),
+  })
+  .refine(
+    (data) => {
+      if (!data.pickupDate || !data.returnDate) return true; 
+      return new Date(data.returnDate) > new Date(data.pickupDate);
+    },
+    {
+      message: "Return date must be after pickup date",
+      path: ["returnDate"],
+    }
+  );
+
+export const validateAdminNewBookingSchema = z
+  .object({
+    ...validateBookingSchema.shape,
+    fullname: z.string().min(3, "Full name must be at least 3 characters long"),
+    phone: z.string().min(1, "Phone number is required"),
+    email: z
+      .string({ message: "Email address is required" })
+      .email("Please enter a valid email address")
+      .trim()
+      .toLowerCase(),
+    paymentMethod: z.string({ message: "Payment method is required" }).min(1),
+  })
+  .refine(
+    (data) => {
+      if (!data.pickupDate || !data.returnDate) return true; 
+      return new Date(data.returnDate) > new Date(data.pickupDate);
+    },
+    {
+      message: "Return date must be after pickup date",
+      path: ["returnDate"],
+    }
+  );
+
+export type AdminCreateBookingSchemaType = z.infer<typeof validateAdminNewBookingSchema>;

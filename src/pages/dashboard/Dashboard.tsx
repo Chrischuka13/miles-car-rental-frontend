@@ -62,62 +62,14 @@ export default function Dashboard() {
     },
   ];
 
-  // export default function DashboardGrid() {
-  //   const { data, isLoading, isError } = useQuery({
-  //     queryKey: ["dashboardStats"],
-  //     queryFn: getDashboardStatsApi,
-  //   });
 
-  //   if (isLoading) {
-  //     return (
-  //       <div className="flex h-48 w-full items-center justify-center">
-  //         <Loader2 className="animate-spin text-blue-500" size={40} />
-  //       </div>
-  //     );
-  //   }
-
-  //   if (isError) return <div className="text-red-500">Failed to load statistics.</div>;
-
-  //   // Assume your backend returns: { data: { activeBookings: 42, revenue: 8400000, ... } }
-  //   const statsResponse = data?.data?.data;
-
-  //   const cards = [
-  //     {
-  //       title: "Active Bookings",
-  //       value: statsResponse?.activeBookings || 0,
-  //       trend: statsResponse?.bookingsTrend || 0,
-  //       icon: <Calendar className="text-orange-500" />,
-  //       iconBgColor: "bg-orange-100"
-  //     },
-  //     {
-  //       title: "Revenue (₦)",
-  //       value: `${(statsResponse?.revenue / 1000000).toFixed(1)}M`,
-  //       trend: statsResponse?.revenueTrend || 0,
-  //       icon: <Wallet className="text-blue-500" />,
-  //       iconBgColor: "bg-blue-100"
-  //     },
-  //     {
-  //       title: "Fleet Utilization",
-  //       value: `${statsResponse?.fleetUtilization || 0}%`,
-  //       trend: statsResponse?.utilizationTrend || 0,
-  //       icon: <Car className="text-green-500" />,
-  //       iconBgColor: "bg-green-100"
-  //     },
-  //     {
-  //       title: "New Customers",
-  //       value: statsResponse?.newCustomers || 0,
-  //       trend: statsResponse?.customersTrend || 0,
-  //       icon: <Users className="text-yellow-500" />,
-  //       iconBgColor: "bg-yellow-100"
-  //     },
-  //   ];
 
   return (
     <div className="container mx-auto px-6 pt-20">
       <div className="lg:flex lg:justify-between">
         <div>
-          <h1 className="text-xl lg:text-4xl ">
-            {/* {getGreeting(user.firstName)} 👋 */}
+          <h1 className="text-xl lg:text-4xl pb-4">
+            {getGreeting(user?.firstName)} 👋
           </h1>
           <p className="text-lg pb-2 lg:text-md text-center text-[#393E46] ">
             Manage your team with confidence today.

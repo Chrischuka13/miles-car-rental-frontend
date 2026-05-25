@@ -1,4 +1,4 @@
-import { CalendarDays, CarFront, Grid2x2, LogOut, UserCog, Users } from "lucide-react";
+import { CalendarDays, CarFront, Grid2x2, LogOut, Settings, UserCog, Users } from "lucide-react";
 import Logo from "./Logo";
 import { NavLink } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
@@ -60,12 +60,22 @@ export default function Sidebar() {
       <NavLink
         to="/admin/drivers"
         className={({ isActive }) =>
-          `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
+          `transition-all duration-300 ease-in p-3  flex items-center gap-2 rounded-3xl w-50 mb-3 ${
             isActive ? "bg-[#F97316] text-white  border-3" : "hover:text-[#F97316] "
           }`
         }
       >
         <UserCog /> <h1>Drivers</h1>
+      </NavLink>
+      <NavLink
+        to="/admin/settings"
+        className={({ isActive }) =>
+          `transition-all duration-300 ease-in p-3 mt-15 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
+            isActive ? "bg-[#F97316] text-white  border-3" : "hover:text-[#F97316] "
+          }`
+        }
+      >
+        <Settings/> <h1>Settings</h1>
       </NavLink>
 
       <div className="p-4 flex gap-2" onClick={handleLogout}>

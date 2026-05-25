@@ -13,7 +13,7 @@ import SetNewPassword from "@/pages/auth/SetNewPassword.tsx";
 import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
 import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
 import AdminLayout from "@/layouts/AdminLayout.tsx";
-import { PublicRoute } from "./ProtectedRoutes.tsx";
+import { AdminRoute, PublicRoute } from "./ProtectedRoutes.tsx";
 
 const Routes = () => {
   const routes = [
@@ -32,48 +32,52 @@ const Routes = () => {
         },
       ],
     },
-   {
-  path: "auth",
-  Component: AuthLayout,
-  children: [
     {
-      path: "login",
-      element: (
-        <PublicRoute>
-          <Login />
-        </PublicRoute>
-      ),
+      path: "auth",
+      Component: AuthLayout,
+      children: [
+        {
+          path: "login",
+          element: (
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          ),
+        },
+        {
+          path: "createAccount",
+          element: (
+            <PublicRoute>
+              <SignUp />
+            </PublicRoute>
+          ),
+        },
+        {
+          path: "forgot-password",
+          Component: ForgotPassword,
+        },
+        {
+          path: "verify-otp",
+          Component: VerifyOtp,
+        },
+        {
+          path: "set-new-password",
+          Component: SetNewPassword,
+        },
+        {
+          path: "verify-Account",
+          Component: VerifyAccount,
+        },
+      ],
     },
-    {
-      path: "createAccount",
-      element: (
-        <PublicRoute>
-          <SignUp />
-        </PublicRoute>
-      ),
-    },
-    {
-      path: "forgot-password",
-      Component: ForgotPassword,
-    },
-    {
-      path: "verify-otp",
-      Component: VerifyOtp,
-    },
-    {
-      path: "set-new-password",
-      Component: SetNewPassword,
-    },
-    {
-      path: "verify-Account",
-      Component: VerifyAccount,
-    },
-  ],
-},
 
     {
       path: "admin",
-      Component: AdminLayout,
+      element: (
+        <AdminRoute>
+          <AdminLayout />
+        </AdminRoute>
+      ),
       children: [
         {
           index: true,
@@ -112,6 +116,14 @@ const Routes = () => {
           lazy: async () => {
             const { default: Component } =
               await import("../pages/drivers/Drivers.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "settings",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/settings/Setting.tsx");
             return { Component };
           },
         },
