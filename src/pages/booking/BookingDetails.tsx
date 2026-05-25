@@ -32,7 +32,7 @@ export default function BookingDetails() {
 
       queryClient.invalidateQueries({
         queryKey: ["booking-details", id],
-      });
+      });gi
     },
 
     onError: (error: Error) => {
