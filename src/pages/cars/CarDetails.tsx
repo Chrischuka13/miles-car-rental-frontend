@@ -58,19 +58,12 @@ const [errors, setErrors] = useState<{
   pickupLocation?: string;
 }>({});
 
-const USD_TO_NGN = 200;
 
-const formatToNaira = (priceInUSD: number) => {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-  }).format(priceInUSD * USD_TO_NGN);
-};
 
 const SERVICE_FEE = 10000;
 
 const { totalDays, rentalCost, totalPrice } = useMemo(() => {
-  const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) * USD_TO_NGN;
+  const pricePerDayInNaira = (selectedCars?.pricePerDay || 0);
 
   if (!pickupDate || !returnDate || !selectedCars) {
     return {
@@ -259,7 +252,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
 
                 <span className="flex items-baseline gap-2 sm:gap-4 max-w-md w-full text-[#4B5563]">
                   <p className="text-3xl sm:text-4xl lg:text-4xl font-bold text-black">
-                    {formatToNaira(selectedCars.pricePerDay)}
+                    ₦{selectedCars.pricePerDay}
                   </p>
                   <span className="text-sm sm:text-base">
                     /day. all-inclusive
@@ -383,7 +376,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                 >
                   <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">
-                      {formatToNaira(selectedCars.pricePerDay)}
+                      ₦{selectedCars.pricePerDay}
                     </p>
                     <p className="text-[#4B5563]">per day</p>
                   </div>

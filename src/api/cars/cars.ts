@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 export const getAllCars = async (page = 1) => {

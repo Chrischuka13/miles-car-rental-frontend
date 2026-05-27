@@ -4,6 +4,7 @@ import { getAllCars } from "@/api/cars/cars";
 import { useQuery } from "@tanstack/react-query";
 import Filter from "@/components/Filter";
 import Pagination from "./Pagination";
+import Loader from "@/components/ui/Loader";
 
 interface Car {
   _id: string;
@@ -72,21 +73,13 @@ export default function Cars() {
         ]
           .join(" ")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+          .includes(searchTerm.toLowerCase()),
       );
     }
 
     return filtered;
   }, [cars, activeCategory, searchTerm]);
 
-  const USD_TO_NGN = 200;
-
-  const formatToNaira = (priceInUSD: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-    }).format(priceInUSD * USD_TO_NGN);
-  };
 
   const carsRef = useRef<HTMLDivElement | null>(null);
   const prevPageRef = useRef(page);
@@ -218,12 +211,7 @@ export default function Cars() {
         <section className="flex-1 mt-5 md:mt-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {isLoading ? (
-              <div className="col-span-full flex flex-col items-center justify-center w-full min-h-[50vh] rounded-2xl">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-orange-500"></div>
-                <p className="mt-4 text-orange-500 font-medium">
-                  Fetcing available cars...
-                </p>
-              </div>
+              <Loader />
             ) : (
               filteredCars.map((car: Car) => (
                 <div
@@ -253,7 +241,7 @@ export default function Cars() {
                       </p>
 
                       <p className="text-lg font-bold">
-                        {formatToNaira(car.pricePerDay)}
+                        ₦{car.pricePerDay}
                       </p>
                     </span>
 
