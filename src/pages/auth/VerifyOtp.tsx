@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { useMutation } from "@tanstack/react-query";
-import { verifyForgotPasswordOtpApi } from "@/api/auth";
+import { resendOtpApi, verifyForgotPasswordOtpApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -35,8 +35,29 @@ export default function VerifyForgotPasswordOtp() {
     },
   });
 
+    const resendMutation = useMutation({
+    mutationFn: resendOtpApi,
+    onSuccess: (res) => {
+      toast.success(res.data.message || "OTP resent successfully");
+    },
+    onError: (error) => {
+      if (import.meta.env.DEV) {
+        console.error(error);
+      }
+      if (axios.isAxiosError(error)) {
+        toast.error(error?.response?.data?.message || "Failed to resend OTP");
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
+  });
+
   const handleSubmit = () => {
     mutation.mutate({ otp, email });
+  };
+
+   const handleResend = () => {
+    resendMutation.mutate({ email });
   };
 
   return (
@@ -70,6 +91,18 @@ export default function VerifyForgotPasswordOtp() {
             </InputOTPGroup>
           </InputOTP>
         </div>
+
+         <p className="text-sm text-center mt-3 text-[#393E46]">
+          Didn't receive the code?{" "}
+          <button
+            onClick={handleResend}
+            disabled={resendMutation.isPending}
+            className="text-[#F97316] font-medium"
+            type="button"
+          >
+            {resendMutation.isPending ? "Sending..." : "Resend OTP"}
+          </button>
+        </p>
 
         <button
           onClick={handleSubmit}

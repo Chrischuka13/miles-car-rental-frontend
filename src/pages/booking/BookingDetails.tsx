@@ -32,7 +32,7 @@ export default function BookingDetails() {
 
       queryClient.invalidateQueries({
         queryKey: ["booking-details", id],
-      });gi
+      });
     },
 
     onError: (error: Error) => {
@@ -53,14 +53,7 @@ export default function BookingDetails() {
     return <div className="p-6 mt-50">No booking found</div>;
   }
 
-  const USD_TO_NGN = 200;
-
-  const formatToNaira = (priceInUSD: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-    }).format(priceInUSD * USD_TO_NGN);
-  };
+  
 
   console.log("single BOOKINGS:", data);
 
@@ -175,7 +168,7 @@ export default function BookingDetails() {
                 </p>
 
                 <p className="text-[35px] lg:text-[45px] font-semibold pb-3 wrap-break-word">
-                  {formatToNaira(booking?.totalPrice)}
+                  {booking?.totalPrice}
                 </p>
 
                 <hr className="border-[#A1A1A1]" />
@@ -188,7 +181,7 @@ export default function BookingDetails() {
                   </span>
 
                   <span className="text-[#232323] text-right">
-                    {formatToNaira(booking?.totalPrice)}
+                    {booking?.totalPrice}
                   </span>
                 </div>
 
@@ -196,7 +189,7 @@ export default function BookingDetails() {
                   <span className="text-[#A1A1A1]">Service fee</span>
 
                   <span className="text-[#232323] text-right">
-                    {formatToNaira(booking?.serviceFee)}
+                    {booking?.serviceFee}
                   </span>
                 </div>
               </div>

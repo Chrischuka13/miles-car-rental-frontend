@@ -52,8 +52,7 @@ export default function Booking() {
     control,
   } = useForm({
     resolver: zodResolver(validateBookingSchema),
-     // } = useForm<BookingForm>({
-    // resolver: zodResolver(validateBookingSchema),
+     
     defaultValues: {
       // PREFILL VALUES FROM LOCAL STORAGE
       car: bookingStorage?.car || "",
@@ -107,7 +106,9 @@ export default function Booking() {
 
   const finalDays = diffDays > 0 ? diffDays : 1;
 
-  const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
+  const getRentalCost = finalDays * (selectedCars?.pricePerDay );
+    // const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
+
 
   const totalDays = bookingStorage?.totalDays || finalDays;
   const rentalCost = bookingStorage?.rentalCost || getRentalCost || 0;
@@ -775,7 +776,7 @@ export default function Booking() {
                   <div className="space-y-5 pt-3  ">
                     <div className="flex justify-between">
                       <span className="text-[#A1A1A1] ">
-                        ₦{selectedCars?.pricePerDay * 200} × {totalDays} days
+                        ₦{selectedCars?.pricePerDay } × {totalDays} days
                       </span>
                       <span className="font-medium ">
                         ₦{rentalCost.toLocaleString()}

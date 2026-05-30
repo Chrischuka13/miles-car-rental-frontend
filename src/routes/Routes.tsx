@@ -14,6 +14,7 @@ import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
 import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
 import AuthLayout from "@/layouts/AuthLayout.tsx";
 import AdminLayout from "@/layouts/AdminLayout.tsx";
+import { AdminRoute, PublicRoute } from "./ProtectedRoutes.tsx";
 
 const Routes = () => {
   const routes = [
@@ -130,11 +131,19 @@ const Routes = () => {
       children: [
         {
           path: "login",
-          Component: Login,
+          element: (
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          ),
         },
         {
-          path: "register",
-          Component: SignUp,
+          path: "createAccount",
+          element: (
+            <PublicRoute>
+              <SignUp />
+            </PublicRoute>
+          ),
         },
         {
           path: "forgot-password",
@@ -157,7 +166,11 @@ const Routes = () => {
 
     {
       path: "admin",
-      Component: AdminLayout,
+      element: (
+        <AdminRoute>
+          <AdminLayout />
+        </AdminRoute>
+      ),
       children: [
         {
           index: true,
@@ -196,6 +209,22 @@ const Routes = () => {
           lazy: async () => {
             const { default: Component } =
               await import("../pages/drivers/Drivers.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "settings",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/settings/Setting.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "bookings/:id",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/bookings/BookingDetails.tsx");
             return { Component };
           },
         },

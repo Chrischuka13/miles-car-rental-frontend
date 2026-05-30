@@ -7,11 +7,10 @@ export default function AdminLayout() {
     <div>
       <Sidebar />
       <div className="lg:ml-[240px] ">
-        <AdminNav/>
-        <div className="bg-[#F7F7F7]">
-   <Outlet />
+        <AdminNav />
+        <div className="bg-[#F7F7F7] ">
+          <Outlet />
         </div>
-     
       </div>
     </div>
   );

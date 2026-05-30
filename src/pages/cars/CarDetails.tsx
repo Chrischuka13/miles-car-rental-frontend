@@ -1,12 +1,16 @@
 import { useState, useMemo } from "react";
-import { ArrowLeft } from "lucide-react";
-
+import { ArrowLeft, Loader } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router";
 import TrendingCars from "@/features/TrendingCars";
 import { useQuery } from "@tanstack/react-query";
 import { getCarBySlug } from "@/api/cars/cars";
-
-import { validateBookingSchema } from "@/lib/schemaTypes";
+import {
+  validateCarBookingSchema1,
+  // type BookingForm,
+  type CarBookingFormData1,
+} from "@/lib/schemaTypes";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface Car {
   _id: string;
@@ -35,116 +39,95 @@ interface Car {
 }
 
 export default function CarDetails() {
- const { slug } = useParams<{ slug: string }>();
-const navigate = useNavigate();
-const [openImage, setOpenImage] = useState<string | null>(null);
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const [openImage, setOpenImage] = useState<string | null>(null);
 
-const { data, isLoading } = useQuery({
-  queryKey: ["car", slug],
-  queryFn: () => getCarBySlug(slug as string),
-  enabled: !!slug,
-});
-
-const selectedCars: Car | undefined = data?.data;
-
-
-const [pickupDate, setPickupDate] = useState<string>("");
-const [returnDate, setReturnDate] = useState<string>("");
-const [address, setAddress] = useState<string>("");
-
-const [errors, setErrors] = useState<{
-  pickupDate?: string;
-  returnDate?: string;
-  pickupLocation?: string;
-}>({});
-
-const USD_TO_NGN = 200;
-
-const formatToNaira = (priceInUSD: number) => {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-  }).format(priceInUSD * USD_TO_NGN);
-};
-
-const SERVICE_FEE = 10000;
-
-const { totalDays, rentalCost, totalPrice } = useMemo(() => {
-  const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) * USD_TO_NGN;
-
-  if (!pickupDate || !returnDate || !selectedCars) {
-    return {
-      totalDays: 1,
-      rentalCost: pricePerDayInNaira,
-      totalPrice: pricePerDayInNaira + SERVICE_FEE,
-    };
-  }
-
-  const start = new Date(pickupDate);
-  const end = new Date(returnDate);
-
-  const diffTime = end.getTime() - start.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  const finalDays = diffDays > 0 ? diffDays : 1;
-
-  const rentalCost = finalDays * pricePerDayInNaira;
-
-  return {
-    totalDays: finalDays,
-    rentalCost,
-    totalPrice: rentalCost + SERVICE_FEE,
-  };
-}, [pickupDate, returnDate, selectedCars]);
-
-const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  if (!selectedCars) return;
-
-  const result = validateBookingSchema.safeParse({
-    pickupDate,
-    returnDate,
-    pickupLocation: address,
+  const { data, isLoading } = useQuery({
+    queryKey: ["car", slug],
+    queryFn: () => getCarBySlug(slug as string),
+    enabled: !!slug,
   });
 
-  setErrors({});
+  console.log(data);
+  
 
-  if (!result.success) {
-    const fieldErrors = result.error.flatten().fieldErrors;
+  const selectedCars: Car | undefined = data?.data;
 
-    setErrors({
-      pickupDate: fieldErrors.pickupDate?.[0],
-      returnDate: fieldErrors.returnDate?.[0],
-      pickupLocation: fieldErrors.pickupLocation?.[0],
-    });
+  
+  const {
+    handleSubmit,
+    register,
+    control,
+    formState: { errors },
+  } = useForm<CarBookingFormData1>({
+    resolver: zodResolver(validateCarBookingSchema1) as never,
+  });
 
-    return;
-  }
+  
+  
+  
 
-  const bookingData = {
-    carId: selectedCars._id,
-    car: selectedCars,
-    pickupDate,
-    returnDate,
-    pickupAddress: address,
-    totalDays,
-    rentalCost,
-    serviceFee: SERVICE_FEE,
-    totalPrice,
+  const SERVICE_FEE = 10000;
+  const pickupDate = useWatch({ control, name: "pickupDate" });
+  const returnDate = useWatch({ control, name: "returnDate" });
+  const pickupLocation = useWatch({ control, name: "pickupLocation" });
+
+
+
+  const { totalDays, rentalCost, totalPrice } = useMemo(() => {
+    const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) 
+    if (!pickupDate || !returnDate || !selectedCars) {
+      return {
+        totalDays: 1,
+        rentalCost: pricePerDayInNaira,
+        totalPrice: pricePerDayInNaira + SERVICE_FEE,
+      };
+    }
+
+    const start = new Date(pickupDate);
+    const end = new Date(returnDate);
+
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    const finalDays = diffDays > 0 ? diffDays : 1;
+
+    const rentalCost = finalDays * pricePerDayInNaira;
+
+    return {
+      totalDays: finalDays,
+      rentalCost,
+      totalPrice: rentalCost + SERVICE_FEE,
+    };
+  }, [pickupDate, returnDate,  selectedCars]);
+
+  // const handleBooking = (data: CarBookingFormData1) => {
+   const handleBooking = () => {
+   
+
+    const bookingData = {
+      carId: selectedCars._id,
+      car: selectedCars,
+      pickupLocation,
+      pickupDate,
+      returnDate,
+      totalDays,
+      rentalCost,
+      serviceFee: SERVICE_FEE,
+      totalPrice,
+    };
+
+    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+       
+   
+    navigate(`/booking/${selectedCars.slug}`);
   };
-
-  localStorage.setItem("bookingData", JSON.stringify(bookingData));
-
-  navigate(`/booking/${selectedCars._id}`);
-};
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[90vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-orange-500"></div>
-        <p className="mt-4 text-orange-500 font-medium">
-          Fetching your ride...
-        </p>
+     <div className="h-screen flex items-center justify-center">
+        <Loader className="animate-spin w-4 h-4 text-DeepOrange" />
       </div>
     );
   }
@@ -175,7 +158,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                 <img
                   src={selectedCars.images?.[0]?.url || "/placeholder.png"}
                   alt={selectedCars.modelName}
-                  className="rounded-2xl cursor-pointer object-fill w-full h-[220px] sm:h-[280px] md:h-[320px] lg:h-[370px] xl:h-[450px]"
+                  className="rounded-2xl cursor-pointer object-fill w-full h-55 sm:h-70 md:h-80 lg:h-92.5 xl:h-112.5"
                 />
               </div>
 
@@ -259,7 +242,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
 
                 <span className="flex items-baseline gap-2 sm:gap-4 max-w-md w-full text-[#4B5563]">
                   <p className="text-3xl sm:text-4xl lg:text-4xl font-bold text-black">
-                    {formatToNaira(selectedCars.pricePerDay)}
+                    {selectedCars.pricePerDay}
                   </p>
                   <span className="text-sm sm:text-base">
                     /day. all-inclusive
@@ -268,16 +251,17 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
               </span>
               <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
                 <Link to={`/booking/${selectedCars.slug}`}>
-                  <button
-                    className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer"
-                  >
+                  <button className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer">
                     <p className="text-sm sm:text-base">Book this car</p>
                     <span>
-                      <img src="/stasharrow.png" alt="" className="w-4 sm:w-6" />
+                      <img
+                        src="/stasharrow.png"
+                        alt=""
+                        className="w-4 sm:w-6"
+                      />
                     </span>
-                  </button>        
+                  </button>
                 </Link>
-
 
                 <button className="border border-[#4B5563] px-4 py-2 rounded-full w-full sm:w-auto text-sm sm:text-base cursor-pointer">
                   <p>Add a driver</p>
@@ -378,12 +362,12 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
               {/* second child div */}
               <div className="w-full lg:w-[30%]">
                 <form
-                  onSubmit={handleBooking}
+                  onSubmit={handleSubmit(handleBooking)}
                   className="bg-[#FFFFFF] pl-2  p-4 rounded-xl shadow-sm"
                 >
                   <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">
-                      {formatToNaira(selectedCars.pricePerDay)}
+                      {selectedCars.pricePerDay}
                     </p>
                     <p className="text-[#4B5563]">per day</p>
                   </div>
@@ -401,14 +385,15 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                         className="outline-none border-none text-sm"
                         type="text"
                         placeholder="Please Enter Address..."
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        name="pickupLocation"
+                        {...register("pickupLocation")}
+                       
                       />
                     </span>
                   </div>
-                  {errors.pickupLocation && (
+                  {errors?.pickupLocation && (
                     <p className="text-red-500 text-xs mt-1">
-                      {errors.pickupLocation}
+                      {errors.pickupLocation?.message}
                     </p>
                   )}
 
@@ -422,15 +407,15 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                         <span className="flex flex-col">
                           <input
                             type="date"
-                            value={pickupDate}
-                            min={new Date().toISOString().split("T")[0]}
-                            onChange={(e) => setPickupDate(e.target.value)}
+                           
+                            {...register("pickupDate")}
+                            name="pickupDate"
                           />
                         </span>
                       </div>
                       {errors.pickupDate && (
                         <p className="text-red-500 text-xs mt-1">
-                          {errors.pickupDate}
+                          {errors.pickupDate?.message}
                         </p>
                       )}
                     </div>
@@ -443,19 +428,16 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                         <span className="flex flex-col">
                           <input
                             type="date"
-                            value={returnDate}
-                            min={
-                              pickupDate ||
-                              new Date().toISOString().split("T")[0]
-                            }
-                            onChange={(e) => setReturnDate(e.target.value)}
+                           
+                            {...register("returnDate")}
+                            name="returnDate"
                           />
                         </span>
                       </div>
 
                       {errors.returnDate && (
                         <p className="text-red-500 text-xs mt-1">
-                          {errors.returnDate}
+                          {errors.returnDate?.message}
                         </p>
                       )}
                     </div>
@@ -491,6 +473,8 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                   <div className="w-full bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
                     <button
                       type="submit"
+                    
+                    
                       className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto"
                     >
                       <p className="text-sm sm:text-base w-full">

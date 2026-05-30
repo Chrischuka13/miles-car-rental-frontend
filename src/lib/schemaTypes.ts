@@ -31,7 +31,8 @@ import { z } from "zod";
 //     message: "Return date must be after pickup date",
 //     path: ["returnDate"],
 //   });
- export const validateBookingSchema = z
+
+export const validateBookingSchema = z
   .object({
     car: z.string({ message: "Car is required" }).min(1, "Car is required"),
 
@@ -67,7 +68,7 @@ import { z } from "zod";
         },
         {
           message: "Pickup date cannot be in the past",
-        },
+        }
       ),
 
     returnDate: z
@@ -76,9 +77,13 @@ import { z } from "zod";
         message: "Return date must be a valid date",
       }),
 
-    pickupTime: z.string({ message: "Pickup time is required" }).min(1, "Pickup time is required"),
+    pickupTime: z
+      .string({ message: "Pickup time is required" })
+      .min(1, "Pickup time is required"),
 
-    returnTime: z.string({ message: "Return time is required" }).min(1, "Return time is required"),
+    returnTime: z
+      .string({ message: "Return time is required" })
+      .min(1, "Return time is required"),
 
     driverOption: z.boolean().default(false),
   })
@@ -86,6 +91,22 @@ import { z } from "zod";
     message: "Return date must be after pickup date",
     path: ["returnDate"],
   });
+
+export const validateCarBookingSchema1 = z.object({
+  pickupDate: z.string({ message: "Pickup date is required" }).min(1, {
+    message: "Pickup date is required",
+  }),
+
+  returnDate: z.string({ message: "Return date is required" }).min(1, {
+    message: "Return date is required",
+  }),
+  pickupLocation: z
+    .string({ message: "Pickup location is required" })
+    .min(2, "Pickup location must be at least 2 characters")
+    .trim(),
+});
+
+export type CarBookingFormData1 = z.infer<typeof validateCarBookingSchema1>;
 
 // FIXED: Cleaned up the .merge() crash over refinements by destructuring the core shapes safely inside the body block
 export const validateAdminNewBookingSchema = z
@@ -97,7 +118,7 @@ export const validateAdminNewBookingSchema = z
       .min(1, "Phone is required")
       .refine(
         (num) => num === "" || /^\+\d{10,15}$/.test(num),
-        "Invalid phone number",
+        "Invalid phone number"
       ),
     email: z
       .string({ message: "Email address is required" })
@@ -114,7 +135,6 @@ export const validateAdminNewBookingSchema = z
     message: "Return date must be after pickup date",
     path: ["returnDate"],
   });
-
 
 export type BookingForm = z.infer<typeof validateBookingSchema>;
 
@@ -303,7 +323,6 @@ export const paystackPaymentSchema = z.object({
 });
 
 export type PaystackPaymentData = z.infer<typeof paystackPaymentSchema>;
-
 
 export const validateDriverSchema = z.object({
   fullName: z.string().trim().min(3, {
