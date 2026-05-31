@@ -1,17 +1,13 @@
-
-
-
-
 import { useQuery } from "@tanstack/react-query";
 import { getAdminBookingsApi } from "@/api/admin";
 import { useSearchParams } from "react-router";
 import { useState } from "react";
 import usePaginate from "@/hooks/usePaginate";
-import { Download,  Plus, Search } from "lucide-react";
+import {   Plus, Search } from "lucide-react";
 import BookingsTable from "./BookingTable";
 import Paginate from "@/components/Paginate";
 import NewBookingModal from "./NewBookingModal";
-import Filter from "@/components/Filter";
+
 
 
 interface Car {
@@ -31,6 +27,8 @@ interface BookingUser {
 }
 
 interface Booking {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payment?: any;
   _id: string;
   bookingStatus: string;
   car: Car;
@@ -47,13 +45,14 @@ interface Booking {
   driverFee: number;
   serviceFee: number;
   createdAt: string;
+  amount?: number;
 }
 
 
 const tabs = [
   { label: "All", status: "All" },
-  { label: "Upcoming", status: "Upcoming" },
-  { label: "Active", status: "On trip" },
+  { label: "Pending", status: "Pending" },
+  { label: "Confirmed", status: "Confirmed" },
   { label: "Completed", status: "Completed" },
   { label: "Cancelled", status: "Cancelled" },
 ];
@@ -75,17 +74,13 @@ export default function Bookings() {
     retry: false,
   });
 
-  console.log("bookings", data);
+ 
 
 
   
 
   const bookings: Booking[] = data?.data?.bookings || [];
-  const uniqueCars = bookings
-  .map((b) => b.car)
-  .filter((car, index, self) =>
-    index === self.findIndex((c) => c._id === car._id)
-  );
+ 
   const pagination = data?.data?.pagination;
   const cancelledOrders = data?.data?.cancelledOrders || 0;
   const completedOrders = data?.data?.completedOrders || 0;
@@ -109,8 +104,8 @@ export default function Bookings() {
 
   const getTabCount = (status: string) => {
     if (status === "All") return bookings.length;
-    if (status === "Upcoming") return pendingOrders;
-    if (status === "On trip") return confirmedOrders;
+    if (status === "Pending") return pendingOrders;
+    if (status === "Confirmed") return confirmedOrders;
     if (status === "Completed") return completedOrders;
     if (status === "Cancelled") return cancelledOrders;
     return 0;
@@ -165,20 +160,20 @@ export default function Bookings() {
               placeholder="Search ref, customer..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 pr-4   py-2 border border-gray-200 rounded-full text-sm outline-none focus:border-[#F97316] w-36 md:w-64"
+              className="pl-9 pr-4   py-2 border border-gray-200 rounded-full text-sm outline-none focus:border-[#F97316] w-full md:w-full"
             />
           </div>
-          <div className="flex items-center md:gap-3">
+          {/* <div className="flex items-center md:gap-3">
             <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 hover:bg-gray-50 transition">
-              {/* <Filter size={15} />
-              Filters */}
+              <Filter size={15} />
+              Filters
               <Filter/>
             </button>
             <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 hover:bg-gray-50 transition">
               <Download size={15} />
               Export
             </button>
-          </div>
+          </div> */}
         </div>
 
         {/* Table */}
@@ -197,7 +192,7 @@ export default function Bookings() {
       <NewBookingModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-         cars={uniqueCars}
+       
       />
     </>
   );

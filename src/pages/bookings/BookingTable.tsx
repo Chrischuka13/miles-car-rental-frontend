@@ -20,7 +20,7 @@ interface BookingUser {
 
 interface Booking {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payment: any;
+  payment?: any;
   _id: string;
   bookingStatus: string;
   car: Car;
@@ -37,7 +37,7 @@ interface Booking {
   driverFee: number;
   serviceFee: number;
   createdAt: string;
-  amount: number;
+  amount?: number;
 }
 
 interface BookingsTableProps {
@@ -83,11 +83,11 @@ export default function BookingsTable({ bookings }: BookingsTableProps) {
           </span>
         );
       case "vehicle":
-        return (
-          <span className="text-gray-600">
-            {booking.car.brand} {booking.car.modelName}
-          </span>
-        );
+  return (
+    <span className="text-gray-600">
+      {booking.car ? `${booking.car.brand} ${booking.car.modelName}` : "—"}
+    </span>
+  );
       case "pickupReturn":
         return (
           <div>
