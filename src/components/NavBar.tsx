@@ -6,6 +6,7 @@ import { X, Menu } from "lucide-react";
 import { Link, NavLink } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import UserAvatar from "./UserAvatar";
+import Buttons from "./ui/Buttons";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -52,14 +53,7 @@ const NavBar: React.FC = () => {
              <div className=" hidden lg:flex items-center justify-center gap-4 ">
                 <Link to="/auth/login">Sign In</Link>
                 <Link to='/auth/register' >
-                  <div className="flex relative bg-DarkBlue items-center justify-center gap-2 p-1 px-5 rounded-[25px] overflow-hidden font-medium hover:text-white group hover:bg-gray-50">
-                  <span className="absolute left-0 block w-full h-0 transition-all bg-DeepOrange opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
-                    
-                  <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                  </span>
-                  <div className="relative flex justify-center items-center text-white">Get started<img src="/arrow.png" alt="" className="inset-0  object-cover transition-opacity duration-300 group-hover:opacity-0"/></div>
-                  </div>
+                  <Buttons text="Get Started"/>
                 </Link>
 
 
@@ -126,8 +120,6 @@ const NavBar: React.FC = () => {
                   )}
 
                 </div>
-
-                {/* <div className="lg:hidden flex items-center mt-10 gap-4 hover:cursor-pointer"><img className="w-10 rounded-full " alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/><p>Bright Ekpan</p></div> */}
               </div>
             </div>
           )}

@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCarTypes } from "@/api/cars";
-import { ButtonGroupInput } from "../ButtonGroupInput";
+
 
 type FormState = {
   location: string;

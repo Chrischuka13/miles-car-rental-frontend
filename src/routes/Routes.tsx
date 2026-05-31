@@ -138,7 +138,7 @@ const Routes = () => {
           ),
         },
         {
-          path: "createAccount",
+          path: "register",
           element: (
             <PublicRoute>
               <SignUp />

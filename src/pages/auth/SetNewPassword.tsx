@@ -8,6 +8,8 @@ import { useMutation } from "@tanstack/react-query";
 import { resetPasswordApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import LoadingButton from "@/components/ui/authButtons";
+
 
 export default function SetNewPassword() {
   const [revealPassword, setRevealPassword] = useState(false);
@@ -106,21 +108,8 @@ const email = searchParams.get("email") || "";
             )}
           </div>
 
-          <button
-            className="btn btn-neutral w-full lg:w-110 bg-DeepOrange text-white mt-8 border rounded-3xl"
-            type="submit"
-          >
-            <div className="flex justify-center items-center">
-              <div>
-                <h1 className="text-xl">
-                  {mutation.isPending ? "Resetting..." : "Reset"}
-                </h1>
-              </div>
-              <div>
-                <img src="/stash_arrow-down-duotone.svg" alt="" />
-              </div>
-            </div>
-          </button>
+          <LoadingButton loading={mutation.isPending} loadingText="Resetting...." text="Reset Password"/>
+
         </form>
       </div>
     </div>

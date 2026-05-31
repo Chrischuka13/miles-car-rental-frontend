@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCarBySlug } from "@/api/cars/cars";
 
 import { validateBookingSchema } from "@/lib/schemaTypes";
+import Buttons2 from "@/components/ui/Buttons2";
 
 interface Car {
   _id: string;
@@ -268,14 +269,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
               </span>
               <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
                 <Link to={`/booking/${selectedCars.slug}`}>
-                  <button
-                    className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer"
-                  >
-                    <p className="text-sm sm:text-base">Book this car</p>
-                    <span>
-                      <img src="/stasharrow.png" alt="" className="w-4 sm:w-6" />
-                    </span>
-                  </button>        
+              <Buttons2 text="Book this car"/>
                 </Link>
 
 
@@ -488,7 +482,7 @@ const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
                   </span>
 
                   {/* book now button */}
-                  <div className="w-full bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
+                  <div className="w-full bg-DeepOrange transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
                     <button
                       type="submit"
                       className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto"

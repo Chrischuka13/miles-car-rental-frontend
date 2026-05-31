@@ -8,8 +8,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUserApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import LoadingButton from "@/components/ui/authButtons";
 
 export default function Login() {
+  const [loading, setLoading] = useState(false);
   const [revealPassword, setRevealPassword] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // Initialize queryClient
@@ -113,15 +115,8 @@ export default function Login() {
           
           <Link to="/auth/forgot-Password" className="flex justify-end text-DeepOrange mb-3">Forgot Password?</Link>
 
-          <button
-            className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange"
-            type="submit">
+          <LoadingButton loading={mutation.isPending} loadingText="Logging in..." text="Login"/>
 
-            <div className="flex justify-center items-center ">
-              {mutation.isPending ? "Processing..." : "Login"}
-                <img src="/arroww.png" alt="" className=""/>
-            </div>
-          </button>
 
           <div className="flex items-center py-2">
             <div className="grow h-px bg-gray-200"></div>
@@ -154,7 +149,7 @@ export default function Login() {
 
           <h1 className="text-center text-[#393E46] mt-1">
             Don't have an account?{" "}
-            <span className="text-DeepOrange">
+            <span className="text-DeepOrange hover:text-orange-700">
               <Link to="/auth/register">SignUp</Link>
             </span>{" "}
           </h1>

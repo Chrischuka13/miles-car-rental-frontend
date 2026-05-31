@@ -7,6 +7,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { forgotPasswordApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import LoadingButton from "@/components/ui/authButtons";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -72,21 +73,9 @@ export default function ForgotPassword() {
               <p className="text-red-500 text-sm">{errors?.email.message}</p>
             )}
           </div>
-          <button
-            className="w-full p-3 bg-orange rounded-[24px] text-white text-xl cursor-pointer hover:bg-amber-600 mt-4"
-            type="submit"
-          >
-            <div className="flex justify-center items-center">
-              <div>
-                <h1 className="text-xl">
-                  {mutation.isPending ? "Sending..." : "Send Reset Link"}
-                </h1>
-              </div>
-              <div>
-                <img src="/stash_arrow-down-duotone.png" alt="" />
-              </div>
-            </div>
-          </button>
+
+          <LoadingButton loading={mutation.isPending} loadingText="Processing..." text="Send Reset Link"/>
+
         </form>
       </div>
       <h1 className="text-center pt-3 text-[#393E46]">

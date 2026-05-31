@@ -23,14 +23,14 @@ export default function TableBody({
 }: TableBodyProps) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full text-sm bg-white">
         <thead>
-          <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide">
+          <tr className="bg-neutral-200 border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide">
             <th className="p-4 w-10">
               <input type="checkbox" className="rounded" />
             </th>
             {tableColumns.map((col) => (
-              <th key={col.uid} className="p-4 text-left font-medium">
+              <th key={col.uid} className="p-4 text-left font-medium text-DarkBlue">
                 {col.name}
               </th>
             ))}

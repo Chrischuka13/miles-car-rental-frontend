@@ -1,7 +1,3 @@
-
-
-
-
 import { useQuery } from "@tanstack/react-query";
 import { getAdminBookingsApi } from "@/api/admin";
 import { useSearchParams } from "react-router";
@@ -11,7 +7,7 @@ import { Download,  Plus, Search } from "lucide-react";
 import BookingsTable from "./BookingTable";
 import Paginate from "@/components/Paginate";
 import NewBookingModal from "./NewBookingModal";
-import Filter from "@/components/Filter";
+// import Filter from "@/components/Filter";
 
 
 interface Car {
@@ -132,7 +128,7 @@ export default function Bookings() {
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 bg-[#F97316] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition"
+            className="flex items-center gap-2 bg-DeepOrange text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition"
           >
             <Plus size={16} />
             New booking
@@ -165,14 +161,14 @@ export default function Bookings() {
               placeholder="Search ref, customer..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 pr-4   py-2 border border-gray-200 rounded-full text-sm outline-none focus:border-[#F97316] w-36 md:w-64"
+              className="pl-9 pr-4 py-2 border border-gray-200 rounded-full text-sm outline-none focus:border-[#F97316] w-36 md:w-64"
             />
           </div>
           <div className="flex items-center md:gap-3">
             <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 hover:bg-gray-50 transition">
               {/* <Filter size={15} />
               Filters */}
-              <Filter/>
+              {/* <Filter/> */}
             </button>
             <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-full text-sm text-gray-600 hover:bg-gray-50 transition">
               <Download size={15} />

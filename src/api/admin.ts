@@ -48,3 +48,31 @@ export const adminCreateBookingApi = async (data: any) => {
     { withCredentials: true }
   );
 };
+
+export const createDriverApi = async (data: any) => {
+  return await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/v1/driver/create-driver`,
+    data,
+    { withCredentials: true }
+  );
+};
+
+
+export const getAllDriverApi = async (page = 1) => {
+  return await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/v1/driver/get-all-drivers`,
+    {
+      params: { page, limit: 10 },
+      withCredentials: true,
+    }
+  );
+};
+
+export const getSingleDriverApi = async (driverId: string) => {
+  return await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/v1/driver/${driverId}`,
+    {
+      withCredentials: true,
+    }
+  );
+};

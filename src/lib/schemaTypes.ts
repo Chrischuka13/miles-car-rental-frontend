@@ -310,7 +310,7 @@ export const validateDriverSchema = z.object({
     message: "Full name must be at least 3 characters long",
   }),
 
-  phoneNumber: z
+  phoneNumber: z.coerce
     .string()
     .trim()
     .min(1, {
@@ -334,7 +334,7 @@ export const validateDriverSchema = z.object({
     message: "Base city is required",
   }),
 
-  yearsOfExperience: z
+  yearsOfExperience: z.coerce
     .number({
       message: "Years of experience must be a number",
     })
@@ -371,10 +371,14 @@ export const validateDriverSchema = z.object({
       message: "select a driver status",
     })
     .default("available"),
-  trips: z
+  trips: z.coerce
     .number({
       message: "Trips must be a valid number",
     })
     .min(0, { message: "Trips cannot be negative" })
     .default(0),
 });
+
+export type DriverFormValues = z.infer<
+  typeof validateDriverSchema
+>;

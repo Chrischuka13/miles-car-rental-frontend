@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import Stepper from "@/components/booking/Stepper";
-import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import Success from "@/components/booking/Success";
 import { useForm, Controller, useWatch } from "react-hook-form";
@@ -15,6 +14,7 @@ import { errorHandler } from "@/lib/utils";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
 import { Loader } from "lucide-react";
+import { Button } from "@base-ui/react/button";
 
 interface CarData {
   images: {
@@ -364,7 +364,7 @@ export default function Booking() {
                         <div className="flex justify-end mt-6">
                           <Button
                             type="submit"
-                            className="w-37.5 text-center  bg-[#fa7315] rounded-full text-white py-5 lg:py-6 px-4"
+                            className="w-37.5 text-center  bg-[#fa7315] rounded-full text-white p-2"
                             disabled={bookDataMutation.isPending}
                           >
                             {bookDataMutation.isPending ? (
@@ -629,8 +629,7 @@ export default function Booking() {
                     <Button
                       type="button"
                       onClick={handleBack}
-                      variant="outline"
-                      className="rounded-full px-5 py-3 border-[#C3C9D3] text-gray-500 lg:px-10 lg:py-5"
+                      className="rounded-full px-3 py-3 border-[#C3C9D3] text-gray-500 lg:px-10 lg:py-5"
                     >
                       Back
                     </Button>
@@ -642,7 +641,7 @@ export default function Booking() {
                     <Button
                       type="button"
                       onClick={handlePaystack}
-                      className="w-50 bg-[#fa7315] rounded-full text-white py-5 lg:py-6 px-4"
+                      className="w-50 bg-[#fa7315] rounded-full text-white p-2"
                       disabled={paymentDataMutation.isPending}
                     >
                       {paymentDataMutation.isPending ? (

@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { contactUsApi } from "@/api/contactus";
 import { toast } from "react-toastify";
 import axios from "axios";
+import LoadingButton from "@/components/ui/authButtons";
 
 export default function ContactUs() {
   const {
@@ -211,14 +212,7 @@ onError: (error) => {
                 )}
               </div>
 
-              <button
-                type="submit"
-                disabled={mutation.isPending}
-                className="mt-4 w-full bg-orange-500 text-white py-1 rounded-2xl flex items-center justify-center gap-2 hover:bg-orange-600 transition disabled:opacity-50"
-              >
-                {mutation.isPending ? "Sending..." : "Send message"}
-                <img src="/arroww.png" alt="" />
-              </button>
+              <LoadingButton loading={mutation.isPending} loadingText="Processing..." text="Send message"/>
 
               <p className="text-sm text-gray-500">
                 By submitting, you agree to our terms and privacy policy.
