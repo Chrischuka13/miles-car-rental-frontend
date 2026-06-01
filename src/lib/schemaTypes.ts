@@ -136,7 +136,7 @@ export const validateAdminNewBookingSchema = z
     path: ["returnDate"],
   });
 
-export type BookingForm = z.infer<typeof validateBookingSchema>;
+export type AdminCreateBookingSchemaType = z.infer<typeof validateAdminNewBookingSchema>;
 
 export const validateSignUpSchema = z.object({
   firstName: z

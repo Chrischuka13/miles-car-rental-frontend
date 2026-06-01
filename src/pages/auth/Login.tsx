@@ -14,8 +14,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [revealPassword, setRevealPassword] = useState(false);
   const navigate = useNavigate();
-  const queryClient = useQueryClient(); // Initialize queryClient
-
+  const queryClient = useQueryClient(); 
   const {
     handleSubmit,
     register,

@@ -12,9 +12,10 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import SetNewPassword from "@/pages/auth/SetNewPassword.tsx";
 import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
 import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
-import AuthLayout from "@/layouts/AuthLayout.tsx";
+
 import AdminLayout from "@/layouts/AdminLayout.tsx";
 import { AdminRoute, PublicRoute } from "./ProtectedRoutes.tsx";
+import AuthLayout from "@/layouts/AuthLayout.tsx";
 
 const Routes = () => {
   const routes = [
@@ -30,25 +31,37 @@ const Routes = () => {
             return { Component };
           },
         },
+        // Consolidated: About Page nested inside RootLayout
         {
-          path: "/cars",
+          path: "about",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/about/About.tsx");
+            return { Component };
+          },
+        },
+        // Consolidated: Contact Page nested inside RootLayout
+        {
+          path: "contact",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/contactus/ContactUs.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "cars",
           Component: CarsLayout,
           children: [
             {
               path: "carlisting",
               lazy: async () => {
-                const { default: Component } = await import(
-                  "../pages/cars/CarListing"
-                );
+                const { default: Component } = await import("../pages/cars/CarListing");
                 return { Component };
               },
             },
             {
               path: "cardetails/:slug",
               lazy: async () => {
-                const { default: Component } = await import(
-                  "../pages/cars/CarDetails"
-                );
+                const { default: Component } = await import("../pages/cars/CarDetails");
                 return { Component };
               },
             },
@@ -57,36 +70,28 @@ const Routes = () => {
         {
           path: "booking/:slug",
           lazy: async () => {
-            const { default: Component } = await import(
-              "../pages/booking/Booking"
-            );
+            const { default: Component } = await import("../pages/booking/Booking");
             return { Component };
           },
         },
         {
           path: "my-bookings",
           lazy: async () => {
-            const { default: Component } = await import(
-              "../pages/booking/MyBookings"
-            );
+            const { default: Component } = await import("../pages/booking/MyBookings");
             return { Component };
           },
         },
         {
           path: "verify-payment",
           lazy: async () => {
-            const { default: Component } = await import(
-              "../pages/booking/VerifyPayment.tsx"
-            );
+            const { default: Component } = await import("../pages/booking/VerifyPayment.tsx");
             return { Component };
           },
         },
         {
           path: "booking-details/:id",
           lazy: async () => {
-            const { default: Component } = await import(
-              "../pages/booking/BookingDetails.tsx"
-            );
+            const { default: Component } = await import("../pages/booking/BookingDetails.tsx");
             return { Component };
           },
         },
@@ -163,7 +168,6 @@ const Routes = () => {
         },
       ],
     },
-
     {
       path: "admin",
       element: (
@@ -175,40 +179,35 @@ const Routes = () => {
         {
           index: true,
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/dashboard/Dashboard.tsx");
+            const { default: Component } = await import("../pages/dashboard/Dashboard.tsx");
             return { Component };
           },
         },
         {
           path: "bookings",
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/bookings/Bookings.tsx");
+            const { default: Component } = await import("../pages/bookings/Bookings.tsx");
             return { Component };
           },
         },
         {
           path: "fleet",
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/fleet/Fleet.tsx");
+            const { default: Component } = await import("../pages/fleet/Fleet.tsx");
             return { Component };
           },
         },
         {
           path: "customers",
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/customers/Customers.tsx");
+            const { default: Component } = await import("../pages/customers/Customers.tsx");
             return { Component };
           },
         },
         {
           path: "drivers",
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/drivers/Drivers.tsx");
+            const { default: Component } = await import("../pages/drivers/Drivers.tsx");
             return { Component };
           },
         },
@@ -223,15 +222,16 @@ const Routes = () => {
         {
           path: "bookings/:id",
           lazy: async () => {
-            const { default: Component } =
-              await import("../pages/bookings/BookingDetails.tsx");
+            const { default: Component } = await import("../pages/bookings/BookingDetails.tsx");
             return { Component };
           },
         },
       ],
     },
   ] satisfies RouteObject[];
+
   const router = createBrowserRouter(routes);
+
   return <RouterProvider router={router} />;
 };
 

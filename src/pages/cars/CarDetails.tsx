@@ -221,7 +221,7 @@ export default function CarDetails() {
                 </p>
 
                 <h1 className="py-1 font-semibold text-xl sm:text-2xl lg:text-3xl uppercase">
-                  {selectedCars.modelName}
+                  {selectedCars.brand} {selectedCars.modelName}
                 </h1>
 
                 {/* star rating */}

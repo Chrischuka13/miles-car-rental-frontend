@@ -1,16 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 @import "tailwindcss";
 
-
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 @import "tailwindcss";
 
-/* @import "tailwindcss"; */
-
-*{
-    font-family: "Manrope", sans-serif;
+* {
+  font-family: "Manrope", sans-serif;
 }
 
 @theme {
@@ -294,27 +291,8 @@
     }
 }
 
-.loader {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        position: relative;
-        animation: rotate 1s linear infinite
-      }
-      .loader::before , .loader::after {
-        content: "";
-        box-sizing: border-box;
-        position: absolute;
-        inset: 0px;
-        border-radius: 50%;
-        border: 5px solid #FFF;
-        animation: prixClipFix 2s linear infinite ;
-      }
-      .loader::after{
-        transform: rotate3d(90, 90, 0, 180deg );
-        border-color: #FF3D00;
-      }
 
+<<<<<<< HEAD
 
       @keyframes prixClipFix {
           0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
@@ -333,3 +311,5 @@
       @keyframes l1 {
           100% {background-size:100%}
       }
+=======
+>>>>>>> e96d5c2b8a1c3277e659b3a5fe16f5d5ef51dc69
