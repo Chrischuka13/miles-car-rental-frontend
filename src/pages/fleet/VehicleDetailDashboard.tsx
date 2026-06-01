@@ -62,7 +62,7 @@ export function VehicleDetailDashboard({
           : [];
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] pt-24 px-4 md:px-8 pb-12 font-sans selection:bg-orange-100">
+    <div className="min-h-screen bg-[#FAFAFA] md:pt-24 px-4 md:px-8 pb-12 font-sans selection:bg-orange-100">
       {/* Top Navigation Back Action Bar */}
       <button
         onClick={onBack}

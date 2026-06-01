@@ -114,18 +114,18 @@ export default function Fleet() {
   }
 
   return (
-    <section className="p-6 pt-24 min-h-screen bg-[#FAFAFA]">
-      <div className="flex justify-between items-center gap-4 w-full">
+    <section className="p-6 md:pt-24 min-h-screen bg-[#FAFAFA]">
+      <div className="md:flex justify-between items-center gap-4 w-full">
         <div className="min-w-0">
           <h1 className="text-2xl font-bold text-gray-900">Fleet</h1>
-          <p className="text-sm text-gray-500 mt-1 wrap-break-word max-w-md">
+          <p className="text-lg text-gray-500 mt-1 wrap-break-word max-w-md mb-4 ">
             Track availability, utilization and revenue per vehicle.
           </p>
         </div>
         <div className="shrink-0">
           <button
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-2 bg-[#F97316] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition whitespace-nowrap"
+            className="flex items-center gap-2 bg-DeepOrange text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition whitespace-nowrap"
           >
             <Plus size={16} />
             Add vehicle

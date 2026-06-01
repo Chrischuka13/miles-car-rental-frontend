@@ -25,10 +25,10 @@ export default function TableBody({
     <div className="overflow-x-auto">
       <table className="w-full text-sm bg-white">
         <thead>
-          <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide">
+          <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide bg-neutral-200">
             <th>#</th>
             {tableColumns.map((col) => (
-              <th key={col.uid} className="p-4 text-left font-medium text-DarkBlue">
+              <th key={col.uid} className="p-4 text-left font-medium text-DarkBlue ">
                 {col.name}
               </th>
             ))}

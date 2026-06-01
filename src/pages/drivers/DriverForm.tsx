@@ -258,10 +258,10 @@ function Line() {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-8">
          {/* Steps */}
           <div className="pt-6"> 
-            <div className="flex items-center justify-between">  
+            <div className="flex flex-col lg:flex-row gap-4 items-start md:items-center justify-between ">  
               <StepItem active={step === 1} completed={step > 1} label="Identity" step={1}/>
                 <Line/>               
               <StepItem active={step === 2} completed={step > 2} label="License" step={2}/>

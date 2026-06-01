@@ -54,6 +54,7 @@ export default function IdentityStep() {
       );
     }
   };
+  
 
 console.log(watch());
 
@@ -68,12 +69,11 @@ console.log(watch());
         name="yearsOfExperience"
         label="Years Of Experience"
         type="number"
-      />{" "}
+      />
       <div>
-        {" "}
+
         <label className="mb-3 block"> Languages </label>{" "}
         <div className="flex flex-wrap gap-3">
-          {" "}
           {LANGUAGES.map((lang) => {
             const active = selectedLanguage.includes(
               lang.value
@@ -96,8 +96,8 @@ console.log(watch());
               </button>
             );
           })}
-        </div>{" "}
-      </div>{" "}
+        </div>
+      </div>
     </div>
   );
 }

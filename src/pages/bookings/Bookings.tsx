@@ -94,9 +94,9 @@ export default function Bookings() {
 
   // filter by tab and search on frontend
   const filtered = bookings.filter((b) => {
-    const matchesTab = activeTab === "All" || b.bookingStatus === activeTab;
+    const matchesTab = activeTab === "All" || b?.bookingStatus === activeTab;
     const matchesSearch =
-      `${b.user.firstName} ${b.user.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
+      `${b?.user?.firstName} ${b?.user?.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
       b._id.toLowerCase().includes(search.toLowerCase());
     return matchesTab && matchesSearch;
   });

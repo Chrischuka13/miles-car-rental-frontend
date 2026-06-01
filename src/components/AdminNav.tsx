@@ -20,7 +20,7 @@ export default function AdminNav() {
         </div>
 
         <div className="flex gap-6 items-center">
-          <div className="hidden">
+          <div className="hidden md:block">
           <UserAvatar />
           </div>
 

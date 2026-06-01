@@ -104,12 +104,12 @@ export default function AdminDrawer() {
             {user?.firstName}
           </h1>
 
-        <div
+        <button
           className="p-4 flex gap-2 cursor-pointer hover:text-red-600"
           onClick={handleLogout}
         >
           <LogOut /> <p className="text-red-600">Logout</p>
-        </div>
+        </button>
       </aside>
     </>
   );

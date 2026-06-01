@@ -79,7 +79,7 @@ export default function BookingsTable({ bookings }: BookingsTableProps) {
       case "customer":
         return (
           <span className="font-medium text-gray-800">
-            {booking.user.firstName} {booking.user.lastName}
+            {booking?.user?.firstName} {booking?.user?.lastName}
           </span>
         );
       case "vehicle":
