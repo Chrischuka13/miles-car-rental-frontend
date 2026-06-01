@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getTrendingCars } from "@/api/cars/cars";
+import { Loader } from "lucide-react";
 
 interface TrendingCar {
   _id: string;
@@ -25,18 +26,13 @@ export default function TrendingCars() {
 
   if (isLoading)
     return (
-      <div className="py-10 text-center text-orange-500">Loading trends...</div>
+      <div className="h-screen flex items-center justify-center">
+        <Loader className="animate-spin w-4 h-4 text-DeepOrange" />
+      </div>
     );
   if (isError || cars.length === 0) return null;
 
-   const USD_TO_NGN = 200; 
   
-  const formatToNaira = (priceInUSD: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-    }).format(priceInUSD * USD_TO_NGN);
-  };
 
 
   return (
@@ -92,7 +88,7 @@ export default function TrendingCars() {
                     <p className="text-[#A1A1A1] text-xs uppercase">
                       {car.category}
                     </p>
-                    <p className="text-lg font-bold">{formatToNaira(car.pricePerDay)}</p>
+                    <p className="text-lg font-bold">{car.pricePerDay}</p>
                   </span>
 
                   <span className="flex items-center justify-between">

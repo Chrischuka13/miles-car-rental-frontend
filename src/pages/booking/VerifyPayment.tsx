@@ -1,8 +1,9 @@
+
 import { verifyPayment } from "@/api/payment";
 import { Button } from "@/components/ui/bluebutton";
 import { errorHandler } from "@/lib/utils";
 import { CheckCheckIcon, Loader, XCircleIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react"; // Added useRef
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { toast } from "react-toastify";
 
@@ -14,33 +15,46 @@ export default function VerifyPayment() {
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
+  // Guard flag to block React Strict Mode double-invocations in development
+  const hasStartedVerification = useRef<boolean>(false);
+
   useEffect(() => {
-    if (reference) {
-      const verifyRef = async () => {
-        setIsPending(true);
-        try {
-          const response = await verifyPayment(reference);
-          if (response.status === 200) {
-            setIsSuccess(true);
-            toast.success(response.data.message);
-          } else {
-            setIsSuccess(false);
-            toast.error(response.data.message || "Payment verification failed");
-          }
-        } catch (error) {
-          errorHandler(error);
-        } finally {
-          setIsPending(false);
+    // If there's no reference, or if this effect already triggered the API call, get out early
+    if (!reference || hasStartedVerification.current) return;
+
+    const verifyRef = async () => {
+      // Synchronously flip the ref lock to true BEFORE the async call happens
+      hasStartedVerification.current = true;
+      setIsPending(true);
+      
+      try {
+        const response = await verifyPayment(reference);
+        if (response.status === 200) {
+          setIsSuccess(true);
+          toast.success(response.data.message);
+        } else {
+          setIsSuccess(false);
+          toast.error(response.data.message || "Payment verification failed");
+          // Optional: hasStartedVerification.current = false; (if you want to allow retry on failure)
+          hasStartedVerification.current = false;
         }
-      };
-      verifyRef();
-    }
+      } catch (error) {
+        errorHandler(error);
+      } finally {
+        setIsPending(false);
+      }
+    };
+
+    verifyRef();
   }, [reference]);
+
+
+
 
   return (
     <>
-      // ... inside your component
-      <div className="min-h-[70vh] container mx-auto px-4 flex items-center justify-center">
+ 
+      <div className="min-h-screen container mx-auto px-4 flex items-center justify-center">
         {isPending ? (
           // LOADER STATE
           <div className="flex flex-col items-center gap-4 text-center">

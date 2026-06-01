@@ -79,15 +79,7 @@ export default function Cars() {
     return filtered;
   }, [cars, activeCategory, searchTerm]);
 
-  const USD_TO_NGN = 200;
-
-  const formatToNaira = (priceInUSD: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-    }).format(priceInUSD * USD_TO_NGN);
-  };
-
+  
   const carsRef = useRef<HTMLDivElement | null>(null);
   const prevPageRef = useRef(page);
 
@@ -253,7 +245,7 @@ export default function Cars() {
                       </p>
 
                       <p className="text-lg font-bold">
-                        {formatToNaira(car.pricePerDay)}
+                        {(car.pricePerDay)}
                       </p>
                     </span>
 
