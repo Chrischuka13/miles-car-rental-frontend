@@ -1,30 +1,238 @@
-import AuthLayout from "../layouts/AuthLayout";
 import RootLayout from "../layouts/RootLayout";
 import SuspenseUi from "../components/ui/SuspenseUi";
-import { createBrowserRouter, RouterProvider, type RouteObject } from "react-router";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  type RouteObject,
+} from "react-router";
+import CarsLayout from "@/layouts/CarsLayout";
+import Login from "../pages/auth/Login";
+import SignUp from "../pages/auth/SignUp";
+import ForgotPassword from "../pages/auth/ForgotPassword";
+import SetNewPassword from "@/pages/auth/SetNewPassword.tsx";
+import VerifyAccount from "@/pages/auth/VerifyAccount.tsx";
+import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
 
-import React, { Children, Component, lazy, Suspense } from 'react'
+import AdminLayout from "@/layouts/AdminLayout.tsx";
+import { AdminRoute, PublicRoute } from "./ProtectedRoutes.tsx";
+import AuthLayout from "@/layouts/AuthLayout.tsx";
 
 const Routes = () => {
-    const routes = [
+  const routes = [
+    {
+      path: "/",
+      Component: RootLayout,
+      hydrateFallbackElement: <SuspenseUi />,
+      children: [
         {
-            path: "/",
-            Component: RootLayout,
-            hydrateFallbackElement: <SuspenseUi/>,
-            children: [
-                {
-                    index: true,
-                    lazy: async () => {
-                        const { default: Component} = await import ("../pages/home/Home.tsx");
-                        return {Component}
-                    },
-                },
-            ]
+          index: true,
+          lazy: async () => {
+            const { default: Component } = await import("../pages/home/Home");
+            return { Component };
+          },
         },
-    ] satisfies RouteObject[];
-    const router = createBrowserRouter(routes);
-    return <RouterProvider router={router} />;
+        // Consolidated: About Page nested inside RootLayout
+        {
+          path: "about",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/about/About.tsx");
+            return { Component };
+          },
+        },
+        // Consolidated: Contact Page nested inside RootLayout
+        {
+          path: "contact",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/contactus/ContactUs.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "cars",
+          Component: CarsLayout,
+          children: [
+            {
+              path: "carlisting",
+              lazy: async () => {
+                const { default: Component } = await import("../pages/cars/CarListing");
+                return { Component };
+              },
+            },
+            {
+              path: "cardetails/:slug",
+              lazy: async () => {
+                const { default: Component } = await import("../pages/cars/CarDetails");
+                return { Component };
+              },
+            },
+          ],
+        },
+        {
+          path: "booking/:slug",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/booking/Booking");
+            return { Component };
+          },
+        },
+        {
+          path: "my-bookings",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/booking/MyBookings");
+            return { Component };
+          },
+        },
+        {
+          path: "verify-payment",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/booking/VerifyPayment.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "booking-details/:id",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/booking/BookingDetails.tsx");
+            return { Component };
+          },
+        },
+      ],
+    },
+    {
+      path: "about",
+      Component: RootLayout,
+      hydrateFallbackElement: <SuspenseUi />,
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { default: Component } = await import(
+              "../pages/about/About.tsx"
+            );
+            return { Component };
+          },
+        },
+      ],
+    },
+    {
+      path: "contact",
+      Component: RootLayout,
+      hydrateFallbackElement: <SuspenseUi />,
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { default: Component } = await import(
+              "../pages/contactus/ContactUs.tsx"
+            );
+            return { Component };
+          },
+        },
+      ],
+    },
+    {
+      path: "auth",
+      Component: AuthLayout,
+      hydrateFallbackElement: <SuspenseUi />,
+      children: [
+        {
+          path: "login",
+          element: (
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          ),
+        },
+        {
+          path: "register",
+          element: (
+            <PublicRoute>
+              <SignUp />
+            </PublicRoute>
+          ),
+        },
+        {
+          path: "forgot-password",
+          Component: ForgotPassword,
+        },
+        {
+          path: "verify-otp",
+          Component: VerifyOtp,
+        },
+        {
+          path: "set-new-password",
+          Component: SetNewPassword,
+        },
+        {
+          path: "verify-account",
+          Component: VerifyAccount,
+        },
+      ],
+    },
+    {
+      path: "admin",
+      element: (
+        <AdminRoute>
+          <AdminLayout />
+        </AdminRoute>
+      ),
+      children: [
+        {
+          index: true,
+          lazy: async () => {
+            const { default: Component } = await import("../pages/dashboard/Dashboard.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "bookings",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/bookings/Bookings.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "fleet",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/fleet/Fleet.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "customers",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/customers/Customers.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "drivers",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/drivers/Drivers.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "settings",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/settings/Setting.tsx");
+            return { Component };
+          },
+        },
+        {
+          path: "bookings/:id",
+          lazy: async () => {
+            const { default: Component } = await import("../pages/bookings/BookingDetails.tsx");
+            return { Component };
+          },
+        },
+      ],
+    },
+  ] satisfies RouteObject[];
 
-}
+  const router = createBrowserRouter(routes);
 
-export default Routes
+  return <RouterProvider router={router} />;
+};
+
+export default Routes;
