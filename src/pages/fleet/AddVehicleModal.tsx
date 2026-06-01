@@ -15,18 +15,22 @@ interface AddVehicleModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: (formState: VehicleFormState) => void;
+  isPending: boolean;
 }
 
 export function AddVehicleModal({
   isOpen,
   onClose,
   onSuccess,
+  isPending,
 }: AddVehicleModalProps) {
   const [form, setForm] = useState<VehicleFormState>(initialVehicleState);
   const [activeScreen, setActiveScreen] = useState<"form" | "preview">("form");
   const [isEditMode, setIsEditMode] = useState(false);
-  const [activeUploadIndex, setActiveUploadIndex] = useState<number | null>(null);
-  
+  const [activeUploadIndex, setActiveUploadIndex] = useState<number | null>(
+    null,
+  );
+
   // Local state helper for the "What's Included" input text field
   const [customFeatureInput, setCustomFeatureInput] = useState("");
 
@@ -52,8 +56,6 @@ export function AddVehicleModal({
 
   const handleFinalSubmit = () => {
     onSuccess(form);
-    setActiveScreen("form");
-    onClose();
   };
 
   // Process flat form field changes accurately
@@ -61,7 +63,7 @@ export function AddVehicleModal({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    
+
     // Explicitly parse dynamic backend numeric entries
     if (name === "seats" || name === "year" || name === "pricePerDay") {
       setForm((prev) => ({
@@ -73,7 +75,6 @@ export function AddVehicleModal({
     }
   };
 
-  // 👈 NEW: Safely handles updating properties inside the nested carSpecs block
   const handleSpecChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -120,7 +121,6 @@ export function AddVehicleModal({
     }));
   };
 
-  // 👈 FIXED: Separates binary Files (for backend) and blob URLs (for UI rendering images)
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -136,13 +136,17 @@ export function AddVehicleModal({
         updatedImages[activeUploadIndex] = file;
         updatedPreviews[activeUploadIndex] = imageUrl;
 
-        return { ...prevForm, images: updatedImages, imagePreviews: updatedPreviews };
+        return {
+          ...prevForm,
+          images: updatedImages,
+          imagePreviews: updatedPreviews,
+        };
       });
 
       setActiveUploadIndex(null);
     } else {
       const addedFiles = Array.from(files);
-      
+
       setForm((prevForm) => {
         const updatedImages = [...prevForm.images];
         const updatedPreviews = [...prevForm.imagePreviews];
@@ -154,7 +158,11 @@ export function AddVehicleModal({
           }
         });
 
-        return { ...prevForm, images: updatedImages, imagePreviews: updatedPreviews };
+        return {
+          ...prevForm,
+          images: updatedImages,
+          imagePreviews: updatedPreviews,
+        };
       });
     }
     e.target.value = "";
@@ -171,6 +179,7 @@ export function AddVehicleModal({
         onEditClick={handleBackToEdit}
         onConfirmClick={handleFinalSubmit}
         data={form}
+        isPending={isPending}
       />
     );
   }
@@ -214,7 +223,7 @@ export function AddVehicleModal({
                 }}
                 className="border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center bg-gray-50/50 cursor-pointer hover:bg-gray-100/70 transition mb-3 min-h-32"
               >
-                {/* 👈 FIXED: Reads from preview cache URL array */}
+                {/* Reads from preview cache URL array */}
                 {form.imagePreviews[0] ? (
                   <div className="w-full h-full">
                     <img
@@ -242,7 +251,6 @@ export function AddVehicleModal({
                     }}
                     className="border border-dashed border-gray-200 rounded-xl h-20 flex items-center justify-center bg-gray-50/50 cursor-pointer hover:bg-gray-100 text-gray-400 text-[11px] overflow-hidden"
                   >
-                    {/* 👈 FIXED: Reads from preview cache URL array */}
                     {form.imagePreviews[index] ? (
                       <img
                         src={form.imagePreviews[index]}
@@ -262,8 +270,8 @@ export function AddVehicleModal({
               <p className="text-[13px] text-[#4B5563] tracking-wider">
                 Basics
               </p>
-              
-              {/* 👈 FIXED: Split vehicleName input into Brand and Model Name grid items */}
+
+              {/*vehicleName*/}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs font-medium text-gray-700 block mb-1">
@@ -293,7 +301,7 @@ export function AddVehicleModal({
                 </div>
               </div>
 
-              {/* 👈 NEW: Added explicit Price Per Day parameter slot */}
+              {/* Price per day */}
               <div>
                 <label className="text-xs font-medium text-gray-700 block mb-1">
                   Price Per Day ($)
@@ -383,6 +391,7 @@ export function AddVehicleModal({
                     className="w-full border border-gray-200 rounded-xl p-2.5 text-sm bg-white focus:outline-none"
                   />
                 </div>
+
                 <div>
                   <label className="text-xs font-medium text-gray-700 block mb-1">
                     Year
@@ -428,6 +437,33 @@ export function AddVehicleModal({
                       </option>
                     ))}
                   </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-700 block mb-1">
+                    Trips Count
+                  </label>
+                  <input
+                    type="number"
+                    name="tripsCount"
+                    value={form.tripsCount || ""}
+                    onChange={handleChange}
+                    className="w-full border border-gray-200 rounded-xl p-2.5 text-sm bg-white focus:outline-none"
+                    placeholder="0"
+                    min="0"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-700 block mb-1">
+                    Unique Slug (bmw-m3-2023-657543)
+                  </label>
+                  <input
+                    type="text"
+                    name="slug"
+                    value={form.slug || ""}
+                    onChange={handleChange}
+                    className="w-full border border-gray-200 rounded-xl p-2.5 text-sm bg-white focus:outline-none"
+                    placeholder="brand-model-identifier"
+                  />
                 </div>
               </div>
             </div>

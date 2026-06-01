@@ -1,6 +1,7 @@
 export interface VehicleFormState {
   brand: string;
   modelName: string;
+  slug?: string;
   year: number;
   description: string;
   category: string;
@@ -13,19 +14,19 @@ export interface VehicleFormState {
   pickupLocation: string;
   status: "available" | "booked" | "reserved" | "maintenance";
 
-  // Array parameters
+ 
   tags: string[];
   features: string[];
 
-  // Nested specifications object block
+  
   carSpecs: {
     engine: string;
     topSpeed: string;
     mileage: string;
-    boot: string; // Changed from bootCapacity to match backend
+    boot: string; 
   };
 
-  // Binary files for the form data upload + local URLs for the UI preview cards
+ 
   images: File[];
   imagePreviews: string[];
 }
@@ -56,9 +57,9 @@ export const initialVehicleState: VehicleFormState = {
   imagePreviews: [],
 };
 
-// Standard selection sync groupings for dropdown inputs
+
 export const VEHICLE_CATEGORIES = ["SUV", "Sedan", "Luxury", "Truck", "Family"];
 export const FUEL_OPTIONS = ["Petrol", "Diesel", "Electric", "Hybrid"];
-export const TRANSMISSION_OPTIONS = ["AUTO", "MANUAL"];
+export const TRANSMISSION_OPTIONS = ["AUTO", "MANUAL", "HYBRID"];
 export const STATUS_OPTIONS = ["available", "booked", "reserved", "maintenance"];
-export const VEHICLE_TAGS = ["CITY", "ECONOMY", "BEST SELLER", "EXECUTIVE", "LUXURY", "PREMIUM"];
+export const VEHICLE_TAGS = ["CITY", "ECONOMY", "BEST SELLER", "EXECUTIVE", "PREMIUM"];

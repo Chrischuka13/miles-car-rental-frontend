@@ -1,7 +1,6 @@
-// 📁 File path: src/components/VehiclePreviewModal.tsx
 import type { VehicleFormState } from "@/constants/Fleets";
-import { useAddVehicle } from "@/hooks/useAddVehicle"; // 👈 Import your newly created custom hook
-import { X } from "lucide-react";
+import { useAddVehicle } from "@/hooks/useAddVehicle";
+import { Loader, X } from "lucide-react";
 
 interface VehiclePreviewModalProps {
   isOpen: boolean;
@@ -9,6 +8,7 @@ interface VehiclePreviewModalProps {
   onEditClick: () => void;
   onConfirmClick: () => void; // Optional fallback if needed by parent state controllers
   data: VehicleFormState;
+  isPending: boolean;
 }
 
 export function VehiclePreviewModal({
@@ -17,13 +17,13 @@ export function VehiclePreviewModal({
   onEditClick,
   onConfirmClick,
   data,
+  isPending,
 }: VehiclePreviewModalProps) {
-  
-  // 1. Initialize your custom TanStack Query hook
-  // When the server returns 200 OK, it runs this block to clear the form and close the modal view.
+  //  Initialize custom TanStack Query hook
+  // When the parent component doesn't provide an explicit onConfirmClick handler, this fallback mutation will handle the vehicle creation logic safely within this modal's context. If the parent does provide an onConfirmClick, it will take precedence, allowing for flexible control over the mutation flow.
   const mutation = useAddVehicle(() => {
-    onClose(); 
-    if (onConfirmClick) onConfirmClick(); 
+    onClose();
+    if (onConfirmClick) onConfirmClick();
   });
 
   if (!isOpen) return null;
@@ -38,9 +38,12 @@ export function VehiclePreviewModal({
       ? `${data.brand} ${data.modelName}`.trim()
       : "Lexus RX 350";
 
-  // 2. Interceptor function to send the data payload to your backend when clicking "Continue & add"
   const handleContinueAndAdd = () => {
-    mutation.mutate(data);
+    if (onConfirmClick) {
+      onConfirmClick(); //  parent component handle the actual single mutation upload safely
+    } else {
+      mutation.mutate(data); // Safe fallback query only if parent didn't provide a controller
+    }
   };
 
   return (
@@ -49,7 +52,7 @@ export function VehiclePreviewModal({
         <div className=" px-6 py-4  border-gray-100 flex justify-between items-center shrink-0">
           <button
             type="button"
-            disabled={mutation.isPending} // Freeze edit click during network upload pipes
+            disabled={mutation.isPending} 
             onClick={onEditClick}
             className={`flex items-center gap-1 font-medium transition ${
               mutation.isPending ? "opacity-40 cursor-not-allowed" : ""
@@ -76,7 +79,8 @@ export function VehiclePreviewModal({
           <div>
             <h1 className="text-lg font-bold text-gray-900">Preview Vehicle</h1>
             <p className="text-xs text-gray-400 mt-0.5">
-              This is exactly how guests will see {dynamicVehicleName} on the website.
+              This is exactly how guests will see {dynamicVehicleName} on the
+              website.
             </p>
           </div>
 
@@ -115,7 +119,9 @@ export function VehiclePreviewModal({
               <div className="flex text-gray-900 text-sm">★★★★★</div>
               <span className="text-[#A1A1A1] font-medium ml-1">New</span>
               <span className="text-[#A1A1A1]">●</span>
-              <span className="text-[#A1A1A1]">No trips yet</span>
+              <span className="text-[#A1A1A1]">
+                {data.tripsCount || 0} trips
+              </span>
             </div>
 
             <p className="text-xs leading-relaxed text-[#A1A1A1]">
@@ -126,7 +132,7 @@ export function VehiclePreviewModal({
             <div className="pt-2 border-gray-50 space-y-1">
               <div className="flex items-baseline gap-1">
                 <span className="text-xl font-extrabold text-gray-900 text-[#A1A1A1]">
-                  ₦{Number(data.pricePerDay || 12000).toLocaleString()}
+                  ₦{Number(data.pricePerDay || 0).toLocaleString()}
                 </span>
                 <span className="text-xs font-medium text-[#A1A1A1]">
                   Vat inclusive
@@ -279,7 +285,7 @@ export function VehiclePreviewModal({
         <div className="p-4 border-gray-100 flex gap-3 shrink-0">
           <button
             type="button"
-            disabled={mutation.isPending}
+            disabled={isPending}
             onClick={onEditClick}
             className="flex-1 py-3 border border-gray-200 bg-white rounded-full text-xs font-semibold text-gray-700 hover:bg-gray-50 transition text-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -287,15 +293,22 @@ export function VehiclePreviewModal({
           </button>
           <button
             type="button"
-            disabled={mutation.isPending}
-            onClick={handleContinueAndAdd} // 👈 Triggers our custom asynchronous function
+            disabled={isPending}
+            onClick={handleContinueAndAdd}
             className={`flex-1 py-3 text-white rounded-full text-xs font-semibold transition text-center shadow-md animate-fade-in select-none ${
-              mutation.isPending
-                ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed"
+              isPending
+                ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed pointer-events-none"
                 : "bg-[#F97316] hover:bg-orange-600"
             }`}
           >
-            {mutation.isPending ? "Uploading package..." : "Continue & add"}
+            {isPending ? (
+              <Loader
+                className="animate-spin text-DeepOrange flex justify-center items-center w-full"
+                size={18}
+              />
+            ) : (
+              "Continue & add"
+            )}
           </button>
         </div>
       </div>

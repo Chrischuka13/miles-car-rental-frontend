@@ -8,6 +8,7 @@ import { getAdminFleetCars } from "@/api/adminFleet";
 import LazyLoadImageRC from "@/components/ui/lazyLoadImage";
 import Pagination from "@/features/Pagination";
 import Loader from "@/components/ui/Loader";
+import { useAddVehicle } from "@/hooks/useAddVehicle";
 
 interface AdminCar {
   _id: string;
@@ -65,10 +66,15 @@ export default function Fleet() {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [page, setPage] = useState(1);
 
-  // Core tracking states to switch views without altering layout structures
+  // Core state variables for view control and data passing between the main fleet page and the nested detail dashboard
   const [selectedCar, setSelectedCar] = useState<AdminCar | null>(null);
   const [newlyCreatedCar, setNewlyCreatedCar] =
     useState<VehicleFormState | null>(null);
+
+  //  Destructured 'isPending' from your custom backend upload hook
+  const { mutate: addVehicle, isPending } = useAddVehicle(() => {
+    setIsAddOpen(false); // close the add vehicle modal on successful addition
+  });
 
   const { data, isLoading } = useQuery<AdminFleetResponse>({
     queryKey: ["adminFleetCars", page],
@@ -87,25 +93,25 @@ export default function Fleet() {
   if (isLoading) {
     return <Loader />;
   }
-  
-// VIEW CONTROLLER INTERCEPTORS
-if (selectedCar) {
-  return (
-    <VehicleDetailDashboard
-      carData={selectedCar as unknown as VehicleFormState} 
-      onBack={() => setSelectedCar(null)}
-    />
-  );
-}
 
-if (newlyCreatedCar) {
-  return (
-    <VehicleDetailDashboard
-      carData={newlyCreatedCar}
-      onBack={() => setNewlyCreatedCar(null)}
-    />
-  );
-}
+  // VIEW CONTROLLER INTERCEPTORS
+  if (selectedCar) {
+    return (
+      <VehicleDetailDashboard
+        carData={selectedCar as unknown as VehicleFormState}
+        onBack={() => setSelectedCar(null)}
+      />
+    );
+  }
+
+  if (newlyCreatedCar) {
+    return (
+      <VehicleDetailDashboard
+        carData={newlyCreatedCar}
+        onBack={() => setNewlyCreatedCar(null)}
+      />
+    );
+  }
 
   return (
     <section className="p-6 pt-24 min-h-screen bg-[#FAFAFA]">
@@ -117,7 +123,6 @@ if (newlyCreatedCar) {
           </p>
         </div>
         <div className="shrink-0">
-          {/* Clicking this button sets our open state to true */}
           <button
             onClick={() => setIsAddOpen(true)}
             className="flex items-center gap-2 bg-[#F97316] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition whitespace-nowrap"
@@ -156,14 +161,14 @@ if (newlyCreatedCar) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-12">
         {fleetCars.map((car: AdminCar) => (
           <div
-            className="flex flex-col border border-[#E6E0E0] rounded-2xl overflow-hidden bg-white shadow-sm cursor-pointer"
+            className="flex flex-col border border-[#E6E0E0] rounded-2xl overflow-hidden bg-white shadow-sm cursor-pointer w-full h-full transition-all duration-300 hover:shadow-md"
             key={car._id}
             onClick={() => setSelectedCar(car)}
           >
-            <div className="relative w-full h-[250px] bg-[#FEFEFE] flex items-center justify-center overflow-hidden">
+            <div className="relative w-full h-[220px] sm:h-[240px] md:h-[260px] lg:h-[250px] xl:h-[280px] bg-[#FEFEFE] overflow-hidden">
               <LazyLoadImageRC
                 src={
                   car.images && car.images.length > 0
@@ -173,7 +178,7 @@ if (newlyCreatedCar) {
                 alt={car.modelName}
                 width="100%"
                 height="100%"
-                className="h-[250px] w-full object-fill transition-transform duration-300 hover:scale-105 cursor-pointer"
+                className="w-full h-full object-fill transition-transform duration-300 hover:scale-105"
               />
 
               <span
@@ -194,57 +199,68 @@ if (newlyCreatedCar) {
               </span>
             </div>
 
-            <div className="w-full px-5 py-4 flex flex-col justify-between flex-grow">
+            <div className="w-full px-4 sm:px-5 py-4 flex flex-col justify-between flex-grow">
               <div>
-                <div className="flex items-start justify-between gap-2">
-                  <h2 className="font-bold text-xl text-gray-900 tracking-tight">
-                    {car.modelName}
+                <div className="flex items-start justify-between gap-10 w-full">
+                  <h2 className="font-bold text-base sm:text-lg md:text-xl text-gray-900 tracking-tight truncate max-w-[65%]">
+                    {car.brand} {car.modelName}
                   </h2>
+
                   <div className="text-right shrink-0">
-                    <p className="text-xl font-bold text-gray-900">
+                    <p className="text-base sm:text-lg md:text-xl font-bold text-gray-900 whitespace-nowrap">
                       ₦{car.pricePerDay}
                     </p>
                     <p className="text-[#A1A1A1] text-xs">/ day</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs text-[#A1A1A1] font-medium mt-1">
-                  <span className="truncate w-[30%]">{car._id}</span>
+                <div className="flex items-center gap-2 text-xs text-[#A1A1A1] font-medium mt-1 flex-wrap">
+                  <span className="truncate max-w-[90px] sm:max-w-[120px]">
+                    {car._id}
+                  </span>
                   <span>•</span>
-                  <span className="uppercase">{car.category}</span>
+                  <span className="uppercase truncate">{car.category}</span>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 mt-4 text-[#727477]">
-                  <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1">
+                <div className="flex border-t flex-col xs:flex-row items-start xs:items-center justify-between gap-3 mt-4 pt-2 border-gray-50 text-[#727477]">
+                  <div className="flex items-center flex-wrap gap-2.5 sm:gap-3">
+                    <span className="flex items-center gap-1 shrink-0">
                       <img
                         src="/Users Group.svg"
-                        className="w-3.5 h-3.5"
+                        className="w-3.5 h-3.5 object-contain"
                         alt="seats"
                       />
                       <p className="text-xs font-medium">{car.seats}</p>
                     </span>
-                    <span className="flex items-center gap-1">
+
+                    <span className="flex items-center gap-1 min-w-0">
                       <img
                         src="/Vector.svg"
-                        className="w-3.5 h-3.5"
+                        className="w-3.5 h-3.5 object-contain shrink-0"
                         alt="fuel"
                       />
-                      <p className="text-xs font-medium">{car.fuelType}</p>
+                      <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
+                        {car.fuelType}
+                      </p>
                     </span>
-                    <span className="flex items-center gap-1">
+
+                    <span className="flex items-center gap-1 min-w-0">
                       <img
                         src="/filter-horizontal.svg"
-                        className="w-3.5 h-3.5"
+                        className="w-3.5 h-3.5 object-contain shrink-0"
                         alt="transmission"
                       />
-                      <p className="text-xs font-medium">{car.transmission}</p>
+                      <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
+                        {car.transmission}
+                      </p>
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-1 text-xs text-[#A1A1A1]">
-                    <span className="flex gap-1 ">
-                      <p className="text-xs font-medium">Trips Count</p>
+                  <div className="flex items-center gap-1 text-xs text-[#A1A1A1] shrink-0 self-end xs:self-auto">
+                    <span className="flex gap-1 whitespace-nowrap">
+                      <p className="text-xs font-medium text-[#727477]">
+                        Trips:
+                      </p>
                       {car.tripsCount}
                     </span>
                   </div>
@@ -256,14 +272,15 @@ if (newlyCreatedCar) {
       </div>
 
       <Pagination pagination={data?.pagination} setPage={setPage} />
-      {/* Render the initial form side drawer layer */}
+
+      {/* Render the add vehicle modal */}
       <AddVehicleModal
         isOpen={isAddOpen}
         onClose={() => setIsAddOpen(false)}
         onSuccess={(completedFormState: VehicleFormState) => {
-          setIsAddOpen(false);
-          setNewlyCreatedCar(completedFormState);
+          addVehicle(completedFormState);
         }}
+        isPending={isPending}
       />
     </section>
   );

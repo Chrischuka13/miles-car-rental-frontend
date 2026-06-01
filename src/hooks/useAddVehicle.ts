@@ -9,10 +9,12 @@ const createVehicle = async (formDataState: VehicleFormState) => {
   // Map text fields out of state
   dataToSend.append("brand", formDataState.brand || "");
   dataToSend.append("modelName", formDataState.modelName || "");
+  dataToSend.append("slug", formDataState.slug || "");
   dataToSend.append("category", formDataState.category || "");
-  dataToSend.append("year", String(formDataState.year || ""));
+  dataToSend.append("year", `${formDataState.year}`);
   dataToSend.append("pricePerDay", String(formDataState.pricePerDay || 0));
   dataToSend.append("seats", String(formDataState.seats || ""));
+  dataToSend.append("tripsCount", String(formDataState.tripsCount || 0));
   dataToSend.append("transmission", formDataState.transmission || "");
   dataToSend.append("fuelType", formDataState.fuelType || "");
   dataToSend.append("pickupLocation", formDataState.pickupLocation || "");

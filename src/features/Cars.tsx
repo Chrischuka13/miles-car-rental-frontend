@@ -246,7 +246,7 @@ export default function Cars() {
                     </span>
 
                     <span className="flex items-center justify-between">
-                      <h2 className="font-bold text-xl">{car.modelName}</h2>
+                      <h2 className="flex items-center  gap-10 font-bold text-xl truncate">{car.brand} {car.modelName}</h2>
 
                       <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
                     </span>
