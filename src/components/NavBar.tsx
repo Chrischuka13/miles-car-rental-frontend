@@ -23,12 +23,12 @@ const NavBar: React.FC = () => {
               >
                 Home
               </a>
-              <a
-                href="/"
+              <Link to = "/cars"
+               
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
               >
                 Cars
-              </a>
+              </Link>
               <a
                 href="/"
                 className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer "
@@ -36,7 +36,7 @@ const NavBar: React.FC = () => {
                 About Us
               </a>
               <Link to = "/contactus"
-                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4 lg:mb-0"
               >
                 Contact Us
               </Link>
