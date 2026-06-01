@@ -571,9 +571,9 @@ export default function DriversPage() {
     
 
   return (
-    <main className="p-6 pt-24 overflow-x-auto">
+    <main className="p-6 md:pt-24 overflow-x-auto">
       {/* HEADER */}
-      <div className="flex items-center justify-between mb-6 sticky left-0">
+      <div className="lg:flex items-center justify-between mb-6 sticky left-0">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
             Drivers
@@ -584,7 +584,7 @@ export default function DriversPage() {
           </p>
         </div>
 
-        <button className="flex items-center gap-2 bg-DeepOrange text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition"
+        <button className="flex items-center gap-2 bg-DeepOrange text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-600 transition mt-4"
           onClick={() =>
             setOpen(true)
           }
@@ -609,7 +609,7 @@ export default function DriversPage() {
       />
 
       {/* FILTERS */}
-      <div className="flex items-center justify-between">
+      <div className="lg:flex items-center justify-between">
         <DriverStatusTabs
           activeTab={activeTab}
           setActiveTab={

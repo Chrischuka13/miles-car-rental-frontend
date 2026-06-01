@@ -52,7 +52,7 @@ export default function DriverStatusTabs({
   stats,
 }: Props) {
   return (
-    <div className="flex gap-8 mb-4">
+    <div className="lg:flex space-x-3 gap-8 mb-4">
       {tabs.map((tab) => (
         <button
           key={tab.value}

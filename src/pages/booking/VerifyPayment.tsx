@@ -1,6 +1,6 @@
 
 import { verifyPayment } from "@/api/payment";
-import { Button } from "@/components/ui/bluebutton";
+import { Button } from "@/components/ui/button";
 import { errorHandler } from "@/lib/utils";
 import { CheckCheckIcon, Loader, XCircleIcon } from "lucide-react";
 import { useEffect, useState, useRef } from "react"; // Added useRef

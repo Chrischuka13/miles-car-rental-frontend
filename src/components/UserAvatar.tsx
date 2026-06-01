@@ -33,20 +33,18 @@ export default function UserAvatar() {
     <div className="flex items-center justify-center  bg-gray-100">
       <div className="relative" ref={dropdownRef}>
         {/* Button */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 px-4 py-2 text-white bg-DarkBlue rounded-xl shadow hover:bg-DeepOrange transition-all duration-200"
-        >
-        <span className="">
-          {`${user?.firstName}`}
-        </span> 
-          <ChevronDown
-            size={18}
-            className={`transition-transform duration-200 ${
-              open ? "rotate-180" : ""
-            }`}
-          />
-        </button>
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 px-4 py-2 text-white bg-DarkBlue rounded-xl shadow hover:bg-DeepOrange transition-all duration-200"
+      >
+        <span>{user?.firstName}</span>
+        <ChevronDown
+          size={18}
+          className={`transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
 
         {/* Dropdown */}
         <div

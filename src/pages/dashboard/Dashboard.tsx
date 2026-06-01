@@ -79,24 +79,24 @@ export default function Dashboard() {
   if (isError) return <div className="p-6 pt-24 text-red-500">Failed to load dashboard.</div>;
 
   return (
-    <div className="container mx-auto px-6 pt-20">
+    <div className="container mx-auto px-6 md:pt-20">
       <div className="lg:flex lg:justify-between">
         <div>
-          <h1 className="text-xl lg:text-4xl py-4">
+          <h1 className="text-xl lg:text-4xl py-4 font-semibold">
             {getGreeting(user?.firstName ?? "")} 👋
           </h1>
-          <p className="text-lg pb-2 lg:text-md text-center text-[#393E46]">
+          <p className="text-lg lg:text-md text-[#393E46] mb-4">
             Manage your team with confidence today.
           </p>
         </div>
-        <div className="flex items-center gap-1 border border-gray-200 rounded-2xl p-1 bg-white">
+        <div className="flex items-center gap-1 border border-gray-200 rounded-2xl p-1 bg-white mb-4">
           {options.map((option) => (
             <button
               key={option}
               onClick={() => setSelected(option)}
               className={`px-4 py-1 w-full rounded-full text-sm font-medium transition-all duration-200 ${
                 selected === option
-                  ? "bg-[#111827] text-white"
+                  ? "bg-DarkBlue text-white"
                   : "text-gray-400 hover:text-gray-600"
               }`}
             >

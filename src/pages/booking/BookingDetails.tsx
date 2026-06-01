@@ -204,7 +204,7 @@ export default function BookingDetails() {
                   Contact concierge
                 </button>
 
-                <button className="border py-3 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315] w-full">
+                <button className="border py-1 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315] w-full">
                   <Link
                     to="/cars/carlisting"
                     className="flex items-center gap-2"

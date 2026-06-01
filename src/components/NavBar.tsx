@@ -23,7 +23,7 @@ const NavBar: React.FC = () => {
     <section>
       <header className="">
         <nav className="fixed top-0 w-full z-50 hover:backdrop-blur-sm bg-white hover:text-black transition hover:cursor-pointer">
-          <div className="w-11/12 container p-4 mx-auto flex justify-between items-center">
+          <div className=" container p-4 mx-auto flex justify-between items-center">
             <Link to='/'><img src="/miles logo.svg" alt="logo" className="w-25" /></Link>
             <div className="hidden md:flex gap-7 items-center text-DarkBlue">
           {navItems.map((item) => (
@@ -95,6 +95,19 @@ const NavBar: React.FC = () => {
                 >
                   Contact Us
                 </NavLink>
+              {user? (
+                <NavLink
+                  to="/admin"
+                  className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
+                >
+                  Dashboard
+                </NavLink>
+                
+              ) : (
+                <div className=" hidden lg:flex items-center justify-center gap-4 ">
+
+                </div>
+              )}
 
                 <div className="lg:hidden">
                   {user? (

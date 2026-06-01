@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function AdminDrawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const { handleLogout } = useAuth();
+  const { user, handleLogout } = useAuth();
 
   return (
     <>
@@ -45,7 +45,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -57,7 +57,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -69,7 +69,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -81,7 +81,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -99,6 +99,10 @@ export default function AdminDrawer() {
         >
           <UserCog /> <h1>Drivers</h1>
         </NavLink>
+
+          <h1 className="text-xl lg:text-4xl p-4 text-DarkBlue font-bold">
+            {user?.firstName}
+          </h1>
 
         <div
           className="p-4 flex gap-2 cursor-pointer hover:text-red-600"

@@ -33,7 +33,7 @@ export default function DriverStats({
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-5 mb-4">
+    <div className="grid-cols space-y-3 md:grid-cols-4 gap-5 mb-4">
       {cards.map((card) => (
         <div
           key={card.label}
