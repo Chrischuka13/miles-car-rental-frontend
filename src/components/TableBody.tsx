@@ -20,15 +20,13 @@ export default function TableBody({
   tableData,
   renderCell,
   onRowClick,
-}: TableBodyProps) {
+}: TableBodyProps) {          
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm bg-white">
         <thead>
-          <tr className="bg-neutral-200 border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide">
-            <th className="p-4 w-10">
-              <input type="checkbox" className="rounded" />
-            </th>
+          <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide">
+            <th>#</th>
             {tableColumns.map((col) => (
               <th key={col.uid} className="p-4 text-left font-medium text-DarkBlue">
                 {col.name}
@@ -38,14 +36,12 @@ export default function TableBody({
         </thead>
         <tbody>
           {tableData?.length > 0 ? (
-            tableData.map((item) => (
+            tableData.map((item, index) => (
               <tr
                 key={item._id || item.id}
               
               >
-                <td className="p-4">
-                  <input type="checkbox" className="rounded" />
-                </td>
+                <td>{index + 1} </td>
                 {tableColumns.map((col) => (
                   <td key={col.uid}   onClick={() => onRowClick?.(item)}
                 className={`p-4 text-gray-600 border-b border-gray-50 hover:bg-gray-50 transition ${onRowClick ? "cursor-pointer" : ""}`}>

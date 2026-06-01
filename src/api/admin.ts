@@ -49,30 +49,35 @@ export const adminCreateBookingApi = async (data: any) => {
   );
 };
 
-export const createDriverApi = async (data: any) => {
-  return await axios.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/driver/create-driver`,
-    data,
+
+
+
+export const getAdminDashboardStatsApi = async (filter: string = "30d") => {
+  return await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/v1/admin/dashboard-stats?period=${filter}`,
     { withCredentials: true }
   );
 };
 
 
-export const getAllDriverApi = async (page = 1) => {
+export const getAdminCarsApi = async () => {
   return await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/driver/get-all-drivers`,
-    {
-      params: { page, limit: 10 },
-      withCredentials: true,
-    }
+    `${import.meta.env.VITE_API_URL}/api/v1/car/all`, 
+    { withCredentials: true }
   );
 };
 
-export const getSingleDriverApi = async (driverId: string) => {
+export const getAdminDriversApi = async () => {
   return await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/driver/${driverId}`,
-    {
-      withCredentials: true,
-    }
+    `${import.meta.env.VITE_API_URL}/api/v1/driver/get-all-drivers`,
+    { withCredentials: true }
+  );
+};
+
+export const assignDriverApi = async (data: { bookingId: string; driverId: string }) => {
+  return await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/v1/driver/assign-driver`,
+    data,
+    { withCredentials: true }
   );
 };
