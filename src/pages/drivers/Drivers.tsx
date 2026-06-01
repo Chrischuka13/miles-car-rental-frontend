@@ -566,6 +566,8 @@ export default function DriversPage() {
       search,
     ]);
 
+
+
     
 
   return (
@@ -624,7 +626,7 @@ export default function DriversPage() {
 
       {/* TABLE */}
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="driver-loading"></div>
       ) : (
         <DriverTable
           data={filteredDrivers}
@@ -642,27 +644,3 @@ export default function DriversPage() {
   );
 }
 
-
-      //   <button className="bg-DeepOrange p-3 px-5 text-white rounded-[25px]"
-      //     onClick={() =>
-      //       setOpen(true)
-      //     }
-      //   >
-      //     + Add Driver
-      //   </button>
-      // </div>
-
-      // {isLoading ? (
-      //   <p>Loading...</p>
-      // ) : (
-      //   <DriverTable
-      //     data={drivers}
-      //   />
-      // )}
-
-      // <AddDriverModal
-      //   open={open}
-      //   onClose={() =>
-      //     setOpen(false)
-      //   }
-      // />

@@ -123,6 +123,8 @@ export default function DriverForm({ onClose }: Props) {
 
     mode: "onChange",
       reValidateMode: "onChange",
+      shouldFocusError: true,
+      shouldUnregister: false,
 
     defaultValues: {
       fullName: "",
@@ -256,10 +258,9 @@ function Line() {
 
   return (
     <FormProvider {...methods}>
-      {" "}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
          {/* Steps */}
-          <div className="px-8 pt-6"> 
+          <div className="pt-6"> 
             <div className="flex items-center justify-between">  
               <StepItem active={step === 1} completed={step > 1} label="Identity" step={1}/>
                 <Line/>               
@@ -268,8 +269,8 @@ function Line() {
               <StepItem active={step === 3} completed={false} label="Assignment" step={3}/>
             </div>
          </div>
-        {step === 1 && <IdentityStep />} {step === 2 && <LicenseStep />}{" "}
-        {step === 3 && <AssignmentStep />}{" "}
+        {step === 1 && <IdentityStep />} {step === 2 && <LicenseStep />}
+        {step === 3 && <AssignmentStep />}
         <div className="flex justify-between">
           
           <Button type="button" onClick={step === 1 ? onClose : prevStep}>
@@ -287,9 +288,9 @@ function Line() {
             <Button type="submit" disabled={isPending}>
               {isPending? "creating": "create driver"}
             </Button>
-          )}{" "}
-        </div>{" "}
-      </form>{" "}
+          )}
+        </div>
+      </form>
     </FormProvider>
   );
 }

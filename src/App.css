@@ -13,7 +13,6 @@
     font-family: "Manrope", sans-serif;
 }
 
-<<<<<<< HEAD
 @theme {
   --color-orange: #f97316;
   --color-overlay: #4c4d54;
@@ -24,8 +23,6 @@
   --color-DarkBlue: #111827;
   --color-DeepOrange: #F97316; 
 }
-=======
->>>>>>> 89be6dd4c6a77c4895872b8db38b080abf155150
 
 @theme inline {
   --font-heading: var(--font-sans);
@@ -323,4 +320,16 @@
           0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
           50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
           75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+      }
+
+      .driver-loading{
+        width: 120px;
+        height: 20px;
+        background:
+        linear-gradient(#F97316 0 0) 0/0% no-repeat
+        #ddd;
+        animation: l1 2s infinite linear;
+      }
+      @keyframes l1 {
+          100% {background-size:100%}
       }

@@ -106,11 +106,11 @@ export default function DriverTable({
                 {driver.licenseNumber}
               </td>
 
-              <td className="px-4 py-4 ">
-                <div className="flex bg-[#E9E9E9] rounded-[16px] p-2 ">
-                  {driver.languages}
+              <td className="flex items-center py-4 ">
+                <div className="flex bg-[#E9E9E9] rounded-[16px] p-1">
+                  {driver.languages} 
                 </div>
-                
+              
               </td>
 
               <td className="px-4 py-4">
