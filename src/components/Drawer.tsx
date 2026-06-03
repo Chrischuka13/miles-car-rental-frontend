@@ -3,19 +3,19 @@ import { Link } from "react-router";
 
 import Logo from "./Logo";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut, Menu, X } from "lucide-react";
+import { Lock, LogOut, Menu, X } from "lucide-react";
 import UserAvatar from "./UserAvatar";
 
 export default function Drawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticating, handleLogout } = useAuth(); 
+  const { user, isAuthenticating, handleLogout } = useAuth();
 
   return (
     <>
       <div>
         <button
           onClick={() => setIsOpen(true)}
-          className="lg:hidden hover:cursor-pointer text-[#F97316]"
+          className="lg:hidden hover:cursor-pointer text-DeepOrange"
           aria-label="Open menu"
         >
           <Menu />
@@ -42,7 +42,7 @@ export default function Drawer() {
         <div className="flex flex-col p-6 gap-1">
           {/* Greeting */}
           {user && (
-            <h3 className="text-lg font-semibold capitalize mb-4 text-[#111827]">
+            <h3 className="text-lg font-semibold capitalize mb-4 text-DarkBlue">
               Hi, {user.firstName} {user.lastName}
             </h3>
           )}
@@ -50,7 +50,7 @@ export default function Drawer() {
           {/* Nav links */}
           {[
             { label: "Home", to: "/" },
-            { label: "Cars", to: "/cars" },
+            { label: "Cars", to: "/cars/carListing" },
             { label: "About Us", to: "/about" },
             { label: "Contact Us", to: "/contact" },
           ].map((link) => (
@@ -58,11 +58,22 @@ export default function Drawer() {
               key={link.label}
               href={link.to}
               onClick={() => setIsOpen(false)}
-              className="py-3 text-lg font-normal text-[#111827] border-b border-gray-100 hover:text-gray-400"
+              className="py-3 text-lg font-normal text-DarkBlue border-b border-gray-100 hover:text-gray-400"
             >
               {link.label}
             </a>
           ))}
+
+          {user?.role === "admin" && (
+            <li>
+              <Link to="/admin">
+                <div className="pl-1 flex gap-2 items-center pt-4">
+                  <Lock />
+                  <span className="">Admin</span>
+                </div>
+              </Link>
+            </li>
+          )}
 
           {/* Mobile auth */}
           {!isAuthenticating && (
@@ -70,11 +81,11 @@ export default function Drawer() {
               {user ? (
                 <div className="flex flex-col gap-4">
                   <UserAvatar />
-                  <button  // 👈 added logout button
+                  <button // 👈 added logout button
                     onClick={handleLogout}
                     className="text-red-500 flex gap-2 text-lg font-normal text-left hover:text-red-600"
                   >
-                   <LogOut/> Logout
+                    <LogOut /> Logout
                   </button>
                 </div>
               ) : (

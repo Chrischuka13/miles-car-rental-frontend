@@ -1,4 +1,4 @@
-import { CalendarDays, CarFront, Grid2x2, LogOut, Menu, UserCog, Users, X } from "lucide-react";
+import { CalendarDays, CarFront, Grid2x2, LogOut, Menu, Settings, UserCog, Users, X } from "lucide-react";
 import Logo from "./Logo";
 import { NavLink } from "react-router";
 import { useState } from "react";
@@ -6,14 +6,14 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function AdminDrawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, handleLogout } = useAuth();
+  const { handleLogout } = useAuth();
 
   return (
     <>
       {/* Hamburger button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden p-2 text-DeepOrange"
+        className="lg:hidden p-2 text-[#F97316]"
       >
         <Menu size={28} />
       </button>
@@ -45,7 +45,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -57,7 +57,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -69,7 +69,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -81,7 +81,7 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-[#F97316]"
+              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
@@ -93,23 +93,32 @@ export default function AdminDrawer() {
           onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
             `transition-all duration-300 ease-in p-3 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
-              isActive ? "bg-DeepOrange text-white border-3" : "hover:text-DeepOrange"
+              isActive ? "bg-[#F97316] text-white border-3" : "hover:text-[#F97316]"
             }`
           }
         >
           <UserCog /> <h1>Drivers</h1>
         </NavLink>
 
-          <h1 className="text-xl lg:text-4xl p-4 text-DarkBlue font-bold">
-            {user?.firstName}
-          </h1>
 
-        <button
+
+        <NavLink
+        to="/admin/settings"
+        className={({ isActive }) =>
+          `transition-all duration-300 ease-in p-3 mt-15 flex items-center gap-2 rounded-3xl w-50 mb-3 ${
+            isActive ? "bg-[#F97316] text-white  border-3" : "hover:text-[#F97316] "
+          }`
+        }
+      >
+        <Settings/> <h1>Settings</h1>
+      </NavLink>
+
+        <div
           className="p-4 flex gap-2 cursor-pointer hover:text-red-600"
           onClick={handleLogout}
         >
           <LogOut /> <p className="text-red-600">Logout</p>
-        </button>
+        </div>
       </aside>
     </>
   );

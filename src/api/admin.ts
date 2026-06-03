@@ -1,5 +1,13 @@
 import axios from "axios";
 
+type SettingsForm = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password?: string;
+};
+
 export const getAdminBookingsApi = async (page = 1) => {
   return await axios.get(
     `${import.meta.env.VITE_API_URL}/api/v1/admin/get_bookings`,
@@ -79,5 +87,24 @@ export const assignDriverApi = async (data: { bookingId: string; driverId: strin
     `${import.meta.env.VITE_API_URL}/api/v1/driver/assign-driver`,
     data,
     { withCredentials: true }
+  );
+};
+
+export const updateAdminSettingsApi = async (formData: SettingsForm) => {
+  return await axios.patch(
+    `${import.meta.env.VITE_API_URL}/api/v1/admin/update-admin`,
+    formData,
+    {
+      withCredentials: true,
+    },
+  );
+}
+
+export const deleteWorkspaceApi = async () => {
+  return await axios.delete(
+    `${import.meta.env.VITE_API_URL}/api/v1/admin/delete-workspace`,
+    {
+      withCredentials: true,
+    },
   );
 };

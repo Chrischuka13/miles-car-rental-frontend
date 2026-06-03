@@ -16,12 +16,14 @@ import VerifyOtp from "@/pages/auth/VerifyOtp.tsx";
 import AdminLayout from "@/layouts/AdminLayout.tsx";
 import { AdminRoute, PublicRoute } from "./ProtectedRoutes.tsx";
 import AuthLayout from "@/layouts/AuthLayout.tsx";
+import ErrorBoundary from "../components/ErrorBoundary"; // Adjust to match your component file path
 
 const Routes = () => {
   const routes = [
     {
       path: "/",
       Component: RootLayout,
+      ErrorBoundary: ErrorBoundary,
       hydrateFallbackElement: <SuspenseUi />,
       children: [
         {
@@ -100,6 +102,7 @@ const Routes = () => {
     {
       path: "about",
       Component: RootLayout,
+      ErrorBoundary: ErrorBoundary,
       hydrateFallbackElement: <SuspenseUi />,
       children: [
         {
@@ -116,6 +119,7 @@ const Routes = () => {
     {
       path: "contact",
       Component: RootLayout,
+      ErrorBoundary: ErrorBoundary,
       hydrateFallbackElement: <SuspenseUi />,
       children: [
         {
@@ -132,6 +136,7 @@ const Routes = () => {
     {
       path: "auth",
       Component: AuthLayout,
+      ErrorBoundary: ErrorBoundary,
       hydrateFallbackElement: <SuspenseUi />,
       children: [
         {
@@ -175,6 +180,7 @@ const Routes = () => {
           <AdminLayout />
         </AdminRoute>
       ),
+      ErrorBoundary: ErrorBoundary,
       children: [
         {
           index: true,
