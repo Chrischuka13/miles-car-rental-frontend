@@ -77,7 +77,7 @@ const NavBar: React.FC = () => {
                   Home
                 </NavLink>
                 <NavLink
-                  to="/"
+                  to="/cars/carListing"
                   className="block font-normal text-xl hover:text-gray-400 hover:cursor-pointer mb-4"
                 >
                   Cars
@@ -117,17 +117,17 @@ const NavBar: React.FC = () => {
                     
                   ):(
                     <div>
-                  <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
-                    <Link to="/auth/login">Sign in</Link>
-                  </button>
+                      <Link to="/auth/login">
+                        <button className="border rounded-[25px] p-2 px-5 border-DarkBlue w-full mb-4">
+                          Sign in
+                        </button>
+                      </Link>
 
-                  <div className="flex bg-DarkBlue items-center justify-center p-2 px-5 rounded-[25px]">
-                    <button className="text-white">
-                      <Link to='/auth/register'>Get Started</Link></button>
-                    <div>
-                      <img src="/stash_arrow-down-duotone.svg" alt="" />
-                    </div>
-                  </div>
+                      <Link to="/auth/register">
+                        <button className="border rounded-[25px] p-2 px-5 bg-DarkBlue text-white w-full mb-4">
+                          Get Started
+                        </button>
+                      </Link>
                     </div>
                   )}
 

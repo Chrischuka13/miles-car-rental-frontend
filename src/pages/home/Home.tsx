@@ -41,7 +41,7 @@ export default function Home() {
 
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               <div className="flex justify-center gap-4">
-                {user ? <Link to="/cars/carListing"><Buttons2 text="Book Now"/></Link> : <Link to="/auth/register"><Buttons2 text="Nook Now"/></Link> }
+                {user ? <Link to="/cars/carListing"><Buttons2 text="Book Now"/></Link> : <Link to="/auth/register"><Buttons2 text="Book Now"/></Link> }
                 <button className="bg-white rounded-full p-2 cursor-pointer px-4 font-semibold text-gray-800 hover:bg-gray-100">
                   <Link to="/cars/carListing">Explore Cars</Link>
                 </button>
