@@ -104,7 +104,9 @@ export default function CarDetails() {
 
   // const handleBooking = (data: CarBookingFormData1) => {
    const handleBooking = () => {
-   
+     if (!selectedCars) {
+    return;
+  }
 
     const bookingData = {
       carId: selectedCars._id,
@@ -251,7 +253,7 @@ export default function CarDetails() {
               </span>
               <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
                 <Link to={`/booking/${selectedCars.slug}`}>
-                  <button className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer">
+                  <button disabled={!selectedCars} className="flex items-center justify-center bg-DeepOrange transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer">
                     <p className="text-sm sm:text-base">Book this car</p>
                     <span>
                       <img
@@ -385,7 +387,6 @@ export default function CarDetails() {
                         className="outline-none border-none text-sm"
                         type="text"
                         placeholder="Please Enter Address..."
-                        name="pickupLocation"
                         {...register("pickupLocation")}
                        
                       />

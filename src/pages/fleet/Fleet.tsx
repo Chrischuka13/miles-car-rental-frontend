@@ -168,7 +168,7 @@ export default function Fleet() {
             key={car._id}
             onClick={() => setSelectedCar(car)}
           >
-            <div className="relative w-full h-[220px] sm:h-[240px] md:h-[260px] lg:h-[250px] xl:h-[280px] bg-[#FEFEFE] overflow-hidden">
+            <div className="relative w-full h-55 sm:h-60 md:h-65 lg:h-62.5 xl:h-70 bg-[#FEFEFE] overflow-hidden">
               <LazyLoadImageRC
                 src={
                   car.images && car.images.length > 0

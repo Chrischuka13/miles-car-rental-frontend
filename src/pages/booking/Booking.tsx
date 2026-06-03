@@ -106,7 +106,7 @@ export default function Booking() {
 
   const finalDays = diffDays > 0 ? diffDays : 1;
 
-  const getRentalCost = finalDays * (selectedCars?.pricePerDay );
+  const getRentalCost = finalDays * (selectedCars?.pricePerDay ?? 0);
     // const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
 
 
@@ -180,7 +180,7 @@ export default function Booking() {
 
   const handlePaystack = () => {
     if (!bookingId || !slug) {
-      toast.error("Missing booking ID or car slug");
+      return
     }
     const payload = {
       bookingId,
@@ -189,7 +189,10 @@ export default function Booking() {
       amount: total,
       carId: selectedCars?._id,
     };
-    paymentDataMutation.mutate(payload);
+    if (!payload.carId) {
+      throw new Error("Car ID is required");
+    }
+    paymentDataMutation.mutate({...payload, carId: payload.carId});
   };
 
   if (isLoading)

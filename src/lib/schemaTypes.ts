@@ -92,6 +92,8 @@ export const validateBookingSchema = z
     path: ["returnDate"],
   });
 
+export type BookingForm = z.infer<typeof validateBookingSchema>;
+
 export const validateCarBookingSchema1 = z.object({
   pickupDate: z.string({ message: "Pickup date is required" }).min(1, {
     message: "Pickup date is required",

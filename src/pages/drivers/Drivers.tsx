@@ -499,7 +499,7 @@ import Paginate from "@/components/Paginate";
 import usePaginate from "@/hooks/usePaginate";
 
 export default function DriversPage() {
-  const [page, setPage] =
+  const [page] =
     useState(1);
   const [open, setOpen] = useState(false)
 

@@ -1,4 +1,3 @@
-import SearchBar from "@/components/homePage/searchBar";
 import heroImage from "/heroImage.jpg"; // Adjust path based on your project structure
 // import TrendingCars from "@/sections/TrendingCars";
 import WhyChooseUs from "@/components/whyChooseUs";
@@ -48,9 +47,6 @@ export default function Home() {
                 </button>
               </div>
             </div>
-          </div>
-          <div className="mt-10">
-            <SearchBar />
           </div>
         </div>
       </section>

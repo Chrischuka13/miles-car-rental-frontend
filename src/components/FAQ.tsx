@@ -13,7 +13,7 @@ import { Minus } from 'lucide-react'
 const FAQ = () => {
     const [Isopen, SetisOpen] = useState<number | null>(null)
 
-    const toggle = (index) => {
+    const toggle = (index: any) => {
     SetisOpen(Isopen === index ? "" : index);
   };
 

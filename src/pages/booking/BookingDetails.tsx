@@ -9,8 +9,12 @@ import { cancelBooking } from "@/api/booking";
 import { toast } from "react-toastify";
 
 export default function BookingDetails() {
-  const { id } = useParams();
+  const { id } = useParams<{id: string}>();
   const navigate = useNavigate();
+  if (!id) {
+    throw new Error("Booking ID is required");
+  }
+
   const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["booking-details", id],
@@ -73,7 +77,7 @@ export default function BookingDetails() {
 
               <span
                 className={`text-xs md:text-sm px-3 md:p-1.75 text-center rounded-full ${
-                  bookingStatusColors[booking?.bookingStatus] ||
+                  bookingStatusColors[booking?.bookingStatus as keyof typeof bookingStatusColors] ||
                   "bg-gray-100 text-gray-700"
                 }`}
               >
