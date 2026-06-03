@@ -79,7 +79,7 @@ export default function BookingsTable({ bookings }: BookingsTableProps) {
       case "customer":
         return (
           <span className="font-medium text-gray-800">
-            {booking.user.firstName} {booking.user.lastName}
+            {booking?.user?.firstName} {booking?.user?.lastName}
           </span>
         );
       case "vehicle":
@@ -123,9 +123,9 @@ export default function BookingsTable({ bookings }: BookingsTableProps) {
       case "status":
         return (
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${statusConfig[booking.bookingStatus]?.bg || "bg-gray-100"} ${statusConfig[booking.bookingStatus]?.text || "text-gray-500"}`}
+            className={`px-3 py-1 rounded-full text-xs font-medium ${statusConfig[booking?.bookingStatus]?.bg || "bg-gray-100"} ${statusConfig[booking?.bookingStatus]?.text || "text-gray-500"}`}
           >
-            {booking.bookingStatus}
+            {booking?.bookingStatus}
           </span>
         );
       default:

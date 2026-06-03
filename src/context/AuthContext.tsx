@@ -42,6 +42,17 @@ export default function AuthProvider({
     fetchUser();
   }, []);
 
+  const refetchUser = async () => {
+  try {
+    const res = await getMeApi();
+    if (res.status === 200) {
+      setUser(res.data.data);
+    }
+  } catch {
+    setUser(null);
+  }
+};
+
 const handleLogout = async () => {
   try {
     if (user?.email) {
@@ -56,11 +67,14 @@ const handleLogout = async () => {
 };
 
 
+
+
   const contextValue = {
     user,
     setUser,
     isAuthenticating,
     setIsAuthenticating,
+    refetchUser,
     handleLogout,
   };
 

@@ -81,3 +81,23 @@ export const assignDriverApi = async (data: { bookingId: string; driverId: strin
     { withCredentials: true }
   );
 };
+
+
+
+type SettingsForm = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password?: string;
+};
+
+export const updateAdminSettingsApi = async (formData: SettingsForm) => {
+  return await axios.patch(
+    `${import.meta.env.VITE_API_URL}/api/v1/admin/update-admin`,
+    formData,
+    {
+      withCredentials: true,
+    },
+  );
+}
