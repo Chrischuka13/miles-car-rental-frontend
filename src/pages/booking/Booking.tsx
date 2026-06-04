@@ -74,7 +74,7 @@ export default function Booking() {
   const [paymentMethod, setPaymentMethod] = useState("paystack");
   const [currentStep, setCurrentStep] = useState(1);
   const [searchParams] = useSearchParams();
-  const step = searchParams.get("step");
+  const step = searchParams.get("step") || "1";
   const handleNext = () => {
     setCurrentStep((prev) => Math.min(prev + 1, 3));
   };
@@ -544,7 +544,7 @@ export default function Booking() {
                   </>
                 )}
 
-                {currentStep === 3 && (
+                {currentStep === 3 || step === "3" && (
                   <div className="space-y-6 bg-white rounded-lg ">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-lg">
                       {/* IMAGE */}
