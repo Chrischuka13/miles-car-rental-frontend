@@ -51,9 +51,9 @@ const { data, isPending, isError, error } = useQuery({
   const pagination = data?.body?.pagination;
 
   return (
-    <section className="p-6 min-h-screen bg-[#F7F7F7]">
+    <section className="p-6 min-h-screen bg-[#F7F7F7] ">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pt-20 lg:pt-17">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 md:pt-20 lg:pt-17">
         <div>
           <span className="flex items-center gap-2 flex-wrap">
             <h1 className="text-xl sm:text-2xl font-light">Customers</h1>
