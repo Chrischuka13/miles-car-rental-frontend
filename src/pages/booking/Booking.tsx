@@ -28,7 +28,7 @@ interface CarData {
 
 export default function Booking() {
   const { slug } = useParams();
-  const { data, isLoading, error} = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["car", slug],
     queryFn: () => getCarBySlug(slug as string),
     enabled: !!slug,
@@ -39,10 +39,8 @@ export default function Booking() {
 
   const selectedCars: CarData | undefined = data?.data;
   const bookingStorage = JSON.parse(
-    localStorage.getItem("bookingData") || "null"
+    localStorage.getItem("bookingData") || "null",
   );
-
-  console.log("ss", selectedCars);
 
   const {
     register,
@@ -52,7 +50,7 @@ export default function Booking() {
     control,
   } = useForm({
     resolver: zodResolver(validateBookingSchema),
-     
+
     defaultValues: {
       // PREFILL VALUES FROM LOCAL STORAGE
       car: bookingStorage?.car || "",
@@ -67,14 +65,13 @@ export default function Booking() {
       pickupTime: bookingStorage?.pickupTime || "",
       returnTime: bookingStorage?.returnTime || "",
       driverOption: bookingStorage?.driverOption || false,
-      
     },
   });
-  
+
   const [paymentMethod, setPaymentMethod] = useState("paystack");
   const [currentStep, setCurrentStep] = useState(1);
   const [searchParams] = useSearchParams();
-  const step = searchParams.get("step") || "1";
+  const step = searchParams.get("step") || "";
   const handleNext = () => {
     setCurrentStep((prev) => Math.min(prev + 1, 3));
   };
@@ -91,7 +88,7 @@ export default function Booking() {
 
   useEffect(() => {
     if (step) {
-      Promise.resolve().then(() => handleNext());
+      Promise.resolve().then(() => setCurrentStep(3));
     }
   }, [step]);
 
@@ -107,8 +104,7 @@ export default function Booking() {
   const finalDays = diffDays > 0 ? diffDays : 1;
 
   const getRentalCost = finalDays * (selectedCars?.pricePerDay ?? 0);
-    // const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
-
+  // const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
 
   const totalDays = bookingStorage?.totalDays || finalDays;
   const rentalCost = bookingStorage?.rentalCost || getRentalCost || 0;
@@ -143,7 +139,7 @@ export default function Booking() {
     onSuccess: async (response) => {
       if (response.success) {
         toast.info(
-          "Payment initiated successfully! Redirecting to Paystack..."
+          "Payment initiated successfully! Redirecting to Paystack...",
         );
         window.location.href = response.data.authorization_url;
       }
@@ -161,12 +157,12 @@ export default function Booking() {
         totalDays,
         rentalCost,
         serviceFee,
-      })
+      }),
     );
 
     console.log(
       "BOOKING STORAGE:",
-      JSON.parse(localStorage.getItem("bookingData") || "{}")
+      JSON.parse(localStorage.getItem("bookingData") || "{}"),
     );
 
     if (!user) {
@@ -180,7 +176,7 @@ export default function Booking() {
 
   const handlePaystack = () => {
     if (!bookingId || !slug) {
-      return
+      return;
     }
     const payload = {
       bookingId,
@@ -192,7 +188,7 @@ export default function Booking() {
     if (!payload.carId) {
       throw new Error("Car ID is required");
     }
-    paymentDataMutation.mutate({...payload, carId: payload.carId});
+    paymentDataMutation.mutate({ ...payload, carId: payload.carId });
   };
 
   if (isLoading)
@@ -202,7 +198,7 @@ export default function Booking() {
       </div>
     );
 
- if (error) return <p>Error: {error.message}</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
@@ -544,92 +540,95 @@ export default function Booking() {
                   </>
                 )}
 
-                {currentStep === 3 || step === "3" && (
-                  <div className="space-y-6 bg-white rounded-lg ">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-lg">
-                      {/* IMAGE */}
-                      <div className="rounded-lg flex justify-center shrink-0 w-full sm:w-auto">
-                        <img
-                          src={selectedCars?.images[0]?.url || ""}
-                          alt={selectedCars?.modelName}
-                          className=" border-4 border-gray-100 rounded-2xl  w-full sm:w-51.25  h-55 sm:h-29.75   object-cover  "
-                        />
-                      </div>
+                {currentStep === 3 ||
+                  (step === "3" && (
+                    <div className="space-y-6 bg-white rounded-lg ">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-lg">
+                        {/* IMAGE */}
+                        <div className="rounded-lg flex justify-center shrink-0 w-full sm:w-auto">
+                          <img
+                            src={selectedCars?.images[0]?.url || ""}
+                            alt={selectedCars?.modelName}
+                            className=" border-4 border-gray-100 rounded-2xl  w-full sm:w-51.25  h-55 sm:h-29.75   object-cover  "
+                          />
+                        </div>
 
-                      {/* TEXT */}
-                      <div className="flex flex-col justify-center space-y-1 w-full">
-                        <p className="text-[#9CA3AF] text-sm sm:text-[20px]">
-                          {selectedCars?.category}
-                        </p>
+                        {/* TEXT */}
+                        <div className="flex flex-col justify-center space-y-1 w-full">
+                          <p className="text-[#9CA3AF] text-sm sm:text-[20px]">
+                            {selectedCars?.category}
+                          </p>
 
-                        <h2 className="text-2xl sm:text-[32px] font-extrabold leading-tight">
-                          {selectedCars?.modelName}
-                        </h2>
+                          <h2 className="text-2xl sm:text-[32px] font-extrabold leading-tight">
+                            {selectedCars?.modelName}
+                          </h2>
 
-                        <h1 className="text-[20px] font-semibold text-[#9CA3AF]">
                           <h1 className="text-[20px] font-semibold text-[#9CA3AF]">
-                            {totalDays} days •{" "}
-                            {bookingStorage?.driverOption
-                              ? "With Driver"
-                              : "Self Drive"}
+                            <h1 className="text-[20px] font-semibold text-[#9CA3AF]">
+                              {totalDays} days •{" "}
+                              {bookingStorage?.driverOption
+                                ? "With Driver"
+                                : "Self Drive"}
+                            </h1>
                           </h1>
-                        </h1>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="gap-3 border border-gray-300 p-4 rounded-2xl ">
-                        <div>
-                          <img src="/Map.svg" alt="" className="w-5 h-5 " />
-                          <p className="text-sm font-medium">
-                            {bookingStorage?.pickupLocation}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {bookingStorage?.pickupDate},{" "}
-                            {bookingStorage?.pickupTime}
-                          </p>
                         </div>
                       </div>
 
-                      <div className=" gap-3 border border-gray-300 p-4 rounded-2xl">
-                        <div>
-                          <img src="/Map.svg" alt="" className="w-5 h-5" />
-                          <p className="text-sm font-medium">
-                            {bookingStorage?.returnLocation}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {bookingStorage?.returnDate},{" "}
-                            {bookingStorage?.returnTime}
-                          </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="gap-3 border border-gray-300 p-4 rounded-2xl ">
+                          <div>
+                            <img src="/Map.svg" alt="" className="w-5 h-5 " />
+                            <p className="text-sm font-medium">
+                              {bookingStorage?.pickupLocation}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {bookingStorage?.pickupDate},{" "}
+                              {bookingStorage?.pickupTime}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className=" gap-3 border border-gray-300 p-4 rounded-2xl">
+                          <div>
+                            <img src="/Map.svg" alt="" className="w-5 h-5" />
+                            <p className="text-sm font-medium">
+                              {bookingStorage?.returnLocation}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {bookingStorage?.returnDate},{" "}
+                              {bookingStorage?.returnTime}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <hr className=" border-gray-300 " />
+                      <hr className=" border-gray-300 " />
 
-                    <div>
-                      <div className="flex items-center gap-2  ">
-                        <img src="/shine.svg" alt="" />
-                        <p>What’s next</p>
+                      <div>
+                        <div className="flex items-center gap-2  ">
+                          <img src="/shine.svg" alt="" />
+                          <p>What’s next</p>
+                        </div>
+                        <ul className="list-decimal list-inside space-y-1 mt-3  text-[#4B5563] ">
+                          <li>
+                            A concierge will call you within 30 minutes to
+                            confirm pickup details
+                          </li>
+                          <li>
+                            Bring your driver’s licence and a valid ID at pickup
+                          </li>
+                          <li>
+                            Free cancellation until 24 hours before 2026-04-23.
+                          </li>
+                        </ul>
                       </div>
-                      <ul className="list-decimal list-inside space-y-1 mt-3  text-[#4B5563] ">
-                        <li>
-                          A concierge will call you within 30 minutes to confirm
-                          pickup details
-                        </li>
-                        <li>
-                          Bring your driver’s licence and a valid ID at pickup
-                        </li>
-                        <li>
-                          Free cancellation until 24 hours before 2026-04-23.
-                        </li>
-                      </ul>
                     </div>
-                  </div>
-                )}
+                  ))}
                 <div className="flex justify-between items-center mt-6">
                   {/* BACK BUTTON (unchanged) */}
-                  {currentStep > 1 && currentStep < 3 && paymentMethod !== "card" ? (
+                  {currentStep > 1 &&
+                  currentStep < 3 &&
+                  paymentMethod !== "card" ? (
                     <Button
                       type="button"
                       onClick={handleBack}
@@ -778,7 +777,7 @@ export default function Booking() {
                   <div className="space-y-5 pt-3  ">
                     <div className="flex justify-between">
                       <span className="text-[#A1A1A1] ">
-                        ₦{selectedCars?.pricePerDay } × {totalDays} days
+                        ₦{selectedCars?.pricePerDay} × {totalDays} days
                       </span>
                       <span className="font-medium ">
                         ₦{rentalCost.toLocaleString()}
@@ -810,9 +809,7 @@ export default function Booking() {
                       Contact concierge
                     </button>
 
-                    <button
-                      className="border py-2 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315]"
-                    >
+                    <button className="border py-2 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315]">
                       <Link
                         to={`/booking-details/${localStorage.getItem("bookingId")}`}
                         className="flex items-center gap-2"
