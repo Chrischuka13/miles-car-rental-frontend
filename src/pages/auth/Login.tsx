@@ -8,11 +8,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUserApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Login() {
   const [revealPassword, setRevealPassword] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // Initialize queryClient
+    const { setUser } = useAuth();
 
   const {
     handleSubmit,
@@ -32,6 +34,9 @@ export default function Login() {
     onSuccess: async (res) => {
       toast.success(res.data.message || "Login Successful");
       const user = res.data.data;
+        if (setUser) {
+        setUser(user);
+      }
       await queryClient.invalidateQueries({ queryKey: ["getMe"] });
 
       if (!user.emailVerified) {
@@ -55,6 +60,11 @@ export default function Login() {
   const onSubmitForm: SubmitHandler<loginSchemaType> = async (data) => {
     mutation.mutate(data);
   };
+
+
+ 
+
+
 
 
 

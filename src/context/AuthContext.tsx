@@ -47,6 +47,7 @@ export default function AuthProvider({
     const res = await getMeApi();
     if (res.status === 200) {
       setUser(res.data.data);
+      return res.data.data; // Return data so login handlers can wait on it if needed
     }
   } catch {
     setUser(null);

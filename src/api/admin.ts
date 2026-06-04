@@ -52,12 +52,14 @@ export const adminCreateBookingApi = async (data: any) => {
 
 
 
-export const getAdminDashboardStatsApi = async (filter: string = "30d") => {
-  return await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/admin/dashboard-stats?period=${filter}`,
-    { withCredentials: true }
-  );
+export const getAdminDashboardStatsApi = async (range: string) => {
+   return await axios.get("/api/v1/admin/dashboard-stats", {
+    params: { range }
+     // This appends ?range=7d to your backend request endpoint
+  });
 };
+
+
 
 
 export const getAdminCarsApi = async () => {
@@ -101,3 +103,12 @@ export const updateAdminSettingsApi = async (formData: SettingsForm) => {
     },
   );
 }
+
+export const deleteWorkspaceApi = async () => {
+  return await axios.delete(
+    `${import.meta.env.VITE_API_URL}/api/v1/admin/delete-workspace`,
+    {
+      withCredentials: true,
+    },
+  );
+};

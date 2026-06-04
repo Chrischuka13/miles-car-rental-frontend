@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 
-// Define a type for Axios-like error responses to satisfy TypeScript
+
 interface AxiosErrorLike {
   response?: {
     data?: {
@@ -42,7 +42,7 @@ export default function ErrorBoundary() {
     }
   };
 
-  // Safe type guard check to read status in the JSX block
+
   const errorStatus = isRouteErrorResponse(error) ? error.status : null;
 
   return (

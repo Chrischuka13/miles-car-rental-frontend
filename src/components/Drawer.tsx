@@ -3,12 +3,12 @@ import { Link } from "react-router";
 
 import Logo from "./Logo";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut, Menu, X } from "lucide-react";
+import { Lock, LogOut, Menu, X } from "lucide-react";
 import UserAvatar from "./UserAvatar";
 
 export default function Drawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticating, handleLogout } = useAuth(); 
+  const { user, isAuthenticating, handleLogout } = useAuth();
 
   return (
     <>
@@ -64,17 +64,28 @@ export default function Drawer() {
             </a>
           ))}
 
+          {user?.role === "admin" && (
+            <li>
+              <Link to="/admin">
+                <div className="pl-1 flex gap-2 items-center pt-4">
+                  <Lock />
+                  <span className="">Admin</span>
+                </div>
+              </Link>
+            </li>
+          )}
+
           {/* Mobile auth */}
           {!isAuthenticating && (
             <div className="mt-6">
               {user ? (
                 <div className="flex flex-col gap-4">
                   <UserAvatar />
-                  <button  // 👈 added logout button
+                  <button // 👈 added logout button
                     onClick={handleLogout}
                     className="text-red-500 flex gap-2 text-lg font-normal text-left hover:text-red-600"
                   >
-                   <LogOut/> Logout
+                    <LogOut /> Logout
                   </button>
                 </div>
               ) : (

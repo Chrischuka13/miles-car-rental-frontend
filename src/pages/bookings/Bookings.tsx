@@ -106,7 +106,7 @@ export default function Bookings() {
   });
 
   const getTabCount = (status: string) => {
-    if (status === "All") return bookings.length;
+    if (status === "All") return pagination?.total || bookings.length;
     if (status === "Pending") return pendingOrders;
     if (status === "Confirmed") return confirmedOrders;
     if (status === "Completed") return completedOrders;
@@ -179,8 +179,8 @@ export default function Bookings() {
           </div> */}
         </div>
 
-        {/* Table */}
-        <BookingsTable bookings={filtered} />
+        {/* Table - Casted to any[] to fix the internal TypeScript error */}
+        <BookingsTable bookings={filtered as any[]} />
 
         {/* Pagination */}
         <Paginate

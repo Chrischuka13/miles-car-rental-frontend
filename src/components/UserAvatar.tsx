@@ -1,11 +1,4 @@
-
-import {
-  ChevronDown,
-  CreditCardIcon,
-  LogOutIcon,
-  SettingsIcon,
-  UserIcon,
-} from "lucide-react";
+import { ChevronDown, Lock, LogOutIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,15 +9,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
+import { Link } from "react-router";
 
 export default function UserAvatar() {
   const { user, handleLogout } = useAuth();
 
   return (
-    <DropdownMenu >
+    <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button variant="outline" className="border-0 hidden bg-transparent hover:bg-transparent lg:flex text-xl p-5">
+          <Button
+            variant="outline"
+            className="border-0 hidden bg-transparent hover:bg-transparent lg:flex text-xl p-5"
+          >
             <span className="text-xl border text-whit bg-amber-600 rounded-full p-1">
               {`${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase()}
             </span>
@@ -34,19 +31,19 @@ export default function UserAvatar() {
         }
       />
       <DropdownMenuContent>
-        <DropdownMenuItem>
-          <UserIcon />
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <CreditCardIcon />
-          Billing
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <SettingsIcon />
-          Settings
-        </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          {user?.role === "admin" && (
+            <li>
+              <Link to="/admin">
+                <div className="flex gap-2 items-center">
+                  <Lock />
+                  <span>Admin</span>
+                </div>
+              </Link>
+            </li>
+          )}
+        </DropdownMenuItem>
         <DropdownMenuItem variant="destructive" onClick={handleLogout}>
           <LogOutIcon />
           Log out

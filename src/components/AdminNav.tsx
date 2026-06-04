@@ -16,9 +16,9 @@ export default function AdminNav() {
       <div className="lg:container lg:pr-30 flex justify-between">
         <div className="hidden  lg:flex gap-1 border  px-2 rounded-lg p-2 ">
           <CalendarDays />
-          <p className=" ">{currentDate}</p>
+          <p className=" text-center w-full">{currentDate}</p>
         </div>
-        <BellDot className="md:ml-160 my-auto md:justify-center md:items-center " />
+        <BellDot className="md:ml-150 my-auto md:justify-center md:items-center " />
 
         <div className="flex gap-6 items-center">
           <UserAvatar />
