@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import Filter from "@/components/Filter";
 import Pagination from "./Pagination";
 import Loader from "@/components/ui/Loader";
+import LazyLoadImageRC from "@/components/ui/lazyLoadImage";
 
 interface Car {
   _id: string;
@@ -219,14 +220,16 @@ export default function Cars() {
                   key={car._id}
                 >
                   <div className="relative w-full h-62.5 md:h-75 overflow-hidden">
-                    <img
+                    <LazyLoadImageRC
                       src={
                         car.images && car.images.length > 0
                           ? car.images[0].url
                           : "/placeholder-car.png"
                       }
+                      width="100%"
+                      height="100%"
                       alt={car.modelName}
-                      className="w-full h-62.5 md:h-75 object-fit transition-transform duration-300 hover:scale-105 cursor-pointer"
+                      className="w-full h-62.5 md:h-75 object-cover md:object-fill transition-transform duration-300 hover:scale-105 cursor-pointer"
                     />
 
                     <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
@@ -241,7 +244,7 @@ export default function Cars() {
                       </p>
 
                       <p className="text-lg font-bold">
-                        {(car.pricePerDay)}
+                        ₦{(car.pricePerDay)}
                       </p>
                     </span>
 

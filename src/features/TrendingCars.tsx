@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getTrendingCars } from "@/api/cars/cars";
 import { Loader } from "lucide-react";
+import LazyLoadImageRC from "@/components/ui/lazyLoadImage";
 
 interface TrendingCar {
   _id: string;
@@ -73,9 +74,11 @@ export default function TrendingCars() {
                 className="flex flex-col items-center border border-[#E6E0E0] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="relative w-full h-full overflow-hidden">
-                  <img
+                  <LazyLoadImageRC
                     src={car.images[0]?.url || "/placeholder.png"}
                     alt={car.modelName}
+                    width="100%"
+                    height="100%"
                     className="w-full h-full object-fit transition-transform duration-300 hover:scale-105"
                   />
                   <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
@@ -88,7 +91,7 @@ export default function TrendingCars() {
                     <p className="text-[#A1A1A1] text-xs uppercase">
                       {car.category}
                     </p>
-                    <p className="text-lg font-bold">{car.pricePerDay}</p>
+                    <p className="text-lg font-bold">₦{car.pricePerDay}</p>
                   </span>
 
                   <span className="flex items-center justify-between">
