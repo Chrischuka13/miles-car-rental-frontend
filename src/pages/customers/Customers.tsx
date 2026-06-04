@@ -9,22 +9,27 @@ import { useDebounce } from "use-debounce";
 export default function Customers() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Updated to use "search" to match the URL and API
   const initialSearch = searchParams.get("search") || "";
   const [searchInput, setSearchInput] = useState(initialSearch);
 
   const [debouncedSearch] = useDebounce(searchInput, 500);
 
-  // Sync state input → URL search params
+  // 1. Sync state input → URL search params safely
   useEffect(() => {
     setSearchParams((prev) => {
+      const currentSearch = prev.get("search") || "";
+      
       if (debouncedSearch) {
         prev.set("search", debouncedSearch);
       } else {
         prev.delete("search");
       }
 
-      prev.set("page", "1");
+      // ONLY reset to page 1 if the user typed a brand new search term
+      if (currentSearch !== debouncedSearch) {
+        prev.set("page", "1");
+      }
+
       return prev;
     });
   }, [debouncedSearch, setSearchParams]);
@@ -32,23 +37,33 @@ export default function Customers() {
   const search = searchParams.get("search") || "";
   const page = searchParams.get("page") || "1";
 
-const { data, isPending, isError, error } = useQuery({
-  queryKey: ["getCustomers", search, page], 
-  queryFn: () => {
-    // Create an explicit, fresh params instance right at the moment of execution
-    const params = new URLSearchParams();
-    params.set("page", page);
-    params.set("search", search);
-    params.set("limit", "5"); 
-    
-    return getCustomersApi(params);
-  },
-  staleTime: 0,
-  gcTime: 0,
-});
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ["getCustomers", search, page], 
+    queryFn: () => {
+      const params = new URLSearchParams();
+      params.set("page", page);
+      params.set("search", search);
+      params.set("limit", "10"); 
+      
+      return getCustomersApi(params);
+    },
+  });
 
   const customers = data?.body?.users ?? [];
   const pagination = data?.body?.pagination;
+
+  // 2. SAFETY CHECK: If URL page is out-of-bounds (e.g. page=2 but totalPages=1), snap back to page 1
+  useEffect(() => {
+    if (pagination) {
+      const urlPage = Number(page);
+      if (urlPage > pagination.totalPages && pagination.totalPages > 0) {
+        setSearchParams((prev) => {
+          prev.set("page", "1");
+          return prev;
+        });
+      }
+    }
+  }, [pagination, page, setSearchParams]);
 
   return (
     <section className="p-6 min-h-screen bg-[#F7F7F7]">
@@ -82,10 +97,10 @@ const { data, isPending, isError, error } = useQuery({
             />
           </div>
 
-          <div className="flex items-center justify-center gap-5 px-3 py-2 bg-white border rounded-full w-full sm:w-[150px] cursor-pointer">
+          {/* <div className="flex items-center justify-center gap-5 px-3 py-2 bg-white border rounded-full w-full sm:w-[150px] cursor-pointer">
             <img src="/download.svg" alt="" />
             <p>Export</p>
-          </div>
+          </div> */}
         </div>
       </div>
 

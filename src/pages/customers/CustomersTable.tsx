@@ -129,7 +129,7 @@ export default function CustomersTable({
             />
           </div>
 
-          <div className="mt-auto">
+          <div className="mt-auto pt-4">
             <Paginate
               totalPages={totalPages}
               hasMore={hasMore}
