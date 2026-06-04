@@ -9,7 +9,6 @@ import { useMutation } from "@tanstack/react-query";
 import { contactUsApi } from "@/api/contactus";
 import { toast } from "react-toastify";
 import axios from "axios";
-import LoadingButton from "@/components/ui/authButtons";
 
 export default function ContactUs() {
   const {
@@ -73,8 +72,8 @@ onError: (error) => {
         </div>
       </div>
 
-      <div className="bg-[#FAFAFA] py-12 ">
-        <div className="w-11/12 container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-4 md:px-6 py-12 ">
+        <div className="  w-11/12 container mx-auto  grid grid-cols-1 lg:grid-cols-2 gap-10">
           <div className="space-y-8">
             <div>
               <p className="text-sm text-black flex items-center gap-2">
@@ -212,7 +211,14 @@ onError: (error) => {
                 )}
               </div>
 
-              <LoadingButton loading={mutation.isPending} loadingText="Processing..." text="Send message"/>
+              <button
+                type="submit"
+                disabled={mutation.isPending}
+                className="mt-4 w-full bg-orange-500 text-white py-1 rounded-2xl flex items-center justify-center gap-2 hover:bg-orange-600 transition disabled:opacity-50"
+              >
+                {mutation.isPending ? "Sending..." : "Send message"}
+                <img src="/arroww.png" alt="" />
+              </button>
 
               <p className="text-sm text-gray-500">
                 By submitting, you agree to our terms and privacy policy.
@@ -222,22 +228,22 @@ onError: (error) => {
         </div>
       </div>
 
-      <div className="bg-orange-500 w-11/12 container mx-auto mb-10 flex flex-col md:flex-row gap-6 md:gap-0 justify-between  p-12 rounded-2xl">
+      <div className="bg-orange-500  w-11/12 container mx-auto mb-10 flex flex-col md:flex-row gap-6 md:gap-0 justify-between items-center p-6 md:p-8 rounded-2xl">
         <div className="flex gap-4 items-start md:items-center">
-          <div className="bg-white p-3 md:p-4 rounded-2xl hidden lg:block">
+          <div className="bg-white p-3 md:p-4 rounded-2xl">
             <img src="/Question Circle.svg" alt="" />
           </div>
           <div>
-            <h2 className="text-white text-xl md:text-5xl font-semibold">Have Questions?</h2>
-            <p className="text-white mt-2 md:mt-3 text-sm md:text-[18px]">
+            <h2 className="text-white text-xl md:text-3xl">Have Questions?</h2>
+            <p className="text-white mt-2 md:mt-3 text-sm md:text-base">
               Check our FAQs — most answers are just a click away.
             </p>
           </div>
         </div>
 
-        <div className="">
+        <div>
           <div className="bg-DarkBlue px-4 py-2 flex items-center justify-center rounded-2xl mt-4 md:mt-0">
-            <p className="text-white text-sm md:text-base">View FAQs</p>
+            <p className="text-white text-sm md:text-base">View FAQ</p>
             <img src="/arrow.png" alt="" />
           </div>
         </div>

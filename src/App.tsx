@@ -3,9 +3,6 @@ import Routes from "./routes/Routes";
 import { ToastContainer } from "react-toastify";
 import AuthProvider from "./context/AuthContext";
 
-
-
-
 const queryClient = new QueryClient();
 function App() {
   return (

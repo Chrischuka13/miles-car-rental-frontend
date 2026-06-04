@@ -9,7 +9,7 @@ interface Driver {
 
   licenseNumber: string;
 
-  languages: string;
+  languages: string[];
 
   baseCity: string;
 
@@ -37,6 +37,8 @@ export default function DriverTable({
       </div>
     );
   }
+  console.log(data);
+  
 
   return (
     <div className="overflow-x-auto">
@@ -107,8 +109,8 @@ export default function DriverTable({
               </td>
 
               <td className="flex items-center py-4 ">
-                <div className="flex bg-[#E9E9E9] rounded-[16px] p-1">
-                  {driver.languages} 
+                <div className="flex bg-[#E9E9E9] rounded-[16px] px-4 py-2">
+                  {driver?.languages?.join(', ')} 
                 </div>
               
               </td>
@@ -122,7 +124,7 @@ export default function DriverTable({
               </td>
 
               <td className="px-4 py-4">
-                <span className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-600">
+                <span className="rounded-full bg-blue-100 px-3 py-2 text-sm text-blue-600">
                   {driver.status}
                 </span>
               </td>

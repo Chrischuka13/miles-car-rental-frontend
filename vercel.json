@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/v1/:path*",
+      "destination": "https://miles-rental-server.onrender.com/api/v1/:path*"
+    },
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}

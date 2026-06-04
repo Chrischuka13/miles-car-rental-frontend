@@ -297,7 +297,9 @@ export default function Cars() {
         </section>
       </section>
       {/* ... Pagination  */}
-      <Pagination pagination={data?.pagination} setPage={setPage} />
+      <div className="w-11/12 container mx-auto">
+        <Pagination pagination={data?.pagination} setPage={setPage} />
+      </div>
     </>
   );
 }

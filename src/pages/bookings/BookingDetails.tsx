@@ -108,14 +108,12 @@ export default function BookingDetail() {
 
   const booking = data?.data?.booking;
 
-
   if (isLoading)
     return <div className="p-6 pt-24 text-gray-500">Loading booking...</div>;
   if (isError || !booking)
     return (
       <div className="p-6 pt-24 text-red-500">Failed to load booking.</div>
     );
-
 
   const status = statusConfig[booking.bookingStatus] || statusConfig["Pending"];
   const perDayPrice = booking?.car?.pricePerDay;
@@ -510,8 +508,12 @@ export default function BookingDetail() {
               </div>
               <div className="flex justify-between pt-3 border-t border-gray-100">
                 <span className="font-semibold text-gray-900">Total Paid</span>
-                <span className="font-bold text-gray-900">
-                  {formatNairaCode(totalPrice)}
+                <span
+                  className={`text-sm ${totalPrice > 0 ? "font-bold text-gray-900" : "text-gray-400 italic font-normal"}`}
+                >
+                  {totalPrice > 0
+                    ? formatNairaCode(totalPrice)
+                    : "Payment has not been made yet"}
                 </span>
               </div>
             </div>

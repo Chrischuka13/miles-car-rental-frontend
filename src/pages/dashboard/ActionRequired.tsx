@@ -1,5 +1,5 @@
 import { AlertCircle, MessageCircle, Settings, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, } from 'react'; // 🌟 Imported useEffect
 
 interface Alert {
   id: string;
@@ -8,7 +8,7 @@ interface Alert {
 }
 
 interface ActionRequiredProps {
-  data: { alertCount: number; alerts: Alert[] };
+  data: { alertCount?: number; alerts?: Alert[] }; // Made attributes optional to avoid runtime crashing
 }
 
 const alertConfig = [
@@ -17,24 +17,33 @@ const alertConfig = [
   { icon: <Settings className="text-yellow-500" size={20} />, iconBg: "bg-yellow-50", accent: "border-yellow-500", btnBg: "bg-yellow-50 text-yellow-600", btnText: "Schedule" },
 ];
 
-const ActionRequired = ({ data = { alertCount: 0, alerts: [] } }: ActionRequiredProps) => {
-  const [alerts, setAlerts] = useState(data.alerts ?? []);
+
+
+const ActionRequired = ({ data }: ActionRequiredProps) => {
+  // 🌟 Track ONLY dismissed IDs locally instead of storing the whole array
+  const [dismissedIds, setDismissedIds] = useState<string[]>([]);
   const [dismissingId, setDismissingId] = useState<string | null>(null);
+
+  // 🌟 Automatically derive the active alerts by filtering out dismissed IDs
+  const incomingAlerts = data?.alerts ?? [];
+  const alerts = incomingAlerts.filter((item) => !dismissedIds.includes(item.id));
 
   const handleDismissClick = (id: string) => {
     setDismissingId(id);
   };
 
   const handleConfirmDismiss = () => {
-    setAlerts((prev) => prev.filter((a) => a.id !== dismissingId));
-    setDismissingId(null);
+    if (dismissingId) {
+      setDismissedIds((prev) => [...prev, dismissingId]);
+      setDismissingId(null);
+    }
   };
 
   const handleCancelDismiss = () => {
     setDismissingId(null);
   };
 
-  const alertBeingDismissed = alerts.find((a) => a.id === dismissingId);
+  const alertBeingDismissed = incomingAlerts.find((a) => a.id === dismissingId);
 
   return (
     <>
