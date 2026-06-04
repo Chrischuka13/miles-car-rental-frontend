@@ -97,6 +97,14 @@ const Routes = () => {
             return { Component };
           },
         },
+        {
+          path: "/contactus",
+          lazy: async () => {
+            const { default: Component } =
+              await import("../pages/contactus/ContactUs.tsx");
+            return { Component };
+          },
+        },
       ],
     },
     {
