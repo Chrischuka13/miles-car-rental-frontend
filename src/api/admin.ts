@@ -14,7 +14,7 @@ export const getAdminBookingsApi = async (page = 1) => {
     {
       params: { page, limit: 10 },
       withCredentials: true,
-    }
+    },
   );
 };
 
@@ -23,7 +23,7 @@ export const getAdminSingleBookingApi = async (bookingId: string) => {
     `${import.meta.env.VITE_API_URL}/api/v1/admin/single_booking/${bookingId}`,
     {
       withCredentials: true,
-    }
+    },
   );
 };
 
@@ -33,10 +33,9 @@ export const markBookingAsCompletedApi = async (id: string) => {
     {}, // Empty body as required by route pattern
     {
       withCredentials: true,
-    }
+    },
   );
 };
-
 
 export const cancelAdminBookingApi = async (id: string) => {
   return await axios.post(
@@ -44,7 +43,7 @@ export const cancelAdminBookingApi = async (id: string) => {
     {}, // Empty body configuration payload as per API specifications
     {
       withCredentials: true,
-    }
+    },
   );
 };
 
@@ -53,40 +52,41 @@ export const adminCreateBookingApi = async (data: any) => {
   return await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/admin/admin_create_booking`,
     data,
-    { withCredentials: true }
+    { withCredentials: true },
   );
 };
 
-
-
-
-export const getAdminDashboardStatsApi = async (range: string) => {
-   return await axios.get("/api/v1/admin/dashboard-stats", {
-    params: { range }
-     // This appends ?range=7d to your backend request endpoint
-  });
+export const getDashboardStatsApi = async (range = "30d") => {
+  return await axios.get(
+    `${import.meta.env.VITE_API_URL}/api/v1/admin/dashboard-stats`,
+    {
+      params: { range },
+      withCredentials: true,
+    },
+  );
 };
-
 
 export const getAdminCarsApi = async () => {
-  return await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/car/all`, 
-    { withCredentials: true }
-  );
+  return await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/car/all`, {
+    withCredentials: true,
+  });
 };
 
 export const getAdminDriversApi = async () => {
   return await axios.get(
     `${import.meta.env.VITE_API_URL}/api/v1/driver/get-all-drivers`,
-    { withCredentials: true }
+    { withCredentials: true },
   );
 };
 
-export const assignDriverApi = async (data: { bookingId: string; driverId: string }) => {
+export const assignDriverApi = async (data: {
+  bookingId: string;
+  driverId: string;
+}) => {
   return await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/driver/assign-driver`,
     data,
-    { withCredentials: true }
+    { withCredentials: true },
   );
 };
 
@@ -98,7 +98,7 @@ export const updateAdminSettingsApi = async (formData: SettingsForm) => {
       withCredentials: true,
     },
   );
-}
+};
 
 export const deleteWorkspaceApi = async () => {
   return await axios.delete(
