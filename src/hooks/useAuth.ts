@@ -19,7 +19,7 @@ interface AuthContextType {
   isAuthenticating: boolean;
   setIsAuthenticating: (value: boolean) => void;
     handleLogout: () => Promise<void>;
-     refetchUser: () => Promise<void>; 
+    refetchUser: () => Promise<void>; 
 }
 
 
