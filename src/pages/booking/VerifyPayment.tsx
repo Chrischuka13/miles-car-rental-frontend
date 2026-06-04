@@ -32,6 +32,8 @@ export default function VerifyPayment() {
         if (response.status === 200) {
           setIsSuccess(true);
           toast.success(response.data.message);
+          //cleart booking storage after successful payment verification
+          localStorage.removeItem("bookingStorage");
         } else {
           setIsSuccess(false);
           toast.error(response.data.message || "Payment verification failed");
