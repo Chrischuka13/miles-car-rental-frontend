@@ -28,7 +28,7 @@ interface CarData {
 
 export default function Booking() {
   const { slug } = useParams();
-  const { data, isLoading, error} = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["car", slug],
     queryFn: () => getCarBySlug(slug as string),
     enabled: !!slug,
@@ -52,7 +52,7 @@ export default function Booking() {
     control,
   } = useForm({
     resolver: zodResolver(validateBookingSchema),
-     
+
     defaultValues: {
       // PREFILL VALUES FROM LOCAL STORAGE
       car: bookingStorage?.car || "",
@@ -67,10 +67,9 @@ export default function Booking() {
       pickupTime: bookingStorage?.pickupTime || "",
       returnTime: bookingStorage?.returnTime || "",
       driverOption: bookingStorage?.driverOption || false,
-      
     },
   });
-  
+
   const [paymentMethod, setPaymentMethod] = useState("paystack");
   const [currentStep, setCurrentStep] = useState(1);
   const [searchParams] = useSearchParams();
@@ -106,9 +105,8 @@ export default function Booking() {
 
   const finalDays = diffDays > 0 ? diffDays : 1;
 
-  const getRentalCost = finalDays * (selectedCars?.pricePerDay );
-    // const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
-
+  const getRentalCost = finalDays * selectedCars?.pricePerDay;
+  // const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
 
   const totalDays = bookingStorage?.totalDays || finalDays;
   const rentalCost = bookingStorage?.rentalCost || getRentalCost || 0;
@@ -199,7 +197,7 @@ export default function Booking() {
       </div>
     );
 
- if (error) return <p>Error: {error.message}</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
@@ -625,8 +623,8 @@ export default function Booking() {
                   </div>
                 )}
                 <div className="flex justify-between items-center mt-6">
-                  {/* BACK BUTTON (unchanged) */}
-                  {currentStep < 3 && paymentMethod !== "card" ? (
+
+                  { currentStep > 1 && currentStep < 3 && paymentMethod !== "card" ? (
                     <Button
                       type="button"
                       onClick={handleBack}
@@ -776,7 +774,7 @@ export default function Booking() {
                   <div className="space-y-5 pt-3  ">
                     <div className="flex justify-between">
                       <span className="text-[#A1A1A1] ">
-                        ₦{selectedCars?.pricePerDay } × {totalDays} days
+                        ₦{selectedCars?.pricePerDay} × {totalDays} days
                       </span>
                       <span className="font-medium ">
                         ₦{rentalCost.toLocaleString()}
@@ -808,11 +806,11 @@ export default function Booking() {
                       Contact concierge
                     </button>
 
-                    <button
-                      className="border py-2 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315]"
-                    >
+                    <button className="border py-2 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315]">
                       <Link
-                        to={`/booking-details/${localStorage.getItem("bookingId")}`}
+                        to={`/booking-details/${localStorage.getItem(
+                          "bookingId"
+                        )}`}
                         className="flex items-center gap-2"
                       >
                         View Booking

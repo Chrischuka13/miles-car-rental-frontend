@@ -15,6 +15,7 @@ interface User {
 
 
 interface AuthContextType {
+  firstName: string;
   user: User | null;
   setUser: (user: User | null) => void;
   isAuthenticating: boolean;

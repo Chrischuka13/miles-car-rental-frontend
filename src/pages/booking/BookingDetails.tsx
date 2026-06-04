@@ -16,7 +16,12 @@ export default function BookingDetails() {
     queryKey: ["booking-details", id],
     queryFn: () => getBookingById(id),
     enabled: !!id,
+ 
+    
   });
+     console.log(data);
+
+
 
   const mutation = useMutation({
     mutationFn: () => cancelBooking(id!),
@@ -68,13 +73,13 @@ export default function BookingDetails() {
               </p>
             </Link>
 
-            <div className="flex flex-wrap items-center gap-2 pt-3">
+            <div className="flex flex-wrap items-center gap-2 pt-3  hover:cursor-pointer ">
               <p>{booking?.car?.brand}</p>
 
               <span
                 className={`text-xs md:text-sm px-3 md:p-1.75 text-center rounded-full ${
                   bookingStatusColors[booking?.bookingStatus] ||
-                  "bg-gray-100 text-gray-700"
+                  "bg-gray-100 text-gray-700   "
                 }`}
               >
                 {booking?.bookingStatus}
@@ -256,7 +261,7 @@ export default function BookingDetails() {
                         Lead driver
                       </p>
 
-                      <p>john</p>
+                      <p>{booking?.driver?.fullName}</p>
                     </div>
                   </div>
 
@@ -268,7 +273,7 @@ export default function BookingDetails() {
                         Email
                       </p>
 
-                      <p className="break-all">john@gmail.com</p>
+                      <p className="break-all">{booking?.driver?.email}</p>
                     </div>
                   </div>
                 </div>
@@ -283,7 +288,7 @@ export default function BookingDetails() {
                       </p>
 
                       <p className="font-semibold text-[18px] sm:text-[20px]">
-                        07088556644
+                       {booking?.driver?.phoneNumber}
                       </p>
                     </div>
                   </div>
@@ -297,7 +302,7 @@ export default function BookingDetails() {
                       </p>
 
                       <p className="font-semibold text-[18px] sm:text-[20px]">
-                        Paystack
+                     Paystack
                       </p>
                     </div>
                   </div>
@@ -315,7 +320,7 @@ export default function BookingDetails() {
               </div>
 
               <p className="text-[#FFFFFF] font-semibold text-[16px] sm:text-[18px] pt-2">
-                Fri, April 24, 2026
+               {new Date(booking?.createdAt).toLocaleDateString()}
               </p>
             </div>
           </div>

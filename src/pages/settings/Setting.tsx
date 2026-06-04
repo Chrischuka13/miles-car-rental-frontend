@@ -1,7 +1,7 @@
-
+import React from 'react'
 
 export default function Setting() {
   return (
-    <div className="pt-50">Setting</div>
+    <div>Setting</div>
   )
 }
