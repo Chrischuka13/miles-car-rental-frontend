@@ -48,12 +48,24 @@ const handleLogout = async () => {
   }
 };
 
+const refetchUser = async () => {
+  try {
+    const res = await getMeApi();
+    if (res.status === 200) {
+      setUser(res.data.data);
+    }
+  } catch {
+    setUser(null);
+  }
+};
+
   const contextValue = {
     user,
     setUser,
     isAuthenticating,
     setIsAuthenticating,
     handleLogout,
+    refetchUser,
   };
 
   return (

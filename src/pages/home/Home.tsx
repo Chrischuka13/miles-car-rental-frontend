@@ -1,4 +1,3 @@
-import SearchBar from "@/components/homePage/searchBar";
 import heroImage from "/heroImage.jpg"; // Adjust path based on your project structure
 // import TrendingCars from "@/sections/TrendingCars";
 import WhyChooseUs from "@/components/whyChooseUs";
@@ -8,9 +7,11 @@ import Testimonial from "@/components/Testimonial";
 import FAQ from "@/components/FAQ";
 import TrendingCars from "@/features/TrendingCars";
 import { Link } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
+import Buttons2 from "@/components/ui/Buttons2";
 
 export default function Home() {
-
+  const {user} = useAuth()
 
   return (
     <main className="text-base-content bg-[#F9F9F9] overflow-hidden">
@@ -40,15 +41,12 @@ export default function Home() {
 
             <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
               <div className="flex justify-center gap-4">
-                <button className="flex items-center justify-center px-6 bg-DeepOrange rounded-full p-2 cursor-pointer text-white"><Link to='/booking'></Link>Book Now <img src="/arroww.png" alt="" className="w-6"/></button>
+                {user ? <Link to="/cars/carListing"><Buttons2 text="Book Now"/></Link> : <Link to="/auth/register"><Buttons2 text="Book Now"/></Link> }
                 <button className="bg-white rounded-full p-2 cursor-pointer px-4 font-semibold text-gray-800 hover:bg-gray-100">
-                  <Link to='/cars/carListing'>Explore Cars</Link>
+                  <Link to="/cars/carListing">Explore Cars</Link>
                 </button>
               </div>
             </div>
-          </div>
-          <div className="mt-10">
-            <SearchBar />
           </div>
         </div>
       </section>
@@ -73,13 +71,13 @@ export default function Home() {
         </div>
       </section>
 
-      <WhyChooseUs/>
-      
-      <TrendingCars/>
+      <WhyChooseUs />
+
+      <TrendingCars />
 
       {/* TRENDING */}
 
-      <Banner/>
+      <Banner />
 
       <section className="py-16">
         <div className="w-11/12 container mx-auto">
@@ -100,19 +98,23 @@ export default function Home() {
                 Best Deal No Limit
               </p>
 
-              <h3 className="text-4xl md:text-6xl font-bold underline mb-10">50%</h3>
+              <h3 className="text-4xl md:text-6xl font-bold underline mb-10">
+                50%
+              </h3>
 
               <p className="text-2xl md:text-4xl mt-4">
                 Book Cyber Truck <br /> with a big discount!
               </p>
-              
-              <Link to='/cars/carListing'>
-                <button className="btn bg-black py-2 px-5 mt-5 rounded-full flex justify-center items-center gap-2">
-                  Book Now{" "}
-                  <img src="/stash_arrow-down.png" className="" alt="arrow" />
+
+              <Link to="/auth/register">
+                <button className="flex relative bg-DarkBlue items-center justify-center gap-2 p-1 px-5 rounded-[25px] overflow-hidden font-medium hover:text-white group hover:bg-gray-50 mt-4">
+                  <span className="absolute left-0 block w-full h-0 transition-all bg-DarkBlue opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
+                  <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
+                  <svg className="w-5 h-5" stroke="currentColor" viewBox="0 0 24 24" ><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                  </span>
+                  <div className="relative flex justify-center items-center text-white">Get started<img src="/arrow.png" alt="" className="inset-0  object-cover transition-opacity duration-300 group-hover:opacity-0"/></div>
                 </button>
               </Link>
-
             </div>
 
             {/* image side */}
@@ -129,8 +131,8 @@ export default function Home() {
 
       {/* Services */}
       <section className="w-full bg-gray-50">
-        <OurService/>
-        <Testimonial/>
+        <OurService />
+        <Testimonial />
       </section>
 
       {/* Stats */}
@@ -138,31 +140,46 @@ export default function Home() {
         <div className="w-11/12 container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-between">
             <div className="flex flex-col justify-center items-center mb-6">
-              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">500+</h3>
-              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Verified Cars Available</p>
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">
+                500+
+              </h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">
+                Verified Cars Available
+              </p>
             </div>
 
             <div className="flex flex-col justify-center items-center mb-6">
-              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">34k+</h3>
-              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Happy Customers</p>
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">
+                34k+
+              </h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">
+                Happy Customers
+              </p>
             </div>
 
             <div className="flex flex-col justify-center items-center mb-6">
-              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">50+</h3>
-              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Trusted Partners</p>
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">
+                50+
+              </h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">
+                Trusted Partners
+              </p>
             </div>
 
             <div className="flex flex-col justify-center items-center mb-6">
-              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">98%</h3>
-              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">Satisfaction Rate</p>
+              <h3 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-700">
+                98%
+              </h3>
+              <p className="text-[#A1A1A1] md:text-2xl mt-2 font-light">
+                Satisfaction Rate
+              </p>
             </div>
-
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <FAQ/>
+      <FAQ />
     </main>
   );
 }

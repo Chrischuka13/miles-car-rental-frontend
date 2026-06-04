@@ -4,6 +4,8 @@ import { getAllCars } from "@/api/cars/cars";
 import { useQuery } from "@tanstack/react-query";
 import Filter from "@/components/Filter";
 import Pagination from "./Pagination";
+import Loader from "@/components/ui/Loader";
+import LazyLoadImageRC from "@/components/ui/lazyLoadImage";
 
 interface Car {
   _id: string;
@@ -72,7 +74,7 @@ export default function Cars() {
         ]
           .join(" ")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+          .includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -210,12 +212,7 @@ export default function Cars() {
         <section className="flex-1 mt-5 md:mt-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {isLoading ? (
-              <div className="col-span-full flex flex-col items-center justify-center w-full min-h-[50vh] rounded-2xl">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-orange-500"></div>
-                <p className="mt-4 text-orange-500 font-medium">
-                  Fetcing available cars...
-                </p>
-              </div>
+              <Loader />
             ) : (
               filteredCars.map((car: Car) => (
                 <div
@@ -223,14 +220,16 @@ export default function Cars() {
                   key={car._id}
                 >
                   <div className="relative w-full h-62.5 md:h-75 overflow-hidden">
-                    <img
+                    <LazyLoadImageRC
                       src={
                         car.images && car.images.length > 0
                           ? car.images[0].url
                           : "/placeholder-car.png"
                       }
+                      width="100%"
+                      height="100%"
                       alt={car.modelName}
-                      className="w-full h-62.5 md:h-75 object-contain transition-transform duration-300 hover:scale-105 cursor-pointer"
+                      className="w-full h-62.5 md:h-75 object-cover md:object-fill transition-transform duration-300 hover:scale-105 cursor-pointer"
                     />
 
                     <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
@@ -245,12 +244,12 @@ export default function Cars() {
                       </p>
 
                       <p className="text-lg font-bold">
-                        {(car.pricePerDay)}
+                        ₦{(car.pricePerDay)}
                       </p>
                     </span>
 
                     <span className="flex items-center justify-between">
-                      <h2 className="font-bold text-xl">{car.modelName}</h2>
+                      <h2 className="flex items-center  gap-10 font-bold text-xl truncate">{car.brand} {car.modelName}</h2>
 
                       <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
                     </span>
@@ -298,7 +297,9 @@ export default function Cars() {
         </section>
       </section>
       {/* ... Pagination  */}
-      <Pagination pagination={data?.pagination} setPage={setPage} />
+      <div className="w-11/12 container mx-auto">
+        <Pagination pagination={data?.pagination} setPage={setPage} />
+      </div>
     </>
   );
 }

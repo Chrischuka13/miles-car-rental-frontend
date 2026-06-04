@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { registerUserApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import LoadingButton from "@/components/ui/authButtons";
 
 export default function SignUp() {
   const [revealPassword, setRevealPassword] = useState(false);
@@ -142,14 +143,7 @@ export default function SignUp() {
             )}
           </div>
 
-          <button className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange mt-4"
-            type="submit">
-
-            <div className="flex justify-center items-center ">
-              {mutation.isPending ? "Processing..." : "Sign Up"}
-                <img src="/arroww.png" alt="" className=""/>
-            </div>
-          </button>
+          <LoadingButton loading={mutation.isPending} loadingText="Signing up..." text="Sign up"/>
 
           <div className="flex items-center py-2">
             <div className="grow h-px bg-gray-200"></div>

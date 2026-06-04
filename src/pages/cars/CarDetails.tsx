@@ -12,6 +12,8 @@ import {
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import LazyLoadImageRC from "@/components/ui/lazyLoadImage";
+
 interface Car {
   _id: string;
   brand: string;
@@ -50,11 +52,9 @@ export default function CarDetails() {
   });
 
   console.log(data);
-  
 
   const selectedCars: Car | undefined = data?.data;
 
-  
   const {
     handleSubmit,
     register,
@@ -64,19 +64,13 @@ export default function CarDetails() {
     resolver: zodResolver(validateCarBookingSchema1) as never,
   });
 
-  
-  
-  
-
   const SERVICE_FEE = 10000;
   const pickupDate = useWatch({ control, name: "pickupDate" });
   const returnDate = useWatch({ control, name: "returnDate" });
   const pickupLocation = useWatch({ control, name: "pickupLocation" });
 
-
-
   const { totalDays, rentalCost, totalPrice } = useMemo(() => {
-    const pricePerDayInNaira = (selectedCars?.pricePerDay || 0) 
+    const pricePerDayInNaira = selectedCars?.pricePerDay || 0;
     if (!pickupDate || !returnDate || !selectedCars) {
       return {
         totalDays: 1,
@@ -100,11 +94,13 @@ export default function CarDetails() {
       rentalCost,
       totalPrice: rentalCost + SERVICE_FEE,
     };
-  }, [pickupDate, returnDate,  selectedCars]);
+  }, [pickupDate, returnDate, selectedCars]);
 
   // const handleBooking = (data: CarBookingFormData1) => {
-   const handleBooking = () => {
-   
+  const handleBooking = () => {
+    if (!selectedCars) {
+      return;
+    }
 
     const bookingData = {
       carId: selectedCars._id,
@@ -119,14 +115,13 @@ export default function CarDetails() {
     };
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
-       
-   
+
     navigate(`/booking/${selectedCars.slug}`);
   };
 
   if (isLoading) {
     return (
-     <div className="h-screen flex items-center justify-center">
+      <div className="h-screen flex items-center justify-center">
         <Loader className="animate-spin w-4 h-4 text-DeepOrange" />
       </div>
     );
@@ -155,10 +150,12 @@ export default function CarDetails() {
             {/* first box */}
             <div className="w-full lg:w-[55%]">
               <div className="w-full overflow-hidden rounded-2xl bg-[#F4F0EC]">
-                <img
+                <LazyLoadImageRC
                   src={selectedCars.images?.[0]?.url || "/placeholder.png"}
                   alt={selectedCars.modelName}
-                  className="rounded-2xl cursor-pointer object-fill w-full h-55 sm:h-70 md:h-80 lg:h-92.5 xl:h-112.5"
+                  width="100%"
+                  height="100%"
+                  className="rounded-2xl cursor-pointer object-fit w-full h-55 sm:h-70 md:h-80 lg:h-92.5 xl:h-112.5"
                 />
               </div>
 
@@ -166,7 +163,7 @@ export default function CarDetails() {
               <div className="flex items-center justify-between gap-2 md:gap-3 w-full mt-2 overflow-x-auto no-scrollbar">
                 <img
                   src={selectedCars.images?.[0]?.url || "/placeholder.png"}
-                  alt=""
+                  alt={selectedCars.modelName}
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[0]?.url || "")
                   }
@@ -175,7 +172,7 @@ export default function CarDetails() {
 
                 <img
                   src={selectedCars.images?.[1]?.url || "/placeholder.png"}
-                  alt=""
+                  alt={selectedCars.modelName}
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[1]?.url || "")
                   }
@@ -184,7 +181,7 @@ export default function CarDetails() {
 
                 <img
                   src={selectedCars.images?.[2]?.url || "/placeholder.png"}
-                  alt=""
+                  alt={selectedCars.modelName}
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[2]?.url || "")
                   }
@@ -193,7 +190,7 @@ export default function CarDetails() {
 
                 <img
                   src={selectedCars.images?.[3]?.url || "/placeholder.png"}
-                  alt=""
+                  alt={selectedCars.modelName}
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[3]?.url || "")
                   }
@@ -221,14 +218,14 @@ export default function CarDetails() {
                 </p>
 
                 <h1 className="py-1 font-semibold text-xl sm:text-2xl lg:text-3xl uppercase">
-                  {selectedCars.modelName}
+                  {selectedCars.brand} {selectedCars.modelName}
                 </h1>
 
                 {/* star rating */}
                 <div className="flex items-center justify-start gap-1">
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <img key={i} src="/Star.png" alt="" className="h-5 w-5" />
+                      <img key={i} src="/star.svg" alt="" className="h-5 w-5" />
                     ))}
                   </div>
                   <p>
@@ -242,7 +239,7 @@ export default function CarDetails() {
 
                 <span className="flex items-baseline gap-2 sm:gap-4 max-w-md w-full text-[#4B5563]">
                   <p className="text-3xl sm:text-4xl lg:text-4xl font-bold text-black">
-                    {selectedCars.pricePerDay}
+                    ₦{selectedCars.pricePerDay}
                   </p>
                   <span className="text-sm sm:text-base">
                     /day. all-inclusive
@@ -251,7 +248,10 @@ export default function CarDetails() {
               </span>
               <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
                 <Link to={`/booking/${selectedCars.slug}`}>
-                  <button className="flex items-center justify-center bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer">
+                  <button
+                    disabled={!selectedCars}
+                    className="flex items-center justify-center bg-DeepOrange transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer"
+                  >
                     <p className="text-sm sm:text-base">Book this car</p>
                     <span>
                       <img
@@ -367,7 +367,7 @@ export default function CarDetails() {
                 >
                   <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">
-                      {selectedCars.pricePerDay}
+                      ₦{selectedCars.pricePerDay}
                     </p>
                     <p className="text-[#4B5563]">per day</p>
                   </div>
@@ -385,9 +385,7 @@ export default function CarDetails() {
                         className="outline-none border-none text-sm"
                         type="text"
                         placeholder="Please Enter Address..."
-                        name="pickupLocation"
                         {...register("pickupLocation")}
-                       
                       />
                     </span>
                   </div>
@@ -407,7 +405,6 @@ export default function CarDetails() {
                         <span className="flex flex-col">
                           <input
                             type="date"
-                           
                             {...register("pickupDate")}
                             name="pickupDate"
                           />
@@ -428,7 +425,6 @@ export default function CarDetails() {
                         <span className="flex flex-col">
                           <input
                             type="date"
-                           
                             {...register("returnDate")}
                             name="returnDate"
                           />
@@ -470,11 +466,9 @@ export default function CarDetails() {
                   </span>
 
                   {/* book now button */}
-                  <div className="w-full bg-[#F97316] transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
+                  <div className="w-full bg-DeepOrange transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 rounded-full cursor-pointer flex items-center justify-center mt-4">
                     <button
                       type="submit"
-                    
-                    
                       className="flex items-center justify-center text-white  px-4 py-2 gap-2 sm:w-auto"
                     >
                       <p className="text-sm sm:text-base w-full">

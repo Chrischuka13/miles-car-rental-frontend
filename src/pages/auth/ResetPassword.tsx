@@ -25,7 +25,7 @@ export default function ResetPassword() {
         <p className="p-3 text-sm">Didn’t get the email? Check your spam folder or try another address.</p>
       </div>
         <button
-          className="btn btn-neutral w-full lg:w-110 bg-DeepOrange text-white mt-8 border rounded-3xl"
+          className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange mt-4"
           type="submit"
         >
           <div className="flex justify-center items-center">
@@ -34,7 +34,7 @@ export default function ResetPassword() {
               <h1 className="text-xl">Back to sign in</h1>
             </div>
             <div>
-              <img src="/stash_arrow-down-duotone.svg" alt="" />
+              <img src="/arrow.svg" alt="" />
             </div>
           </div>
         </button>

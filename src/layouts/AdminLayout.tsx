@@ -1,6 +1,6 @@
 import AdminNav from "@/components/AdminNav";
 import Sidebar from "@/components/Sidebar";
-import { Outlet } from "react-router";
+import { Outlet, ScrollRestoration } from "react-router";
 
 export default function AdminLayout() {
   return (
@@ -9,6 +9,7 @@ export default function AdminLayout() {
       <div className="lg:ml-[240px] ">
         <AdminNav />
         <div className="bg-[#F7F7F7] ">
+          <ScrollRestoration />
           <Outlet />
         </div>
       </div>

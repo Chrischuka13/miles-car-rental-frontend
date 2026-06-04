@@ -1,5 +1,36 @@
 import { z } from "zod";
 
+export const validateContactUsSchema = z.object({
+  fullName: z
+    .string()
+    .trim()
+    .min(2, { message: "Full name must be at least 2 characters" })
+    .max(50, { message: "Full name is too long" }),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Invalid email address" })
+    .lowercase(),
+  phone: z
+    .string()
+    .refine(
+      (num) => /^\+\d{10,15}$/.test(num),
+      "Invalid phone number",
+    ),
+  subject: z
+    .string()
+    .trim()
+    .min(5, { message: "Subject must be at least 5 characters" })
+    .max(100, { message: "Subject is too long" }),
+  message: z
+    .string()
+    .trim()
+    .min(10, { message: "Message must be at least 10 characters" })
+    .max(1000, { message: "Message cannot exceed 1000 characters" }),
+});
+
+export type ContactUsSchemaType = z.infer<typeof validateContactUsSchema>;
+
 // export const validateBookingSchema = z
 //   .object({
 //     car: z.string({ message: "Car is required" }).min(1, "Car is required"),
@@ -92,6 +123,8 @@ export const validateBookingSchema = z
     path: ["returnDate"],
   });
 
+export type BookingForm = z.infer<typeof validateBookingSchema>;
+
 export const validateCarBookingSchema1 = z.object({
   pickupDate: z.string({ message: "Pickup date is required" }).min(1, {
     message: "Pickup date is required",
@@ -136,7 +169,7 @@ export const validateAdminNewBookingSchema = z
     path: ["returnDate"],
   });
 
-export type BookingForm = z.infer<typeof validateBookingSchema>;
+export type AdminCreateBookingSchemaType = z.infer<typeof validateAdminNewBookingSchema>;
 
 export const validateSignUpSchema = z.object({
   firstName: z
@@ -175,34 +208,6 @@ export const validateSignUpSchema = z.object({
 });
 
 export type signUpSchemaType = z.infer<typeof validateSignUpSchema>;
-
-export const validateContactUsSchema = z.object({
-  fullName: z
-    .string()
-    .trim()
-    .min(2, { message: "Full name must be at least 2 characters" })
-    .max(50, { message: "Full name is too long" }),
-  email: z
-    .string()
-    .trim()
-    .email({ message: "Invalid email address" })
-    .lowercase(),
-  phone: z
-    .string()
-    .refine((num) => /^\+\d{10,15}$/.test(num), "Invalid phone number"),
-  subject: z
-    .string()
-    .trim()
-    .min(5, { message: "Subject must be at least 5 characters" })
-    .max(100, { message: "Subject is too long" }),
-  message: z
-    .string()
-    .trim()
-    .min(10, { message: "Message must be at least 10 characters" })
-    .max(1000, { message: "Message cannot exceed 1000 characters" }),
-});
-
-export type ContactUsSchemaType = z.infer<typeof validateContactUsSchema>;
 
 export const validateLoginUser = z.object({
   email: z.string().trim().lowercase().email({
@@ -329,7 +334,7 @@ export const validateDriverSchema = z.object({
     message: "Full name must be at least 3 characters long",
   }),
 
-  phoneNumber: z
+  phoneNumber: z.coerce
     .string()
     .trim()
     .min(1, {
@@ -353,7 +358,7 @@ export const validateDriverSchema = z.object({
     message: "Base city is required",
   }),
 
-  yearsOfExperience: z
+  yearsOfExperience: z.coerce
     .number({
       message: "Years of experience must be a number",
     })
@@ -390,10 +395,14 @@ export const validateDriverSchema = z.object({
       message: "select a driver status",
     })
     .default("available"),
-  trips: z
+  trips: z.coerce
     .number({
       message: "Trips must be a valid number",
     })
     .min(0, { message: "Trips cannot be negative" })
     .default(0),
 });
+
+export type DriverFormValues = z.infer<
+  typeof validateDriverSchema
+>;

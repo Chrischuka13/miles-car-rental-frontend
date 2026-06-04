@@ -4,16 +4,18 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query"; 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUserApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import LoadingButton from "@/components/ui/authButtons";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Login() {
   const [revealPassword, setRevealPassword] = useState(false);
   const navigate = useNavigate();
-  const queryClient = useQueryClient(); // Initialize queryClient
-
+  const queryClient = useQueryClient();
+  const { setUser } = useAuth();
   const {
     handleSubmit,
     register,
@@ -32,8 +34,10 @@ export default function Login() {
     onSuccess: async (res) => {
       toast.success(res.data.message || "Login Successful");
       const user = res.data.data;
-      console.log(user);
-      
+      if (user) {
+        setUser(user);
+      }
+
       await queryClient.invalidateQueries({ queryKey: ["getMe"] });
 
       if (!user.emailVerified) {
@@ -58,8 +62,6 @@ export default function Login() {
     mutation.mutate(data);
   };
 
-  
-
   // ... rest of your component JSX
 
   return (
@@ -69,12 +71,9 @@ export default function Login() {
         <p className="text-[18px] mb-2">
           Enter your details to access your dashboard{" "}
         </p>
-        <form
-          onSubmit={handleSubmit(onSubmitForm)}
-          className=""
-        >
+        <form onSubmit={handleSubmit(onSubmitForm)} className="">
           <div>
-           <p className="mb-1">
+            <p className="mb-1">
               Email Address<span className="text-red-700">*</span>
             </p>
             <input
@@ -110,18 +109,19 @@ export default function Login() {
               <p className="text-red-500 text-sm">{errors?.password.message}</p>
             )}
           </div>
-          
-          <Link to="/auth/forgot-Password" className="flex justify-end text-DeepOrange mb-3">Forgot Password?</Link>
 
-          <button
-            className="w-full p-2 bg-orange rounded-[24px] text-white text-xl cursor-pointer bg-DeepOrange"
-            type="submit">
+          <Link
+            to="/auth/forgot-Password"
+            className="flex justify-end text-DeepOrange mb-3"
+          >
+            Forgot Password?
+          </Link>
 
-            <div className="flex justify-center items-center ">
-              {mutation.isPending ? "Processing..." : "Login"}
-                <img src="/arroww.png" alt="" className=""/>
-            </div>
-          </button>
+          <LoadingButton
+            loading={mutation.isPending}
+            loadingText="Logging in..."
+            text="Login"
+          />
 
           <div className="flex items-center py-2">
             <div className="grow h-px bg-gray-200"></div>
@@ -154,7 +154,7 @@ export default function Login() {
 
           <h1 className="text-center text-[#393E46] mt-1">
             Don't have an account?{" "}
-            <span className="text-DeepOrange">
+            <span className="text-DeepOrange hover:text-orange-700">
               <Link to="/auth/register">SignUp</Link>
             </span>{" "}
           </h1>

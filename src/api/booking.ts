@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -12,16 +11,15 @@ export type CreateBookingPayload = {
   pickupTime: string;
   returnTime: string;
   driverOption: boolean;
- 
 };
 
 export const createBooking = async (data: CreateBookingPayload) => {
-  const response = await axios.post(`${BASE_URL}/api/v1/booking/create`, data);
+  const response = await axios.post(`${BASE_URL}/api/v1/booking/create`, data, {
+    withCredentials: true,
+  });
 
   return response.data;
 };
-
-
 
 export interface BookingResponse {
   success: boolean;
@@ -34,7 +32,7 @@ export interface Booking {
   car: {
     _id: string;
     modelName: string;
-   brand: string;
+    brand: string;
     images: {
       url: string;
     }[];
@@ -53,23 +51,19 @@ export interface Booking {
   createdAt: string;
 }
 
-
-
 export const getMyBookings = async () => {
   const response = await axios.get<BookingResponse>(
     `${BASE_URL}/api/v1/booking/my-bookings`,
   );
   return response.data;
-
-}
+};
 
 export const getBookingById = async (id: string) => {
   const response = await axios.get(
     `${BASE_URL}/api/v1/booking/single-booking/${id}`,
   );
   return response.data;
-
-}
+};
 
 export const cancelBooking = async (id: string) => {
   const response = await axios.post(

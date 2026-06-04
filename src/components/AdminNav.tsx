@@ -1,17 +1,9 @@
-import {  useSearchParams } from "react-router";
 import UserAvatar from "./UserAvatar";
 
-
-import { BellDot, CalendarDays } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import AdminDrawer from "./AdminDrawer";
 
 export default function AdminNav() {
-  const [searchParams, ] = useSearchParams();
-
- 
-
-  const query = searchParams.get("query") || "";
-
   const currentDate = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -20,44 +12,20 @@ export default function AdminNav() {
   });
 
   return (
-    <div className="fixed bg-[#FFFFFF] top-0 w-full  z-10 p-4 ">
-      <div className="lg:container lg:pr-30 flex  items-center justify-between">
-        <label className="input flex gap-2 items-center text-black ">
-          <svg
-            className="h-[1em] opacity-50 "
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <g
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2.5"
-              fill="none"
-              stroke="currentColor"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </g>
-          </svg>
-          <input
-            type="search"
-            required
-            placeholder="Search"
-            className="input-lg w-60 md:w-100  lg:w-80  border p-1 rounded-2xl "
-            defaultValue={query}
-          />
-        </label>
-        <div className="hidden  lg:flex gap-1 border ml-25 px-2 rounded-lg p-2 ">
+    <div className="md:fixed top-0 left-55 right-0 z-50 bg-white">
+      <div className="flex items-center justify-between h-16 px-6">
+        <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
           <CalendarDays />
           <p className=" ">{currentDate}</p>
         </div>
-        <BellDot className="md:ml-35 "/>
 
         <div className="flex gap-6 items-center">
+          <div className="hidden md:block">
           <UserAvatar />
+          </div>
+
           <AdminDrawer />
         </div>
-     
       </div>
     </div>
   );

@@ -84,8 +84,8 @@ export default function MyBookings() {
               <div className="w-full lg:pt-5   ">
                 <span
                   onClick={() => navigate(`/booking-details/${booking._id}`)}
-                  className={`text-xs md:text-sm px-3 md:p-1.75  text-center rounded-full  ${
-                    bookingStatusColors[booking.bookingStatus] ||
+                  className={`text-xs md:text-sm px-3 md:p-1.75  text-center rounded-full ${
+                    bookingStatusColors[booking.bookingStatus as keyof typeof bookingStatusColors] ||
                     "bg-gray-100 text-gray-700"
                   }`}
                 >
