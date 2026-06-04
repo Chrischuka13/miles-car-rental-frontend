@@ -1,5 +1,4 @@
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
 import { Calendar, Wallet, Car, Users } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import { RevenueChart } from "@/pages/dashboard/RevenueChart";
@@ -10,31 +9,35 @@ import { RevenueOverview } from "@/pages/dashboard/RevenueOverview";
 import ActionRequired from "./ActionRequired";
 import { getAdminDashboardStatsApi } from "@/api/admin";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom"; // 🌟 Added import
 
 export default function Dashboard() {
   const { user } = useAuth();
   type FilterOption = "Today" | "7d" | "30d" | "Custom";
 
-    const [selected, setSelected] = useState<FilterOption>("30d");
+  // 🌟 Hook up browser search parameters
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ["dashboardStats"],
-  //   queryFn: getAdminDashboardStatsApi,
-  //   retry: false,
-  // });
+  // Read URL params. Convert to exact lowercase options when hitting the API
+  const rangeParam = searchParams.get("range")?.toLowerCase() || "30d";
 
+  // Map incoming URL string states back to your explicit matching UI capitalizations
+  const selected: FilterOption = 
+    rangeParam === "today" ? "Today" : 
+    rangeParam === "7d" ? "7d" : 
+    rangeParam === "custom" ? "Custom" : "30d";
+
+  // 🌟 Clean query initialization using the lowercased parameter
   const { data, isLoading, isError } = useQuery({
-  queryKey: ["dashboardStats", selected], // ← selected as dependency
-  queryFn: () => getAdminDashboardStatsApi(selected),
-  retry: false,
-});
+    queryKey: ["dashboardStats", rangeParam], 
+    queryFn: () => getAdminDashboardStatsApi(rangeParam),
+    retry: false,
+  });
 
-
-  
+  console.log("dashboard", data);
 
   const body = data?.data?.body;
   const summaryCards = body?.summaryCards;
-
 
   const options: FilterOption[] = ["Today", "7d", "30d", "Custom"];
 
@@ -43,6 +46,13 @@ export default function Dashboard() {
     if (hour >= 5 && hour < 12) return `Good morning, ${name}`;
     else if (hour >= 12 && hour < 17) return `Good afternoon, ${name}`;
     else return `Good evening, ${name}`;
+  };
+
+  // 🌟 Click handler that updates the URL search query instantly
+  const handleFilterChange = (option: FilterOption) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("range", option.toLowerCase());
+    setSearchParams(newParams);
   };
 
   const stats = [
@@ -79,24 +89,24 @@ export default function Dashboard() {
   if (isError) return <div className="p-6 pt-24 text-red-500">Failed to load dashboard.</div>;
 
   return (
-    <div className="container mx-auto px-6 md:pt-20">
+    <div className="container mx-auto px-6 pt-20">
       <div className="lg:flex lg:justify-between">
         <div>
-          <h1 className="text-xl lg:text-4xl py-4 font-semibold">
+          <h1 className="text-xl lg:text-4xl py-4">
             {getGreeting(user?.firstName ?? "")} 👋
           </h1>
-          <p className="text-lg lg:text-md text-[#393E46] mb-4">
+          <p className="text-lg pb-2 lg:text-md text-center text-[#393E46]">
             Manage your team with confidence today.
           </p>
         </div>
-        <div className="flex items-center gap-1 border border-gray-200 rounded-2xl p-1 bg-white mb-4">
+        <div className="flex items-center gap-1 border border-gray-200 rounded-2xl p-1 bg-white">
           {options.map((option) => (
             <button
               key={option}
-              onClick={() => setSelected(option)}
+              onClick={() => handleFilterChange(option)} // 🌟 Uses new navigation handler
               className={`px-4 py-1 w-full rounded-full text-sm font-medium transition-all duration-200 ${
                 selected === option
-                  ? "bg-DarkBlue text-white"
+                  ? "bg-[#111827] text-white"
                   : "text-gray-400 hover:text-gray-600"
               }`}
             >
@@ -121,7 +131,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3  gap-6 md:px-6 lg:p-6 bg-gray-50">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:px-6 lg:p-6 bg-gray-50">
         <RevenueOverview data={body?.liveOverviewList ?? []} />
         <TopPerformingVehicles data={body?.topVehicles ?? []} />
         <ActivityTimeline data={body?.activityFeed ?? []} />

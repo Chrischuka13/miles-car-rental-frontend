@@ -88,7 +88,7 @@ export default function TrendingCars() {
                     <p className="text-[#A1A1A1] text-xs uppercase">
                       {car.category}
                     </p>
-                    <p className="text-lg font-bold">{car.pricePerDay}</p>
+                    <p className="text-lg font-bold">₦{car.pricePerDay}</p>
                   </span>
 
                   <span className="flex items-center justify-between">

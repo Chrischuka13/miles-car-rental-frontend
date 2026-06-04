@@ -31,19 +31,17 @@ export default function UserAvatar() {
         }
       />
       <DropdownMenuContent>
-        <DropdownMenuSeparator />
         <DropdownMenuItem>
           {user?.role === "admin" && (
-            <li>
-              <Link to="/admin">
-                <div className="flex gap-2 items-center">
-                  <Lock />
-                  <span>Admin</span>
-                </div>
-              </Link>
-            </li>
+            <Link to="/admin">
+              <div className="flex gap-2 items-center">
+                <Lock />
+                <span>Admin</span>
+              </div>
+            </Link>
           )}
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={handleLogout}>
           <LogOutIcon />
           Log out

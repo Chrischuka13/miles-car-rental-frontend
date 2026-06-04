@@ -225,7 +225,7 @@ export default function CarDetails() {
                 <div className="flex items-center justify-start gap-1">
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <img key={i} src="/Star.png" alt="" className="h-5 w-5" />
+                      <img key={i} src="/star.svg" alt="" className="h-5 w-5" />
                     ))}
                   </div>
                   <p>

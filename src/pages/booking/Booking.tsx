@@ -629,7 +629,7 @@ export default function Booking() {
                 )}
                 <div className="flex justify-between items-center mt-6">
                   {/* BACK BUTTON (unchanged) */}
-                  {currentStep < 3 && paymentMethod !== "card" ? (
+                  {currentStep > 1 && currentStep < 3 && paymentMethod !== "card" ? (
                     <Button
                       type="button"
                       onClick={handleBack}

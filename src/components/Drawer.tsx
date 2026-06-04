@@ -12,10 +12,10 @@ export default function Drawer() {
 
   return (
     <>
-      <div>
+      <div className="lg:hidden">
         <button
           onClick={() => setIsOpen(true)}
-          className="lg:hidden hover:cursor-pointer text-DeepOrange"
+          className="hover:cursor-pointer text-DeepOrange"
           aria-label="Open menu"
         >
           <Menu />
