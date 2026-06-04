@@ -56,13 +56,13 @@ export const adminCreateBookingApi = async (data: any) => {
   );
 };
 
-export const getDashboardStatsApi = async (range = "30d") => {
+export const getAdminDashboardStatsApi = async (range: string) => {
   return await axios.get(
-    `${import.meta.env.VITE_API_URL}/api/v1/admin/dashboard-stats`,
+    `${import.meta.env.VITE_API_URL}/api/v1/admin/dashboard-stats`, 
     {
       params: { range },
-      withCredentials: true,
-    },
+      withCredentials: true // This allows the browser to send your session cookies securely
+    }
   );
 };
 
