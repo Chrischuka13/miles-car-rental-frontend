@@ -401,7 +401,7 @@ export default function Booking() {
                           }  `}
                         >
                           <img src="/Calendar Minimalistic.svg" alt="" />
-                          <p>card</p>
+                          <p>Card</p>
                           <p>Visa, Master card, Verve</p>
                         </div>
 

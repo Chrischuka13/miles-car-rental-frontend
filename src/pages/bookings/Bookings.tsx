@@ -115,7 +115,7 @@ export default function Bookings() {
 
   return (
     <>
-      <div className="p-6 md:pt-24 overflow-x-auto">
+      <div className="p-4 md:pt-24 overflow-x-auto">
         {/* Header */}
         <div className="lg:flex items-center justify-between mb-6 sticky left-0">
           <div>

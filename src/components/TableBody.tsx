@@ -1,5 +1,3 @@
-
-
 interface Column {
   uid: string;
   name: string;
@@ -23,12 +21,12 @@ export default function TableBody({
 }: TableBodyProps) {          
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm bg-white">
+      <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide bg-neutral-200">
+          <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wide">
             <th>#</th>
             {tableColumns.map((col) => (
-              <th key={col.uid} className="p-4 text-left font-medium text-DarkBlue ">
+              <th key={col.uid} className="p-4 text-left font-medium">
                 {col.name}
               </th>
             ))}
