@@ -37,7 +37,7 @@ function About() {
             </Link>
 
             <button className="w-full md:w-auto bg-white hover:bg-gray-100 transition-all duration-300 text-gray-900 px-5 py-2 rounded-full font-semibold flex items-center justify-center gap-3 shadow-lg cursor-pointer">
-              <span className="w-7 h-7 rounded-full border border-gray-400 flex items-center justify-center text-sm"></span>
+              {/* <span className="w-7 h-7 rounded-full border border-gray-400 flex items-center justify-center text-sm"></span> */}
               Watch our story
             </button>
           </div>
