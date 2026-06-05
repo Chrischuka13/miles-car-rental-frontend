@@ -19,7 +19,7 @@ interface AuthContextType {
   isAuthenticating: boolean;
   setIsAuthenticating: (value: boolean) => void;
     handleLogout: () => Promise<void>;
-    refetchUser: () => Promise<void>; 
+    // refetchUser: () => Promise<void>; 
 }
 
 
@@ -30,7 +30,7 @@ const initialState: AuthContextType = {
   isAuthenticating: false,
   setIsAuthenticating: () => null,
  handleLogout: async () => {}, 
-  refetchUser: async () => {}, 
+  // refetchUser: async () => {}, 
 };
 
 // create the store

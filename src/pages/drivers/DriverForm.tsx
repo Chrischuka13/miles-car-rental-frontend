@@ -119,7 +119,7 @@ interface Props {
 export default function DriverForm({ onClose }: Props) {
   const [step, setStep] = useState(1);
   const methods = useForm({
-    resolver: zodResolver(validateDriverSchema),
+    resolver: zodResolver(validateDriverSchema) as any,
 
     mode: "onChange",
       reValidateMode: "onChange",
@@ -131,7 +131,7 @@ export default function DriverForm({ onClose }: Props) {
       phoneNumber: "",
       email: "",
       baseCity: "",
-      yearsOfExperience: 0,
+      yearsOfExperience: undefined,
       languages: [],
       licenseNumber: "",
       expiryDate: "",

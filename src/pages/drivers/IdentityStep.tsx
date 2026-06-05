@@ -30,7 +30,7 @@ const LANGUAGES = [
 ];
 
 export default function IdentityStep() {
-  const { watch, setValue, register } = useFormContext();
+  const { watch, setValue, register, formState: {errors}, } = useFormContext();
 
     useEffect(() => {
     register("languages")
@@ -44,12 +44,16 @@ export default function IdentityStep() {
         selectedLanguage.filter((l: string) => l !== language),
         {
           shouldValidate: true,
+          shouldTouch: true,
+          shouldDirty: true,
         }
       );
     } else {
       setValue("languages", [...selectedLanguage, language],
         {
-          shouldValidate: true
+          shouldValidate: true,
+          shouldTouch: true,
+          shouldDirty: true,
         }
       );
     }
@@ -94,8 +98,15 @@ console.log(watch());
               >
                 {lang.label}
               </button>
+              
             );
+            
           })}
+            {errors.languages && (
+            <p className="mt-2 text-sm text-red-500">
+              {errors.languages.message as string}
+            </p>
+            )}
         </div>
       </div>
     </div>

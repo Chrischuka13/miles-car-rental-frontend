@@ -239,7 +239,7 @@ export default function CarDetails() {
 
                 <span className="flex items-baseline gap-2 sm:gap-4 max-w-md w-full text-[#4B5563]">
                   <p className="text-3xl sm:text-4xl lg:text-4xl font-bold text-black">
-                    ₦{selectedCars.pricePerDay}
+                    ₦{selectedCars.pricePerDay.toLocaleString()}
                   </p>
                   <span className="text-sm sm:text-base">
                     /day. all-inclusive
@@ -367,7 +367,7 @@ export default function CarDetails() {
                 >
                   <div className="flex justify-between items-center">
                     <p className="font-bold text-2xl">
-                      ₦{selectedCars.pricePerDay}
+                      ₦{selectedCars.pricePerDay.toLocaleString()}
                     </p>
                     <p className="text-[#4B5563]">per day</p>
                   </div>
