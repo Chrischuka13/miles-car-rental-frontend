@@ -14,27 +14,22 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isPending, isError, error } = useQuery({
     queryFn: async () => await getMeApi(),
     queryKey: ["authuser"],
   });
 
-  if (isError) {
-    setUser(null);
-    console.log("Error authenticating", error.message);
-    return;
-  }
-
   useEffect(() => {
     if (data && data?.status === 200) {
       setUser(data?.data.data);
+    } else if (isError) {
+      setUser(null)
+      console.log("Error authenticating", error.message);
     }
-  }, [data]);
-
-  console.log("autr", user);
+  }, [data, isError]);
 
   // fetch user on app load using session cookie
   // useEffect(() => {
@@ -78,7 +73,7 @@ export default function AuthProvider({
   //   }
   // };
 
-  if (isLoading) return <SuspenseUi />;
+  if (isPending) return <SuspenseUi />;
 
   const contextValue = {
     user,

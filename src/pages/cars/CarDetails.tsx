@@ -51,7 +51,7 @@ export default function CarDetails() {
     enabled: !!slug,
   });
 
-  console.log(data);
+   import.meta.env.DEV && console.log(data);
 
   const selectedCars: Car | undefined = data?.data;
 

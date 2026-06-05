@@ -59,7 +59,7 @@ export default function BookingDetails() {
 
   
 
-  console.log("single BOOKINGS:", data);
+   import.meta.env.DEV && console.log("single BOOKINGS:", data);
 
   return (
     <>

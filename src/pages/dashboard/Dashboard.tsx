@@ -34,7 +34,7 @@ export default function Dashboard() {
     retry: false,
   });
 
-  console.log("dashboard", data);
+   import.meta.env.DEV && console.log("dashboard", data);
 
   const body = data?.data?.body;
   const summaryCards = body?.summaryCards;

@@ -212,7 +212,7 @@ const onSubmit = (
     trips: 0,
   };
 
-  console.log(payload);
+   import.meta.env.DEV && console.log(payload);
 
   mutate(payload);
 };

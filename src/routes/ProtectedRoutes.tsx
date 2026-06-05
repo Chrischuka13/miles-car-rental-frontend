@@ -9,7 +9,7 @@ export function PublicRoute({ children }: { children: React.ReactNode }) {
   const from = location.state?.from || "/";
 
   useEffect(() => {
-    if (!isAuthenticating && user) {
+    if (user) {
       navigate(from, {
         state: { from: location },
         replace: true,
@@ -27,7 +27,7 @@ export function PrivateRoute({ children }: { children: React.ReactNode }) {
   const from = location.state?.from || "/auth/login";
 
   useEffect(() => {
-    if (!isAuthenticating && !user) {
+    if (!user) {
       navigate(from, {
         state: { from: location },
         replace: true,
@@ -44,13 +44,13 @@ export function AdminRoute({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticating && !user) {
+    if (!user) {
       navigate("/auth/login", {
         state: { from: location },
         replace: true,
       });
     }
-    if (!isAuthenticating && user && user.role !== "admin") {
+    if (user && user.role !== "admin") {
       navigate("/", { replace: true });
     }
   }, [user, isAuthenticating, location, navigate]);

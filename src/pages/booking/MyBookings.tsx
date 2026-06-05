@@ -27,7 +27,7 @@ export default function MyBookings() {
     }).format(priceInUSD * USD_TO_NGN);
   };
 
-  console.log("MY BOOKINGS:", data);
+   import.meta.env.DEV && console.log("MY BOOKINGS:", data);
 
   return (
     <>

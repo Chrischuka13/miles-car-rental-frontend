@@ -58,9 +58,7 @@ export default function IdentityStep() {
       );
     }
   };
-  
 
-console.log(watch());
 
   return (
     <div className="space-y-5">

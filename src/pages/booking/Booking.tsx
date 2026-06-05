@@ -160,7 +160,7 @@ export default function Booking() {
       }),
     );
 
-    console.log(
+    import.meta.env.DEV && console.log(
       "BOOKING STORAGE:",
       JSON.parse(localStorage.getItem("bookingData") || "{}"),
     );
