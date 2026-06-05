@@ -67,7 +67,7 @@ export default function SignUp() {
               <input
                 type="name"
                 {...register("firstName")}
-                className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] mb-2"
+                className="p-2 border border-[#C3C9D3] rounded-2xl w-full text-[#A1A1A1] mb-2"
                 placeholder="Enter name"
               />
               {errors.firstName && (
@@ -81,7 +81,7 @@ export default function SignUp() {
               <input
                 type="name"
                 {...register("lastName")}
-                className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] mb-2"
+                className="p-2 border border-[#C3C9D3] rounded-2xl w-full text-[#A1A1A1] mb-2"
                 placeholder="Enter name"
               />
               {errors.lastName && (
@@ -98,7 +98,7 @@ export default function SignUp() {
             <input
               type="name"
               {...register("email")}
-              className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] mb-2"
+              className="p-2 border border-[#C3C9D3] rounded-2xl w-full text-[#A1A1A1] mb-2"
               placeholder="you@example.com"
             />
             {errors.email && (
@@ -112,7 +112,7 @@ export default function SignUp() {
             <input
               type="phone"
               {...register("phone")}
-              className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] mb-2"
+              className="p-2 border border-[#C3C9D3] rounded-2xl w-full text-[#A1A1A1] mb-2"
               placeholder="+ 1 (555) 000-0000"
             />
             {errors.phone && (
@@ -121,20 +121,19 @@ export default function SignUp() {
           </div>
 
           <div className="relative ">
-            <p className="mb-2">
+            <p className="pb-1">
               Password<span className="text-red-700">*</span>
             </p>
             <input
               type={revealPassword ? "text" : "password"}
               {...register("password")}
-              className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] mb-2 "
+              className="input border text-[#A1A1A1]  border-[#C3C9D3] w-full p-2 rounded-2xl  "
               placeholder="••••••••"
             />
-
             <button
               type="button"
               onClick={togglePasswordReveal}
-              className="absolute right-5 bottom-5 "
+              className="absolute  right-3  translate-y-3 text-gray-600 z-10"
             >
               {revealPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
