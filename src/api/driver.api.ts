@@ -2,7 +2,7 @@ import axios from "axios";
 import { type DriverFormValues } from "@/lib/schemaTypes";
 
 export const createDriverApi = async (data: DriverFormValues) => {
-  const res = await axios.post("/api/v1/admin/driver/create-driver", data, {
+  const res = await axios.post("/api/v1/driver/create-driver", data, {
     withCredentials: true,
   });
 
@@ -10,7 +10,7 @@ export const createDriverApi = async (data: DriverFormValues) => {
 };
 
 export const getAllDriversApi = async (page = 1) => {
-  const res = await axios.get("/api/v1/admin/driver/get-all-drivers", {
+  const res = await axios.get("/api/v1/driver/get-all-drivers", {
     params: {
       page,
       limit: 10,
@@ -22,7 +22,7 @@ export const getAllDriversApi = async (page = 1) => {
 };
 
 export const getSingleDriverApi = async (driverId: string) => {
-  const res = await axios.get(`/api/v1/admin/driver/${driverId}`, {
+  const res = await axios.get(`/api/v1/driver/${driverId}`, {
     withCredentials: true,
   });
 
