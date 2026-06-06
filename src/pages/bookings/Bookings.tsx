@@ -7,6 +7,7 @@ import {   Plus, Search } from "lucide-react";
 import BookingsTable from "./BookingTable";
 import Paginate from "@/components/Paginate";
 import NewBookingModal from "./NewBookingModal";
+import Loader from "@/components/ui/Loader";
 
 
 interface Car {
@@ -110,8 +111,8 @@ export default function Bookings() {
     return 0;
   };
 
-  if (isLoading) return <div className="p-6 pt-24">Loading...</div>;
-  if (isError) return <div className="p-6 pt-24 text-red-500">Failed to load bookings.</div>;
+    if (isLoading) return <Loader />;
+    if (isError) return <div className="p-6 pt-24 text-red-500">Failed to load bookings.</div>;
 
   return (
     <>

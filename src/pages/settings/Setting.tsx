@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { updateAdminSettingsApi } from "@/api/admin";
 import { deleteWorkspaceApi } from "@/api/admin";
@@ -17,8 +17,9 @@ interface SettingsForm {
 }
 
 export default function Setting() {
-  const { user, refetchUser } = useAuth();
+  const { user } = useAuth();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State for confirmation modal
+  const queryClient = useQueryClient();
 
   const { register, handleSubmit, reset } = useForm<SettingsForm>({
     values: {
@@ -29,7 +30,7 @@ export default function Setting() {
       password: "",
     },
     resetOptions: {
-      keepDirtyValues: true, 
+      keepDirtyValues: true,
     },
   });
 
@@ -37,7 +38,7 @@ export default function Setting() {
     mutationFn: updateAdminSettingsApi,
     onSuccess: async (res) => {
       toast.success(res?.data?.message || "Settings updated successfully!");
-      if (refetchUser) await refetchUser();
+      queryClient.invalidateQueries({ queryKey: ["authuser"] });
       reset({
         firstName: user?.firstName || "",
         lastName: user?.lastName || "",
@@ -66,7 +67,9 @@ export default function Setting() {
     },
     onError: (error: unknown) => {
       if (axios.isAxiosError(error)) {
-        toast.error(error?.response?.data?.message || "Failed to delete workspace");
+        toast.error(
+          error?.response?.data?.message || "Failed to delete workspace",
+        );
       } else {
         toast.error("Failed to delete workspace");
       }
@@ -132,7 +135,6 @@ export default function Setting() {
                 {...register("firstName", {
                   required: "First name is required",
                 })}
-             
                 className="w-full py-3 px-5 rounded-[15px] border bg-[#E6E6E6] placeholder:text-DarkBlue placeholder:text-sm"
               />
             </div>
@@ -234,7 +236,7 @@ export default function Setting() {
               Permanently remove all bookings, vehicles, drivers and customers.
             </p>
           </div>
-          <button 
+          <button
             type="button"
             onClick={() => setIsDeleteModalOpen(true)}
             className="text-white bg-red-500 hover:bg-red-600 cursor-pointer p-2 rounded-[5px] transition"
@@ -252,15 +254,18 @@ export default function Setting() {
               <div className="p-2 bg-red-50 rounded-full">
                 <AlertTriangle className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Delete Workspace?</h3>
+              <h3 className="text-xl font-bold text-gray-900">
+                Delete Workspace?
+              </h3>
             </div>
-            
+
             <div className="space-y-3 text-sm text-gray-600">
               <p className="font-medium text-gray-800">
-                Are you sure you want to delete this workspace? 
+                Are you sure you want to delete this workspace?
               </p>
               <p className="bg-red-50 border border-red-100 rounded-lg p-3 text-red-700 font-medium">
-                Warning: You cannot undo this action or recover this account data once removed.
+                Warning: You cannot undo this action or recover this account
+                data once removed.
               </p>
             </div>
 
@@ -279,7 +284,9 @@ export default function Setting() {
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-[25px] transition disabled:opacity-50"
                 disabled={deleteWorkspaceMutation.isPending}
               >
-                {deleteWorkspaceMutation.isPending ? "Deleting..." : "Yes, Delete permanently"}
+                {deleteWorkspaceMutation.isPending
+                  ? "Deleting..."
+                  : "Yes, Delete permanently"}
               </button>
             </div>
           </div>

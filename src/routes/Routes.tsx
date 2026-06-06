@@ -37,7 +37,8 @@ const Routes = () => {
         {
           path: "about",
           lazy: async () => {
-            const { default: Component } = await import("../pages/about/About.tsx");
+            const { default: Component } =
+              await import("../pages/about/About.tsx");
             return { Component };
           },
         },
@@ -45,7 +46,8 @@ const Routes = () => {
         {
           path: "contact",
           lazy: async () => {
-            const { default: Component } = await import("../pages/contactus/ContactUs.tsx");
+            const { default: Component } =
+              await import("../pages/contactus/ContactUs.tsx");
             return { Component };
           },
         },
@@ -56,14 +58,16 @@ const Routes = () => {
             {
               path: "carlisting",
               lazy: async () => {
-                const { default: Component } = await import("../pages/cars/CarListing");
+                const { default: Component } =
+                  await import("../pages/cars/CarListing");
                 return { Component };
               },
             },
             {
               path: "cardetails/:slug",
               lazy: async () => {
-                const { default: Component } = await import("../pages/cars/CarDetails");
+                const { default: Component } =
+                  await import("../pages/cars/CarDetails");
                 return { Component };
               },
             },
@@ -72,28 +76,32 @@ const Routes = () => {
         {
           path: "booking/:slug",
           lazy: async () => {
-            const { default: Component } = await import("../pages/booking/Booking");
+            const { default: Component } =
+              await import("../pages/booking/Booking");
             return { Component };
           },
         },
         {
           path: "my-bookings",
           lazy: async () => {
-            const { default: Component } = await import("../pages/booking/MyBookings");
+            const { default: Component } =
+              await import("../pages/booking/MyBookings");
             return { Component };
           },
         },
         {
           path: "verify-payment",
           lazy: async () => {
-            const { default: Component } = await import("../pages/booking/VerifyPayment.tsx");
+            const { default: Component } =
+              await import("../pages/booking/VerifyPayment.tsx");
             return { Component };
           },
         },
         {
           path: "booking-details/:id",
           lazy: async () => {
-            const { default: Component } = await import("../pages/booking/BookingDetails.tsx");
+            const { default: Component } =
+              await import("../pages/booking/BookingDetails.tsx");
             return { Component };
           },
         },
@@ -116,9 +124,8 @@ const Routes = () => {
         {
           index: true,
           lazy: async () => {
-            const { default: Component } = await import(
-              "../pages/about/About.tsx"
-            );
+            const { default: Component } =
+              await import("../pages/about/About.tsx");
             return { Component };
           },
         },
@@ -133,9 +140,8 @@ const Routes = () => {
         {
           index: true,
           lazy: async () => {
-            const { default: Component } = await import(
-              "../pages/contactus/ContactUs.tsx"
-            );
+            const { default: Component } =
+              await import("../pages/contactus/ContactUs.tsx");
             return { Component };
           },
         },
@@ -189,39 +195,45 @@ const Routes = () => {
         </AdminRoute>
       ),
       ErrorBoundary: ErrorBoundary,
+      hydrateFallbackElement: <SuspenseUi />,
       children: [
         {
           index: true,
           lazy: async () => {
-            const { default: Component } = await import("../pages/dashboard/Dashboard.tsx");
+            const { default: Component } =
+              await import("../pages/dashboard/Dashboard.tsx");
             return { Component };
           },
         },
         {
           path: "bookings",
           lazy: async () => {
-            const { default: Component } = await import("../pages/bookings/Bookings.tsx");
+            const { default: Component } =
+              await import("../pages/bookings/Bookings.tsx");
             return { Component };
           },
         },
         {
           path: "fleet",
           lazy: async () => {
-            const { default: Component } = await import("../pages/fleet/Fleet.tsx");
+            const { default: Component } =
+              await import("../pages/fleet/Fleet.tsx");
             return { Component };
           },
         },
         {
           path: "customers",
           lazy: async () => {
-            const { default: Component } = await import("../pages/customers/Customers.tsx");
+            const { default: Component } =
+              await import("../pages/customers/Customers.tsx");
             return { Component };
           },
         },
         {
           path: "drivers",
           lazy: async () => {
-            const { default: Component } = await import("../pages/drivers/Drivers.tsx");
+            const { default: Component } =
+              await import("../pages/drivers/Drivers.tsx");
             return { Component };
           },
         },
@@ -236,7 +248,8 @@ const Routes = () => {
         {
           path: "bookings/:id",
           lazy: async () => {
-            const { default: Component } = await import("../pages/bookings/BookingDetails.tsx");
+            const { default: Component } =
+              await import("../pages/bookings/BookingDetails.tsx");
             return { Component };
           },
         },

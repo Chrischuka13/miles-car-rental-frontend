@@ -437,7 +437,7 @@ export function VehicleDetailDashboard({
               className="p-6 space-y-4"
               onSubmit={(e) => {
                 e.preventDefault();
-                console.log("Updated vehicle:", editData);
+                 import.meta.env.DEV && console.log("Updated vehicle:", editData);
                 setIsEditOpen(false);
               }}
             >

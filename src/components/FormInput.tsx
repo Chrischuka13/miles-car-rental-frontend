@@ -1,10 +1,12 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext, type FieldError } from "react-hook-form";
+
 interface Props {
   name: string;
   label: string;
   type?: string;
   placeholder?: string;
 }
+
 export default function FormInput({
   name,
   label,
@@ -16,23 +18,29 @@ export default function FormInput({
     formState: { errors },
   } = useFormContext();
 
-  const error = errors[name as keyof typeof errors];
+  const error = errors[name] as FieldError | undefined;
+
   return (
     <div>
-      {" "}
-      <label className="mb-2 block text-sm font-medium"> {label} </label>{" "}
+      <label className="mb-2 block text-sm font-medium">
+        {label}
+      </label>
+
       <input
         type={type}
         placeholder={placeholder}
-        {...register(name, {
-          valueAsNumber: type === "number",
-        })}
-        className={`w-full rounded-xl px-4 py-3 border ${
-          error ? "border-red-500" : "border-gray-300"
+        {...register(name)}
+        className={`w-full rounded-xl border px-4 py-3 ${
+          error
+            ? "border-red-500"
+            : "border-gray-300"
         }`}
       />
-      {error && (
-        <p className="mt-1 text-sm text-red-500">{String(error.message)}</p>
+
+      {error?.message && (
+        <p className="mt-1 text-sm text-red-500">
+          {error.message}
+        </p>
       )}
     </div>
   );

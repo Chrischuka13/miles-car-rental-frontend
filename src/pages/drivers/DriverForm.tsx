@@ -99,7 +99,7 @@
 //   );
 // }
 
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, type Resolver } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -111,35 +111,34 @@ import IdentityStep from "./IdentityStep";
 import LicenseStep from "./LicenseStep";
 import AssignmentStep from "./AssignmentStep";
 import { useCreateDriver } from "@/hooks/useCreateDriver";
-import { Button } from "@/components/ui/button";
+
 
 interface Props {
   onClose: () => void;
 }
 export default function DriverForm({ onClose }: Props) {
   const [step, setStep] = useState(1);
-  const methods = useForm({
-    resolver: zodResolver(validateDriverSchema),
+const methods = useForm<DriverFormValues>({
+  resolver: zodResolver(validateDriverSchema) as unknown as Resolver<DriverFormValues>,
+  mode: "onChange",
+  reValidateMode: "onChange",
+  shouldFocusError: true,
+  shouldUnregister: true,
 
-    mode: "onChange",
-      reValidateMode: "onChange",
-      shouldFocusError: true,
-      shouldUnregister: false,
-
-    defaultValues: {
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-      baseCity: "",
-      yearsOfExperience: 0,
-      languages: [],
-      licenseNumber: "",
-      expiryDate: "",
-      isVerified: false,
-      status: "available",
-      trips: 0,
-    },
-  });
+  defaultValues: {
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    baseCity: "",
+    yearsOfExperience: undefined,
+    languages: [],
+    licenseNumber: "",
+    expiryDate: "",
+    isVerified: false,
+    status: "available",
+    trips: 0,
+  },
+});
   const { handleSubmit, trigger } = methods;
   const { mutate, isPending } = useCreateDriver();
 
@@ -173,6 +172,9 @@ export default function DriverForm({ onClose }: Props) {
     );
     return;
   }
+
+  console.log("valid:", valid);
+console.log(methods.formState.errors);
 
   
 
@@ -212,7 +214,7 @@ const onSubmit = (
     trips: 0,
   };
 
-  console.log(payload);
+   import.meta.env.DEV && console.log(payload);
 
   mutate(payload);
 };
@@ -271,23 +273,24 @@ function Line() {
          </div>
         {step === 1 && <IdentityStep />} {step === 2 && <LicenseStep />}
         {step === 3 && <AssignmentStep />}
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-6">
           
-          <Button type="button" onClick={step === 1 ? onClose : prevStep}>
+          <button className="flex-1 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 transition" type="button" onClick={step === 1 ? onClose : prevStep}>
         
             Back
-          </Button>
+          </button>
             {step < 3 ? (
-            <Button
+            <button
               type="button"
               onClick={nextStep}
+              className="flex-1 py-3 bg-[#F97316] text-white rounded-xl text-sm font-medium hover:bg-orange-600 transition shadow-sm"
             >
               Continue
-            </Button>
+            </button>
           ) : (
-            <Button type="submit" disabled={isPending}>
+            <button type="submit" disabled={isPending}>
               {isPending? "creating": "create driver"}
-            </Button>
+            </button>
           )}
         </div>
       </form>

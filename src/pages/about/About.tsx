@@ -1,13 +1,21 @@
 import WhyChooseUs from "@/components/whyChooseUs";
 import aboutImage from "/about.jpg";
 import OurService from "@/components/OurService";
-import Testimonial from "@/components/Testimonial";
 import { Link } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import Buttons2 from "@/components/ui/Buttons2";
 import Buttons from "@/components/ui/Buttons";
+import useMetaTags from "@/hooks/useMeta";
+
 
 function About() {
+  useMetaTags({
+    title: "About Us - Miles Car Rental",
+    description:
+      "Learn more about Miles Car Rental and our mission to make car rentals simple, fast, and affordable.",
+    keywords:
+      "Miles Car Rental, about us, car rental service, vehicle hire",
+  });
   const { user } = useAuth();
   return (
     <main className="">
@@ -35,11 +43,6 @@ function About() {
             <Link to="/cars/carListing">
               <Buttons2 text="Explore cars" />
             </Link>
-
-            <button className="w-full md:w-auto bg-white hover:bg-gray-100 transition-all duration-300 text-gray-900 px-5 py-2 rounded-full font-semibold flex items-center justify-center gap-3 shadow-lg cursor-pointer">
-              {/* <span className="w-7 h-7 rounded-full border border-gray-400 flex items-center justify-center text-sm"></span> */}
-              Watch our story
-            </button>
           </div>
         </div>
       </section>
@@ -151,24 +154,32 @@ function About() {
 
       <OurService />
 
-      <Testimonial />
-
       <section className="py-12">
         <div className="w-11/12 container mx-auto">
           <div className="bg-DeepOrange flex flex-col justify-center items-center p-4 md:p-10 rounded-lg text-center md:text-start">
-            <h3 className="text-3xl md:text-5xl text-white mb-2 font-semibold">
+            <h3 className="text-2xl md:text-5xl text-white mb-2 font-semibold">
               Ready to move smarter?
             </h3>
-            <p className="text-white text-xl mb-4">
+            <p className="text-white md:text-xl mb-8">
               Book your next ride in minutes and experience a better way to
               travel. Your road, your rules
             </p>
 
             {user ? (
-              <button className="flex items-center justify-center px-6 bg-DarkBlue rounded-full p-2 cursor-pointer text-white">
-                Book Now
-                <img src="/arrow.png" alt="" className="w-6" />
-              </button>
+              <div className="flex justify-center items-center gap-3">
+                <div>
+                  <Link to="/cars/carListing">
+                    <Buttons text="Book Now" />
+                  </Link>
+                </div>
+                <Link to="/contactus">
+                  <button className="bg-white p-3 rounded-4xl font-medium">
+                    Talk to our team
+                  </button>              
+                </Link>
+
+              </div>
+
             ) : (
               <div className="md:flex justify-center items-center gap-4">
                 <div className="flex justify-center gap-4">

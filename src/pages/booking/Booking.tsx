@@ -28,6 +28,9 @@ interface CarData {
 
 export default function Booking() {
   const { slug } = useParams();
+  // const location = useLocation()
+  console.log("ll", slug);
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["car", slug],
     queryFn: () => getCarBySlug(slug as string),
@@ -40,7 +43,10 @@ export default function Booking() {
   const selectedCars: CarData | undefined = data?.data;
   const bookingStorage = JSON.parse(
     localStorage.getItem("bookingData") || "null",
+
   );
+  console.log("selectedCars:", data?.data);
+  
 
   const {
     register,
@@ -90,25 +96,32 @@ export default function Booking() {
     if (step) {
       Promise.resolve().then(() => setCurrentStep(3));
     }
-  }, [step]);
+  }, [step, slug]);
 
   const watchPickUpLocation = useWatch({ control, name: "pickupLocation" });
+  const watchReturnLocation = useWatch({ control, name: "returnLocation" });
   const watchPickUpDate = useWatch({ control, name: "pickupDate" });
   const watchReturnDate = useWatch({ control, name: "returnDate" });
-  const start = new Date(watchPickUpDate);
-  const end = new Date(watchReturnDate);
+  const watchPickUpTime = useWatch({ control, name: "pickupTime" });
+  const watchReturnTime = useWatch({ control, name: "returnTime" });
 
-  const diffTime = end.getTime() - start.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const totalDays = useMemo(() => {
+    if (!watchPickUpDate || !watchReturnDate) return 1;
 
-  const finalDays = diffDays > 0 ? diffDays : 1;
+    // Combine date and time for accurate duration calculation (24-hour blocks)
+    const start = new Date(`${watchPickUpDate}T${watchPickUpTime || "00:00"}`);
+    const end = new Date(`${watchReturnDate}T${watchReturnTime || "00:00"}`);
 
-  const getRentalCost = finalDays * (selectedCars?.pricePerDay ?? 0);
-  // const getRentalCost = finalDays * (selectedCars?.pricePerDay * 200);
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) return 1;
 
-  const totalDays = bookingStorage?.totalDays || finalDays;
-  const rentalCost = bookingStorage?.rentalCost || getRentalCost || 0;
-  const serviceFee = bookingStorage?.serviceFee || 10000;
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays > 0 ? diffDays : 1;
+  }, [watchPickUpDate, watchReturnDate, watchPickUpTime, watchReturnTime]);
+
+  const rentalCost = totalDays * (selectedCars?.pricePerDay ?? 0);
+  const serviceFee = 10000;
 
   const watchDriverOption = useWatch({ control, name: "driverOption" });
   const driverFee = useMemo(() => {
@@ -119,6 +132,13 @@ export default function Booking() {
   const total = useMemo(() => {
     return rentalCost + serviceFee + driverFee;
   }, [rentalCost, serviceFee, driverFee]);
+
+  useEffect(() => {
+    if (currentStep === 3) {
+      localStorage.removeItem("bookingData");
+      localStorage.removeItem("bookingId");
+    }
+  }, [currentStep]);
 
   const bookDataMutation = useMutation({
     mutationFn: createBooking,
@@ -160,7 +180,7 @@ export default function Booking() {
       }),
     );
 
-    console.log(
+    import.meta.env.DEV && console.log(
       "BOOKING STORAGE:",
       JSON.parse(localStorage.getItem("bookingData") || "{}"),
     );
@@ -540,8 +560,7 @@ export default function Booking() {
                   </>
                 )}
 
-                {currentStep === 3 ||
-                  (step === "3" && (
+                {currentStep === 3 && (
                     <div className="space-y-6 bg-white rounded-lg ">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-lg">
                         {/* IMAGE */}
@@ -564,12 +583,7 @@ export default function Booking() {
                           </h2>
 
                           <h1 className="text-[20px] font-semibold text-[#9CA3AF]">
-                            <h1 className="text-[20px] font-semibold text-[#9CA3AF]">
-                              {totalDays} days •{" "}
-                              {bookingStorage?.driverOption
-                                ? "With Driver"
-                                : "Self Drive"}
-                            </h1>
+                            {totalDays} days • {watchDriverOption ? "With Driver" : "Self Drive"}
                           </h1>
                         </div>
                       </div>
@@ -579,11 +593,10 @@ export default function Booking() {
                           <div>
                             <img src="/Map.svg" alt="" className="w-5 h-5 " />
                             <p className="text-sm font-medium">
-                              {bookingStorage?.pickupLocation}
+                              {watchPickUpLocation}
                             </p>
                             <p className="text-xs text-gray-500">
-                              {bookingStorage?.pickupDate},{" "}
-                              {bookingStorage?.pickupTime}
+                              {watchPickUpDate}, {watchPickUpTime}
                             </p>
                           </div>
                         </div>
@@ -592,11 +605,10 @@ export default function Booking() {
                           <div>
                             <img src="/Map.svg" alt="" className="w-5 h-5" />
                             <p className="text-sm font-medium">
-                              {bookingStorage?.returnLocation}
+                              {watchReturnLocation}
                             </p>
                             <p className="text-xs text-gray-500">
-                              {bookingStorage?.returnDate},{" "}
-                              {bookingStorage?.returnTime}
+                              {watchReturnDate}, {watchReturnTime}
                             </p>
                           </div>
                         </div>
@@ -623,7 +635,7 @@ export default function Booking() {
                         </ul>
                       </div>
                     </div>
-                  ))}
+                  )}
                 <div className="flex justify-between items-center mt-6">
                   {/* BACK BUTTON (unchanged) */}
                   {currentStep > 1 &&
@@ -665,7 +677,7 @@ export default function Booking() {
             <div className="col-span-12 md:col-span-4">
               {currentStep < 3 && (
                 <div className=" bg-white rounded-[15px] min-h-159.25 overflow-y-auto lg:p-3 ">
-                  <div className="p-4 md:sticky md:top-20 space-y-5 lg:space-y-3">
+                  <div className="p-4 md:sticky space-y-5 lg:space-y-3">
                     <div className="bg-gray-100 rounded-xl p-2">
                       <img
                         src={selectedCars?.images[0]?.url || ""}
@@ -686,8 +698,7 @@ export default function Booking() {
 
                     <div className="relative ">
                       <p className="text-[16px] pl-7 text-[#232323] font-400 ">
-                        {bookingStorage?.pickupLocation ||
-                          watchPickUpLocation ||
+                        {watchPickUpLocation ||
                           "Pickup location not set"}
                       </p>
                       <img
@@ -698,9 +709,7 @@ export default function Booking() {
                     </div>
                     <div className="relative">
                       <p className="text-[16px]  text-[#232323] font-400  pl-7">
-                        {bookingStorage?.pickupDate || watchPickUpDate || "N/A"}{" "}
-                        -{" "}
-                        {bookingStorage?.returnDate || watchReturnDate || "N/A"}
+                        {watchPickUpDate || "N/A"} - {watchReturnDate || "N/A"}
                       </p>
                       <img
                         src="/Calendar Minimalistic.svg"
@@ -713,7 +722,7 @@ export default function Booking() {
 
                     <div className="flex justify-between  text-[16px]  ">
                       <span className="text-[#A1A1A1] ">
-                        ₦{rentalCost.toLocaleString()} × {totalDays} days
+                        ₦{(selectedCars?.pricePerDay ?? 0).toLocaleString()} × {totalDays} days
                       </span>
                       <span className="font-medium ">
                         ₦{rentalCost.toLocaleString()}
@@ -745,7 +754,7 @@ export default function Booking() {
               )}
 
               {/* final part step 3 */}
-              {currentStep === 3 && bookingStorage?.car && (
+              {currentStep === 3 && selectedCars && (
                 <div className="bg-white p-6 rounded-2xl space-y-4 min-h-141.5">
                   <div className="flex items-center justify-center gap-2">
                     <Link
@@ -811,7 +820,7 @@ export default function Booking() {
 
                     <button className="border py-2 flex items-center justify-center gap-2 rounded-full text-white bg-[#fa7315]">
                       <Link
-                        to={`/booking-details/${localStorage.getItem("bookingId")}`}
+                        to={`/my-bookings`}
                         className="flex items-center gap-2"
                       >
                         View Booking

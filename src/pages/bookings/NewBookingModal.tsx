@@ -51,11 +51,7 @@ export default function NewBookingModal({
     retry: false,
   });
 
- 
-
   const allCars = carsData?.data?.data ?? [];
-
-
 
   const watchedValues = watch();
 
@@ -88,7 +84,8 @@ export default function NewBookingModal({
     onError: (error) => {
       if (import.meta.env.DEV) console.error(error);
       if (axios.isAxiosError(error)) {
-        console.log("Full error response:", error?.response?.data);
+        import.meta.env.DEV &&
+          console.log("Full error response:", error?.response?.data);
         toast.error(
           error?.response?.data?.message || "Failed to create booking",
         );

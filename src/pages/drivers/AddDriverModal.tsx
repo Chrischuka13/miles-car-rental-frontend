@@ -9,7 +9,7 @@ export default function AddDriverModal({ open, onClose }: Props) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex justify-end">
+    <main className="fixed inset-0 bg-black/60 z-50 flex justify-end">
       <div className="bg-white w-full max-w-lg h-full overflow-y-auto shadow-2xl p-4 flex flex-col justify-between">
         <div className="w-full max-w-2xl rounded-3xl bg-white p-3">
           <div className="flex justify-between mb-1">
@@ -22,6 +22,6 @@ export default function AddDriverModal({ open, onClose }: Props) {
           <DriverForm onClose={onClose} />
         </div>
       </div>
-    </div>
+    </main>
   );
 }

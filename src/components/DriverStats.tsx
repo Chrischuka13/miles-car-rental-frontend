@@ -43,7 +43,7 @@ export default function DriverStats({
             {card.label}
           </p>
 
-          <h2 className="mt-2 text-3xl font-semibold">
+          <h2 className={`mt-2 text-3xl font-semibold ${card.label === "AVAILABLE TODAY"? "text-green-700": "text-gray-500"} ${card.label === "ON TRIP NOW"? "text-orange" : "text-gray-500" }`}>
             {card.value}
           </h2>
         </div>

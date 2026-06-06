@@ -13,12 +13,12 @@
 @theme {
   --color-orange: #f97316;
   --color-overlay: #4c4d54;
-  --color-Browny: #C3C9D3,
+  --color-Browny: #c3c9d3;
 }
 
 @theme {
   --color-DarkBlue: #111827;
-  --color-DeepOrange: #F97316; 
+  --color-DeepOrange: #f97316;
 }
 
 @theme inline {
@@ -149,19 +149,22 @@
   }
 }
 
-
-
 @keyframes marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-90%);
-    }
+  from {
+    transform: translateX(0);
   }
-    .animate-marquee {
-      animation: marquee 25s linear infinite;
+  to {
+    transform: translateX(-50%);
   }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
 
 @theme inline {
   --font-heading: var(--font-sans);
@@ -288,28 +291,50 @@
   }
   html {
     @apply font-sans;
-    }
+  }
 }
 
+@keyframes prixClipFix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+  75%,
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+}
 
-<<<<<<< HEAD
+.driver-loading {
+  width: 120px;
+  height: 20px;
+  background: linear-gradient(#f97316 0 0) 0/0% no-repeat #ddd;
+  animation: l1 2s infinite linear;
+}
+@keyframes l1 {
+  100% {
+    background-size: 100%;
+  }
+}
 
-      @keyframes prixClipFix {
-          0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
-          50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
-          75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
-      }
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 5px dotted #f97316;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
+}
 
-      .driver-loading{
-        width: 120px;
-        height: 20px;
-        background:
-        linear-gradient(#F97316 0 0) 0/0% no-repeat
-        #ddd;
-        animation: l1 2s infinite linear;
-      }
-      @keyframes l1 {
-          100% {background-size:100%}
-      }
-=======
->>>>>>> e96d5c2b8a1c3277e659b3a5fe16f5d5ef51dc69
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,6 +1,14 @@
 import Cars from "@/features/Cars";
+import useMetaTags from "@/hooks/useMeta";
 
 export default function CarListing() {
+  useMetaTags({
+    title: "Find Cars",
+    description:
+      "Manage drivers, track trips, and monitor availability.",
+    keywords:
+      "drivers, fleet management, logistics, transportation",
+  });
   return (
     <>
       <main className="bg-white">

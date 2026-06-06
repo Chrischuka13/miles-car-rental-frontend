@@ -497,6 +497,7 @@ import { getDriverStats } from "@/utils/driver.utils";
 import AddDriverModal from "./AddDriverModal";
 import Paginate from "@/components/Paginate";
 import usePaginate from "@/hooks/usePaginate";
+import Loader from "@/components/ui/Loader";
 
 export default function DriversPage() {
   const [page] =
@@ -593,8 +594,8 @@ export default function DriversPage() {
         </button>
       </div>
 
-            {isLoading ? (
-        <p>Loading...</p>
+      {isLoading ? (
+        <Loader/>
       ) : (
       <AddDriverModal
         open={open}

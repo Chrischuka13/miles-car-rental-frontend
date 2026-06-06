@@ -9,8 +9,16 @@ import { useMutation } from "@tanstack/react-query";
 import { contactUsApi } from "@/api/contactus";
 import { toast } from "react-toastify";
 import axios from "axios";
+import useMetaTags from "@/hooks/useMeta";
 
 export default function ContactUs() {
+  useMetaTags({
+    title: "Contact Us",
+    description:
+      "Manage drivers, track trips, and monitor availability.",
+    keywords:
+      "drivers, fleet management, logistics, transportation",
+  });
   const {
     handleSubmit,
     register,

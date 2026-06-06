@@ -37,7 +37,7 @@ export default function DriverTable({
       </div>
     );
   }
-  console.log(data);
+   import.meta.env.DEV && console.log(data);
   
 
   return (

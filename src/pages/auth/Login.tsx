@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUserApi } from "@/api/auth";
 import { toast } from "react-toastify";
 import axios from "axios";
+
 import LoadingButton from "@/components/ui/authButtons";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -34,10 +35,9 @@ export default function Login() {
     onSuccess: async (res) => {
       toast.success(res.data.message || "Login Successful");
       const user = res.data.data;
-      if (user) {
+        if (setUser) {
         setUser(user);
       }
-
       await queryClient.invalidateQueries({ queryKey: ["getMe"] });
 
       if (!user.emailVerified) {
@@ -62,13 +62,18 @@ export default function Login() {
     mutation.mutate(data);
   };
 
-  // ... rest of your component JSX
+
+ 
+
+
+
+
 
   return (
     <div className="">
       <div className="">
         <h1 className="text-4xl mb-2 font-semibold">Welcome Back</h1>
-        <p className="text-[18px] mb-2">
+        <p className="text-[18px] mb-2 font-semibold">
           Enter your details to access your dashboard{" "}
         </p>
         <form onSubmit={handleSubmit(onSubmitForm)} className="">
@@ -79,7 +84,7 @@ export default function Login() {
             <input
               type="name"
               {...register("email")}
-              className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] text-xl mb-2"
+              className="p-2 border border-[#C3C9D3] rounded-2xl w-full text-[#A1A1A1] text mb-2"
               placeholder="Your Email"
             />
             <p className="text-red-500 text-sm "></p>
@@ -88,20 +93,20 @@ export default function Login() {
             )}
           </div>
 
-          <div className="relative ">
-            <p className="mb-1">
+         <div className="relative ">
+            <p className="pb-1">
               Password<span className="text-red-700">*</span>
             </p>
             <input
               type={revealPassword ? "text" : "password"}
               {...register("password")}
-              className="p-3 border border-Browny rounded-[24px] w-full text-[#A1A1A1] text-xl"
+              className="input border text-[#A1A1A1]  border-[#C3C9D3] w-full p-2 rounded-2xl  "
               placeholder="••••••••"
             />
             <button
               type="button"
               onClick={togglePasswordReveal}
-              className="absolute right-5 bottom-4"
+              className="absolute  right-3  translate-y-3 text-gray-600 z-10"
             >
               {revealPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>

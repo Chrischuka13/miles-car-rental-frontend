@@ -34,7 +34,7 @@ export default function Dashboard() {
     retry: false,
   });
 
-  console.log("dashboard", data);
+   import.meta.env.DEV && console.log("dashboard", data);
 
   const body = data?.data?.body;
   const summaryCards = body?.summaryCards;
@@ -89,7 +89,7 @@ export default function Dashboard() {
   if (isError) return <div className="p-6 pt-24 text-red-500">Failed to load dashboard.</div>;
 
   return (
-    <div className="container mx-auto px-6 pt-20">
+    <div className="container mx-auto px-6 md:pt-20">
       <div className="lg:flex lg:justify-between">
         <div>
           <h1 className="text-xl lg:text-4xl py-4">

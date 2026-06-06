@@ -18,16 +18,11 @@ export default function MyBookings() {
     );
   if (error) return <p>Error: {error.message}</p>;
 
-  const USD_TO_NGN = 200;
+  
 
-  const formatToNaira = (priceInUSD: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-    }).format(priceInUSD * USD_TO_NGN);
-  };
+  
 
-  console.log("MY BOOKINGS:", data);
+   import.meta.env.DEV && console.log("MY BOOKINGS:", data);
 
   return (
     <>
@@ -50,11 +45,11 @@ export default function MyBookings() {
         </div>
         
         {data?.bookings?.map((booking) => (
-          <div className=" max-w-6xl  mx-auto flex   border md:border-0    gap-10 lg:gap-0 px-5 md:px-20 lg:px-0  justify-between py-5 md:py-6.25 lg:py-7.5  ">
-            <div key={booking._id} className="lg:py-7.5">
+          <div className=" cursor-pointer max-w-6xl  mx-auto flex   border md:border-0    gap-10 lg:gap-0 px-5 md:px-20 lg:px-0  justify-between py-5 md:py-6.25 lg:py-7.5  ">
+            <div key={booking?._id} className="lg:py-7.5">
               <div className="md:flex items-start   gap-4 lg:w-189 mb-10">
                 <img
-                  src={booking.car.images?.[0]?.url}
+                  src={booking?.car?.images?.[0]?.url}
                   alt=""
                   className=" w-50  md:w-70 lg:w-218px h-[147.41px] object-cover rounded-[6.84px]     "
                 />
@@ -62,11 +57,11 @@ export default function MyBookings() {
                   <div className="lg:space-y-2.5 ">
                     <p className=" sm:text-[16px] lg:text-[18px]   md:text-[18px] font-semibold text-[#9CA3AF]  ">
                       {" "}
-                      {booking.car.brand}
+                      {booking?.car?.brand}
                     </p>
                     <p className=" text-1xl lg:text-[32px]  font-extrabold text-DarkBlue">
                       {" "}
-                      {booking.car.modelName}
+                      {booking?.car?.modelName}
                     </p>
                   </div>
 
@@ -85,7 +80,7 @@ export default function MyBookings() {
               </div>
             </div>
 
-            <div className="lg:flex  pt-38 md:pt-0 lg:pt-0  gap-10">
+            <div className="lg:flex  pt-38 md:pt-0 lg:pt-0  gap-10 ">
               <div className="w-full lg:pt-5   ">
                 <span
                   onClick={() => navigate(`/booking-details/${booking._id}`)}
@@ -100,7 +95,10 @@ export default function MyBookings() {
               <div className="leading-7">
                 <p className="text-[18px] text-gray-500  md:pt-3  ">TOTAL</p>
                 <p className="font-extrabold text-[15px]">
-                  {formatToNaira(booking.totalPrice)}
+                  {booking.totalPrice.toLocaleString("en-NG", {
+                    style: "currency",
+                    currency: "NGN",
+                  })}
                 </p>
                 <p className="text-[18px] text-gray-500">
                   {booking.totalDays} days

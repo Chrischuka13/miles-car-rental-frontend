@@ -89,9 +89,9 @@ export default function Filter({
 
       {open && (
         <>
-          <div className="fixed inset-0 bg-black/10 backdrop-blur-[2px] z-40" />
+          <div className="fixed inset-0 bg-black/10 backdrop-blur-[2px] z-40" onClick={()=> setOpen(false)}/>
 
-          <div className="absolute right-0 mt-3 w-85 z-40 animate-[fadeSlide_0.25s_ease-out]">
+          <div className="absolute right-0 mt-3 w-85 z-50 animate-[fadeSlide_0.25s_ease-out]">
             <div className="bg-white/70 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl p-5">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold">Filter Cars</h2>

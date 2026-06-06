@@ -334,7 +334,7 @@ export const validateDriverSchema = z.object({
     message: "Full name must be at least 3 characters long",
   }),
 
-  phoneNumber: z.coerce
+  phoneNumber: z
     .string()
     .trim()
     .min(1, {
@@ -345,11 +345,11 @@ export const validateDriverSchema = z.object({
     }),
 
   email: z
-    .string({
+    .string()
+    .trim()
+    .min(1, {
       message: "Email address is required",
     })
-    .trim()
-    .toLowerCase()
     .email({
       message: "Please enter a valid email address",
     }),
@@ -360,7 +360,7 @@ export const validateDriverSchema = z.object({
 
   yearsOfExperience: z.coerce
     .number({
-      message: "Years of experience must be a number",
+      message: "Years of experience is required",
     })
     .min(0, {
       message: "Years of experience cannot be negative",
@@ -370,15 +370,27 @@ export const validateDriverSchema = z.object({
     }),
 
   languages: z
-    .array(z.enum(["en", "yoruba", "igbo", "hausa", "fr", "pidgin"]))
-    .min(1, { message: "select a language" }),
+    .array(
+      z.enum([
+        "en",
+        "yoruba",
+        "igbo",
+        "hausa",
+        "fr",
+        "pidgin",
+      ])
+    )
+    .min(1, {
+      message: "Select at least one language",
+    }),
 
   licenseNumber: z.string().trim().min(3, {
     message: "License number is required",
   }),
 
   expiryDate: z
-    .string({
+    .string()
+    .min(1, {
       message: "Expiry date is required",
     })
     .refine((val) => !isNaN(Date.parse(val)), {
@@ -391,18 +403,21 @@ export const validateDriverSchema = z.object({
   isVerified: z.boolean().default(false),
 
   status: z
-    .enum(["available", "on-trip", "off-duty", "inactive"], {
-      message: "select a driver status",
-    })
+    .enum([
+      "available",
+      "on-trip",
+      "off-duty",
+      "inactive",
+    ])
     .default("available"),
+
   trips: z.coerce
-    .number({
-      message: "Trips must be a valid number",
-    })
-    .min(0, { message: "Trips cannot be negative" })
+    .number()
+    .min(0)
     .default(0),
 });
 
 export type DriverFormValues = z.infer<
   typeof validateDriverSchema
 >;
+
