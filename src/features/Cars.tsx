@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router"; // 1. Imported useSearchParams
 import { getAllCars } from "@/api/cars/cars";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import Filter from "@/components/Filter";
 import Pagination from "./Pagination";
 import Loader from "@/components/ui/Loader";
@@ -45,29 +45,36 @@ interface ApiResponse {
 }
 
 export default function Cars() {
-  const [activeCategory, setActiveCategory] = useState("ALL");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchParams] = useSearchParams();
+
+  const [activeCategory, setActiveCategory] = useState(
+    () => searchParams.get("category") || "ALL",
+  );
+  const [searchTerm, setSearchTerm] = useState(
+    () => searchParams.get("search") || "",
+  );
   const [page, setPage] = useState(1);
 
   const { data, isLoading } = useQuery<ApiResponse>({
     queryKey: ["cars", page],
     queryFn: () => getAllCars(page),
+    placeholderData: keepPreviousData,
   });
 
   const cars = useMemo(() => data?.data || [], [data]);
 
   const filteredCars = useMemo(() => {
-    let filtered =
-      activeCategory === "ALL"
-        ? cars
-        : cars.filter((car) => car.category === activeCategory);
+    let filtered = cars;
+
+    if (activeCategory !== "ALL") {
+      filtered = filtered.filter((car) => car.category === activeCategory);
+    }
 
     if (searchTerm.trim()) {
       filtered = filtered.filter((car) =>
         [
           car.modelName,
           car.brand,
-          car.category,
           car.fuelType,
           car.transmission,
           car.description,
@@ -81,18 +88,16 @@ export default function Cars() {
     return filtered;
   }, [cars, activeCategory, searchTerm]);
 
-  
   const carsRef = useRef<HTMLDivElement | null>(null);
   const prevPageRef = useRef(page);
 
   useEffect(() => {
-    if (prevPageRef.current !== page) {
+    if (prevPageRef.current && page && prevPageRef.current !== page) {
       carsRef.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-
     prevPageRef.current = page;
   }, [page]);
 
@@ -120,6 +125,7 @@ export default function Cars() {
                   </svg>
                 </div>
 
+                {/* Main search bar */}
                 <input
                   type="text"
                   value={searchTerm}
@@ -133,60 +139,19 @@ export default function Cars() {
             {/* filters */}
             <div className="w-full lg:flex-1 min-w-0">
               <div className="flex items-center justify-start xl:justify-between gap-3 overflow-x-auto pb-2 lg:pb-0 no-scrollbar min-w-0">
-                <span
-                  onClick={() => setActiveCategory("ALL")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
-                    activeCategory === "ALL"
-                      ? "text-white bg-DeepOrange"
-                      : "bg-[#F4F0EC]"
-                  }`}
-                >
-                  All
-                </span>
-
-                <span
-                  onClick={() => setActiveCategory("SEDAN")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
-                    activeCategory === "SEDAN"
-                      ? "text-white bg-DeepOrange"
-                      : "bg-[#F4F0EC]"
-                  }`}
-                >
-                  Sedan
-                </span>
-
-                <span
-                  onClick={() => setActiveCategory("SUV")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
-                    activeCategory === "SUV"
-                      ? "text-white bg-DeepOrange"
-                      : "bg-[#F4F0EC]"
-                  }`}
-                >
-                  SUV
-                </span>
-
-                <span
-                  onClick={() => setActiveCategory("LUXURY")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
-                    activeCategory === "LUXURY"
-                      ? "text-white bg-DeepOrange"
-                      : "bg-[#F4F0EC]"
-                  }`}
-                >
-                  Luxury
-                </span>
-
-                <span
-                  onClick={() => setActiveCategory("TRUCK")}
-                  className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
-                    activeCategory === "TRUCK"
-                      ? "text-white bg-DeepOrange"
-                      : "bg-[#F4F0EC]"
-                  }`}
-                >
-                  Truck
-                </span>
+                {["ALL", "SEDAN", "SUV", "LUXURY", "TRUCK"].map((cat) => (
+                  <span
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`py-3 px-6 rounded-2xl cursor-pointer whitespace-nowrap shrink-0 ${
+                      activeCategory === cat
+                        ? "text-white bg-DeepOrange"
+                        : "bg-[#F4F0EC]"
+                    }`}
+                  >
+                    {cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase()}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -231,7 +196,6 @@ export default function Cars() {
                       alt={car.modelName}
                       className="w-full h-62.5 md:h-75 object-cover md:object-fill transition-transform duration-300 hover:scale-105 cursor-pointer"
                     />
-
                     <p className="absolute top-2 left-3 bg-[#FFFFFF] px-3 py-1 text-[10px] font-bold rounded-full uppercase shadow-sm">
                       {car.brand}
                     </p>
@@ -242,15 +206,15 @@ export default function Cars() {
                       <p className="text-[#A1A1A1] text-xs uppercase">
                         {car.category}
                       </p>
-
                       <p className="text-lg font-bold">
-                        ₦{(car.pricePerDay)}
+                        ₦{car.pricePerDay.toLocaleString("en-NG")}
                       </p>
                     </span>
 
                     <span className="flex items-center justify-between">
-                      <h2 className="flex items-center  gap-10 font-bold text-xl truncate">{car.brand} {car.modelName}</h2>
-
+                      <h2 className="flex items-center gap-10 font-bold text-xl truncate">
+                        {car.brand} {car.modelName}
+                      </h2>
                       <p className="text-[#A1A1A1] text-xs uppercase">/Day</p>
                     </span>
 
@@ -266,12 +230,10 @@ export default function Cars() {
                           />
                           <p className="text-sm">{car.seats}</p>
                         </span>
-
                         <span className="flex items-center gap-1">
                           <img src="/Vector.svg" className="w-4" alt="fuel" />
                           <p className="text-sm">{car.fuelType}</p>
                         </span>
-
                         <span className="flex items-center gap-1">
                           <img
                             src="/filter-horizontal.svg"
@@ -296,7 +258,7 @@ export default function Cars() {
           </div>
         </section>
       </section>
-      {/* ... Pagination  */}
+
       <div className="w-11/12 container mx-auto">
         <Pagination pagination={data?.pagination} setPage={setPage} />
       </div>

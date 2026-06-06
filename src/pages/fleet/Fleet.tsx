@@ -90,9 +90,7 @@ export default function Fleet() {
     reserved: 0,
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  
 
   // VIEW CONTROLLER INTERCEPTORS
   if (selectedCar) {
@@ -161,115 +159,121 @@ export default function Fleet() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-12">
-        {fleetCars.map((car: AdminCar) => (
-          <div
-            className="flex flex-col border border-[#E6E0E0] rounded-2xl overflow-hidden bg-white shadow-sm cursor-pointer w-full h-full transition-all duration-300 hover:shadow-md"
-            key={car._id}
-            onClick={() => setSelectedCar(car)}
-          >
-            <div className="relative w-full h-55 sm:h-60 md:h-65 lg:h-62.5 xl:h-70 bg-[#FEFEFE] overflow-hidden">
-              <LazyLoadImageRC
-                src={
-                  car.images && car.images.length > 0
-                    ? car.images[0].url
-                    : "/placeholder-car.png"
-                }
-                alt={car.modelName}
-                width="100%"
-                height="100%"
-                className="w-full h-full object-fill transition-transform duration-300 hover:scale-105"
-              />
-
-              <span
-                className={`absolute top-3 left-3 flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium shadow-sm ${
-                  car.status === "available" || car.status === "booked"
-                    ? "bg-[#E6F4EA] text-[#137333]"
-                    : "bg-[#EAF2F8] text-[#1A5276]"
-                }`}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-12">
+            {fleetCars.map((car: AdminCar) => (
+              <div
+                className="flex flex-col border border-[#E6E0E0] rounded-2xl overflow-hidden bg-white shadow-sm cursor-pointer w-full h-full transition-all duration-300 hover:shadow-md"
+                key={car._id}
+                onClick={() => setSelectedCar(car)}
               >
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    car.status === "available" || car.status === "booked"
-                      ? "bg-[#137333]"
-                      : "bg-[#1A5276]"
-                  }`}
-                />
-                {car.status}
-              </span>
-            </div>
+                <div className="relative w-full h-55 sm:h-60 md:h-65 lg:h-62.5 xl:h-70 bg-[#FEFEFE] overflow-hidden">
+                  <LazyLoadImageRC
+                    src={
+                      car.images && car.images.length > 0
+                        ? car.images[0].url
+                        : "/placeholder-car.png"
+                    }
+                    alt={car.modelName}
+                    width="100%"
+                    height="100%"
+                    className="w-full h-full object-fill transition-transform duration-300 hover:scale-105"
+                  />
 
-            <div className="w-full px-4 sm:px-5 py-4 flex flex-col justify-between flex-grow">
-              <div>
-                <div className="flex items-start justify-between gap-10 w-full">
-                  <h2 className="font-bold text-base sm:text-lg md:text-xl text-gray-900 tracking-tight truncate max-w-[65%]">
-                    {car.brand} {car.modelName}
-                  </h2>
-
-                  <div className="text-right shrink-0">
-                    <p className="text-base sm:text-lg md:text-xl font-bold text-gray-900 whitespace-nowrap">
-                      ₦{car.pricePerDay}
-                    </p>
-                    <p className="text-[#A1A1A1] text-xs">/ day</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 text-xs text-[#A1A1A1] font-medium mt-1 flex-wrap">
-                  <span className="truncate max-w-[90px] sm:max-w-[120px]">
-                    {car._id}
+                  <span
+                    className={`absolute top-3 left-3 flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium shadow-sm ${
+                      car.status === "available" || car.status === "booked"
+                        ? "bg-[#E6F4EA] text-[#137333]"
+                        : "bg-[#EAF2F8] text-[#1A5276]"
+                    }`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        car.status === "available" || car.status === "booked"
+                          ? "bg-[#137333]"
+                          : "bg-[#1A5276]"
+                      }`}
+                    />
+                    {car.status}
                   </span>
-                  <span>•</span>
-                  <span className="uppercase truncate">{car.category}</span>
                 </div>
 
-                <div className="flex border-t flex-col xs:flex-row items-start xs:items-center justify-between gap-3 mt-4 pt-2 border-gray-50 text-[#727477]">
-                  <div className="flex items-center flex-wrap gap-2.5 sm:gap-3">
-                    <span className="flex items-center gap-1 shrink-0">
-                      <img
-                        src="/Users Group.svg"
-                        className="w-3.5 h-3.5 object-contain"
-                        alt="seats"
-                      />
-                      <p className="text-xs font-medium">{car.seats}</p>
-                    </span>
+                <div className="w-full px-4 sm:px-5 py-4 flex flex-col justify-between flex-grow">
+                  <div>
+                    <div className="flex items-start justify-between gap-10 w-full">
+                      <h2 className="font-bold text-base sm:text-lg md:text-xl text-gray-900 tracking-tight truncate max-w-[65%]">
+                        {car.brand} {car.modelName}
+                      </h2>
 
-                    <span className="flex items-center gap-1 min-w-0">
-                      <img
-                        src="/Vector.svg"
-                        className="w-3.5 h-3.5 object-contain shrink-0"
-                        alt="fuel"
-                      />
-                      <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
-                        {car.fuelType}
-                      </p>
-                    </span>
+                      <div className="text-right shrink-0">
+                        <p className="text-base sm:text-lg md:text-xl font-bold text-gray-900 whitespace-nowrap">
+                          ₦{car.pricePerDay}
+                        </p>
+                        <p className="text-[#A1A1A1] text-xs">/ day</p>
+                      </div>
+                    </div>
 
-                    <span className="flex items-center gap-1 min-w-0">
-                      <img
-                        src="/filter-horizontal.svg"
-                        className="w-3.5 h-3.5 object-contain shrink-0"
-                        alt="transmission"
-                      />
-                      <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
-                        {car.transmission}
-                      </p>
-                    </span>
-                  </div>
+                    <div className="flex items-center gap-2 text-xs text-[#A1A1A1] font-medium mt-1 flex-wrap">
+                      <span className="truncate max-w-[90px] sm:max-w-[120px]">
+                        {car._id}
+                      </span>
+                      <span>•</span>
+                      <span className="uppercase truncate">{car.category}</span>
+                    </div>
 
-                  <div className="flex items-center gap-1 text-xs text-[#A1A1A1] shrink-0 self-end xs:self-auto">
-                    <span className="flex gap-1 whitespace-nowrap">
-                      <p className="text-xs font-medium text-[#727477]">
-                        Trips:
-                      </p>
-                      {car.tripsCount}
-                    </span>
+                    <div className="flex border-t flex-col xs:flex-row items-start xs:items-center justify-between gap-3 mt-4 pt-2 border-gray-50 text-[#727477]">
+                      <div className="flex items-center flex-wrap gap-2.5 sm:gap-3">
+                        <span className="flex items-center gap-1 shrink-0">
+                          <img
+                            src="/Users Group.svg"
+                            className="w-3.5 h-3.5 object-contain"
+                            alt="seats"
+                          />
+                          <p className="text-xs font-medium">{car.seats}</p>
+                        </span>
+
+                        <span className="flex items-center gap-1 min-w-0">
+                          <img
+                            src="/Vector.svg"
+                            className="w-3.5 h-3.5 object-contain shrink-0"
+                            alt="fuel"
+                          />
+                          <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
+                            {car.fuelType}
+                          </p>
+                        </span>
+
+                        <span className="flex items-center gap-1 min-w-0">
+                          <img
+                            src="/filter-horizontal.svg"
+                            className="w-3.5 h-3.5 object-contain shrink-0"
+                            alt="transmission"
+                          />
+                          <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
+                            {car.transmission}
+                          </p>
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-1 text-xs text-[#A1A1A1] shrink-0 self-end xs:self-auto">
+                        <span className="flex gap-1 whitespace-nowrap">
+                          <p className="text-xs font-medium text-[#727477]">
+                            Trips:
+                          </p>
+                          {car.tripsCount}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
 
       <Pagination pagination={data?.pagination} setPage={setPage} />
 
