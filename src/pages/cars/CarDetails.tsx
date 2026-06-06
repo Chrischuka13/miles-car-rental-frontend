@@ -246,11 +246,11 @@ export default function CarDetails() {
                   </span>
                 </span>
               </span>
-              <span className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-5 w-full">
+              <span className="lg:flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mt-5 w-full ">
                 <Link to={`/booking/${selectedCars.slug}`}>
                   <button
                     disabled={!selectedCars}
-                    className="flex items-center justify-center bg-DeepOrange transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer"
+                    className="flex items-center justify-center bg-DeepOrange transition-all duration-300 hover:shadow-md hover:shadow-orange-200 hover:-translate-y-0.5 text-white rounded-full px-4 py-2 gap-2 w-full sm:w-auto cursor-pointer mb-3"
                   >
                     <p className="text-sm sm:text-base">Book this car</p>
                     <span>

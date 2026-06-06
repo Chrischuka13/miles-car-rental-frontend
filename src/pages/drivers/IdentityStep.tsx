@@ -1,6 +1,6 @@
 import FormInput from "@/components/FormInput";
 import { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 const LANGUAGES = [
   {
@@ -30,13 +30,13 @@ const LANGUAGES = [
 ];
 
 export default function IdentityStep() {
-  const { watch, setValue, register, formState: {errors}, } = useFormContext();
+  const { setValue, control, register, formState: {errors}, } = useFormContext();
 
     useEffect(() => {
     register("languages")
   }, [register]);
 
-  const selectedLanguage = watch("languages")  || [];
+  const selectedLanguage = useWatch({control, name: "languages"})  || [];
   const toggleLanguage = (language: string) => {
     if (selectedLanguage.includes(language)) {
       setValue(
@@ -58,6 +58,9 @@ export default function IdentityStep() {
       );
     }
   };
+
+  
+
 
 
   return (

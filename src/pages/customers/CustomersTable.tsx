@@ -7,6 +7,7 @@ import TableView from "@/components/TableBody";
 import { useCallback, type ComponentProps } from "react";
 import usePaginate from "@/hooks/usePaginate";
 import Paginate from "@/components/Paginate";
+import Loader from "@/components/ui/Loader";
 
 interface Pagination {
   totalUsers: number;
@@ -113,7 +114,7 @@ export default function CustomersTable({
     <div className="flex flex-col min-h-[67vh]">
       {isPending ? (
         <div className="flex-1 flex items-center justify-center">
-          <p className="text-sm text-gray-500">Loading customers...</p>
+          <Loader/>
         </div>
       ) : isError ? (
         <div className="flex-1 flex items-center justify-center text-red-500 text-sm">

@@ -2,9 +2,9 @@
 
 function Testimonial() {
   const testimonials = [
-    {quoteimg: "public/Vector.svg", quote: "Didn’t expect booking a car to be this stress-free tbh. No calls, no back and forth. Just picked, paid, and it was sorted.", img: "/user1.jpg", name: "Fahad Paul", location: "Lagos"},
-    {quoteimg: "public/Vector.svg", quote: "The car was exactly as described. The booking process was straightforward, and customer support was very responsive.", img: "/user2.jpg", name: "Kemi Ernest", location: "Lagos"},
-    {quoteimg: "public/Vector.svg", quote: "The booking experience was magical. No paperwork drama, car arrived spotless. Miles car rental is now my default.", img: "/user3.jpg", name: "Tunde Smith", location: "Lagos"}
+    {quoteimg: "/quote.svg", quote: "Didn’t expect booking a car to be this stress-free tbh. No calls, no back and forth. Just picked, paid, and it was sorted.", img: "/user1.jpg", name: "Fahad Paul", location: "Lagos"},
+    {quoteimg: "/quote.svg", quote: "The car was exactly as described. The booking process was straightforward, and customer support was very responsive.", img: "/user2.jpg", name: "Kemi Ernest", location: "Lagos"},
+    {quoteimg: "/quote.svg", quote: "The booking experience was magical. No paperwork drama, car arrived spotless. Miles car rental is now my default.", img: "/user3.jpg", name: "Tunde Smith", location: "Lagos"}
   ]
   return (
     <main className=''>

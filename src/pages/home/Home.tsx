@@ -9,8 +9,17 @@ import TrendingCars from "@/features/TrendingCars";
 import { Link } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import Buttons2 from "@/components/ui/Buttons2";
+import useMetaTags from "@/hooks/useMeta";
+
 
 export default function Home() {
+  useMetaTags({
+    title: "Miles Car Rental",
+    description:
+      "Manage drivers, track trips, and monitor availability.",
+    keywords:
+      "drivers, fleet management, logistics, transportation",
+  });
   const {user} = useAuth()
 
   return (
