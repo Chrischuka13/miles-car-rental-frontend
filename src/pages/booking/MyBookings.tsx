@@ -10,6 +10,9 @@ export default function MyBookings() {
     queryKey: ["my-bookings"],
     queryFn: getMyBookings,
   });
+
+
+
   if (isLoading)
     return (
       <p className=" flex items-center justify-center h-screen">
@@ -17,12 +20,6 @@ export default function MyBookings() {
       </p>
     );
   if (error) return <p>Error: {error.message}</p>;
-
-  
-
-  
-
-  console.log("MY BOOKINGS:", data);
 
   return (
     <>
@@ -43,10 +40,14 @@ export default function MyBookings() {
             </p>
           </div>
         </div>
-        
+
         {data?.bookings?.map((booking) => (
-          <div className=" cursor-pointer max-w-6xl  mx-auto flex   border md:border-0    gap-10 lg:gap-0 px-5 md:px-20 lg:px-0  justify-between py-5 md:py-6.25 lg:py-7.5  ">
-            <div key={booking?._id} className="lg:py-7.5">
+          <div
+            key={booking?._id}
+            onClick={() => navigate(`/booking-details/${booking._id}`)}
+            className=" cursor-pointer max-w-6xl  mx-auto flex   border md:border-0    gap-10 lg:gap-0 px-5 md:px-20 lg:px-0  justify-between py-5 md:py-6.25 lg:py-7.5  rounded-xl "
+          >
+            <div className="lg:py-7.5">
               <div className="md:flex items-start   gap-4 lg:w-189 mb-10">
                 <img
                   src={booking?.car?.images?.[0]?.url}
@@ -83,10 +84,10 @@ export default function MyBookings() {
             <div className="lg:flex  pt-38 md:pt-0 lg:pt-0  gap-10 ">
               <div className="w-full lg:pt-5   ">
                 <span
-                  onClick={() => navigate(`/booking-details/${booking._id}`)}
                   className={`text-xs md:text-sm px-3 md:p-1.75  text-center rounded-full ${
-                    bookingStatusColors[booking.bookingStatus as keyof typeof bookingStatusColors] ||
-                    "bg-gray-100 text-gray-700"
+                    bookingStatusColors[
+                      booking.bookingStatus as keyof typeof bookingStatusColors
+                    ] || "bg-gray-100 text-gray-700"
                   }`}
                 >
                   {booking.bookingStatus}
