@@ -9,6 +9,7 @@ export const useCreateDriver = () => {
     mutationFn: createDriverApi,
 
     onSuccess: () => {
+      toast.success("Driver created successfully!");
       queryClient.invalidateQueries({
         queryKey: ["drivers"],
       });

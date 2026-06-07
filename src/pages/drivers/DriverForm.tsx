@@ -123,7 +123,7 @@ const methods = useForm<DriverFormValues>({
   mode: "onChange",
   reValidateMode: "onChange",
   shouldFocusError: true,
-  shouldUnregister: true,
+  shouldUnregister: false,
 
   defaultValues: {
     fullName: "",
@@ -260,40 +260,53 @@ function Line() {
 }
 
   return (
-    <FormProvider {...methods}>
+  <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-8">
-         {/* Steps */}
-          <div className="pt-6"> 
-            <div className="flex flex-col lg:flex-row gap-4 items-start md:items-center justify-between ">  
-              <StepItem active={step === 1} completed={step > 1} label="Identity" step={1}/>
-                <Line/>               
-              <StepItem active={step === 2} completed={step > 2} label="License" step={2}/>
-                <Line/>
-              <StepItem active={step === 3} completed={false} label="Assignment" step={3}/>
-            </div>
-         </div>
-        {step === 1 && <IdentityStep />} {step === 2 && <LicenseStep />}
-        {step === 3 && <AssignmentStep />}
-        <div className="flex justify-between gap-6">
-          
-          <button className="flex-1 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 transition" type="button" onClick={step === 1 ? onClose : prevStep}>
-        
-            Back
-          </button>
-            {step < 3 ? (
-            <button
-              type="button"
-              onClick={nextStep}
-              className="flex-1 py-3 bg-[#F97316] text-white rounded-xl text-sm font-medium hover:bg-orange-600 transition shadow-sm"
-            >
-              Continue
-            </button>
-          ) : (
-            <button type="submit" disabled={isPending}>
-              {isPending? "creating": "create driver"}
-            </button>
-          )}
+        {/* Steps Header */}
+        <div className="pt-6">
+          <div className="flex flex-col lg:flex-row gap-4 items-start md:items-center justify-between ">
+            <StepItem active={step === 1} completed={step > 1} label="Identity" step={1} />
+            <Line />
+            <StepItem active={step === 2} completed={step > 2} label="License" step={2} />
+            <Line />
+            <StepItem active={step === 3} completed={false} label="Assignment" step={3} />
+          </div>
         </div>
+
+        {/* Step Views */}
+        {step === 1 && <IdentityStep />}
+        {step === 2 && <LicenseStep />}
+        {step === 3 && <AssignmentStep />}
+
+        {/* Action Controls */}
+          <div className="flex justify-between gap-6 w-full">
+            <button 
+              type="button" 
+              onClick={step === 1 ? onClose : prevStep}
+              className="flex-1 py-3 border border-gray-200 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-50 transition" 
+            >
+              Back
+            </button>
+
+            {step < 3 ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                className="flex-1 py-3 bg-[#F97316] text-white rounded-xl text-sm font-medium hover:bg-orange-600 transition shadow-sm"
+              >
+                Continue
+              </button>
+            ) : (
+              /* Submit Button - This is the ONLY one allowed to submit the form */
+              <button 
+                type="submit" 
+                disabled={isPending} 
+                className="flex-1 py-3 bg-[#F97316] text-white rounded-xl text-sm font-medium hover:bg-orange-600 transition shadow-sm disabled:opacity-50"
+              >
+                {isPending ? "Creating..." : "Create Driver"}
+              </button>
+            )}
+          </div>
       </form>
     </FormProvider>
   );
