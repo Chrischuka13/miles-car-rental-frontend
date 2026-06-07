@@ -1,7 +1,6 @@
+import {  useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// import { bookingStatusColors } from "@/lib/utils";
-// import { Loader } from "lucide-react";
 import { getBookingById } from "@/api/booking";
 import { Loader } from "lucide-react";
 import { bookingStatusColors, errorHandler } from "@/lib/utils";
@@ -15,6 +14,8 @@ export default function BookingDetails() {
     throw new Error("Booking ID is required");
   }
 
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
   const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["booking-details", id],
@@ -23,7 +24,8 @@ export default function BookingDetails() {
  
     
   });
-     console.log(data);
+ 
+  
 
 
 
@@ -31,6 +33,7 @@ export default function BookingDetails() {
     mutationFn: () => cancelBooking(id!),
 
     onSuccess: () => {
+      setShowCancelModal(false);
       toast.success("Booking cancelled successfully");
 
       navigate("/my-bookings");
@@ -44,10 +47,14 @@ export default function BookingDetails() {
       });
     },
 
+
     onError: (error: Error) => {
       errorHandler(error);
     },
   });
+
+  
+  
 
   if (isLoading)
     return (
@@ -217,6 +224,7 @@ export default function BookingDetails() {
                   <Link
                     to="/cars/carlisting"
                     className="flex items-center gap-2"
+                    onClick={() => navigate("/cars/carlisting")}
                   >
                     Book Again
                     <img src="/arrow.svg" alt="" />
@@ -228,7 +236,7 @@ export default function BookingDetails() {
 
               <div className="flex justify-center">
                 <button
-                  onClick={() => mutation.mutate()}
+                  onClick={() => setShowCancelModal(true)}
                   disabled={mutation.isPending}
                   className="flex items-center gap-2"
                 >
@@ -258,14 +266,18 @@ export default function BookingDetails() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                   <div className="flex items-center gap-2">
-                    <img src="/User.svg" alt="" />
+                    <img src="/User.svg" alt=""  />
 
                     <div className="pt-2 sm:pt-5">
                       <p className="font-semibold text-[#9CA3AF] text-[16px] sm:text-[20px]">
                         Lead driver
                       </p>
 
-                      <p>{booking?.driver?.fullName}</p>
+                    <p className="font-semibold text-[18px] sm:text-[20px]">
+                      {!booking?.driverOption
+                        ? "Self-Drive"
+                        : booking?.driver?.fullName || "Assigning driver..."}
+                    </p>
                     </div>
                   </div>
 
@@ -277,7 +289,11 @@ export default function BookingDetails() {
                         Email
                       </p>
 
-                      <p className="break-all">{booking?.driver?.email}</p>
+                    <p className="font-semibold text-[18px] sm:text-[20px]">
+                      {!booking?.driverOption
+                        ? "N/A"
+                        : booking?.driver?.email || "Pending..."}
+                    </p>
                     </div>
                   </div>
                 </div>
@@ -292,12 +308,14 @@ export default function BookingDetails() {
                       </p>
 
                       <p className="font-semibold text-[18px] sm:text-[20px]">
-                       {booking?.driver?.phoneNumber}
+                      {!booking?.driverOption
+                        ? "N/A"
+                        : booking?.driver?.phoneNumber || "Pending..."}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center  gap-2">
                     <img src="/flash.svg" alt="" />
 
                     <div className="pt-2 sm:pt-5">
@@ -329,6 +347,34 @@ export default function BookingDetails() {
             </div>
           </div>
         </section>
+
+        {showCancelModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-[25px] p-8 max-w-md w-full shadow-xl space-y-6">
+              <div className="text-center space-y-2">
+                <h3 className="text-2xl font-bold text-DarkBlue">Cancel Booking?</h3>
+                <p className="text-gray-500">
+                  Are you sure you want to cancel this booking? This action cannot be undone.
+                </p>
+              </div>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setShowCancelModal(false)}
+                  className="flex-1 py-3 border border-gray-300 rounded-full font-semibold hover:bg-gray-50 transition-colors"
+                >
+                  No, keep it
+                </button>
+                <button
+                  onClick={() => mutation.mutate()}
+                  disabled={mutation.isPending}
+                  className="flex-1 py-3 bg-[#DC2626] text-white rounded-full font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
+                >
+                  {mutation.isPending ? "Cancelling..." : "Yes, cancel"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </>
   );

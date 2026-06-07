@@ -6,7 +6,7 @@ import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validateBookingSchema, type BookingForm } from "@/lib/schemaTypes";
 import { createBooking } from "@/api/booking";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import { initiatePayment } from "@/api/payment";
 import { getCarBySlug } from "@/api/cars/cars";
@@ -28,8 +28,7 @@ interface CarData {
 
 export default function Booking() {
   const { slug } = useParams();
-  // const location = useLocation()
-  console.log("ll", slug);
+  
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["car", slug],
@@ -38,6 +37,7 @@ export default function Booking() {
   });
   const [bookingId, setBookingId] = useState<string | null>(null);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { user } = useAuth();
 
   const selectedCars: CarData | undefined = data?.data;
@@ -45,7 +45,7 @@ export default function Booking() {
     localStorage.getItem("bookingData") || "null",
 
   );
-  console.log("selectedCars:", data?.data);
+  
   
 
   const {
@@ -146,6 +146,10 @@ export default function Booking() {
       if (response.success) {
         setBookingId(response.booking._id);
         localStorage.setItem("bookingId", response.booking._id);
+        // Invalidate the bookings list so the new booking appears in "My Bookings"
+        queryClient.invalidateQueries({
+          queryKey: ["my-bookings"],
+        });
         handleNext();
       }
     },
@@ -644,7 +648,7 @@ export default function Booking() {
                     <Button
                       type="button"
                       onClick={handleBack}
-                      className="rounded-full px-3 py-3 border-[#C3C9D3] text-gray-500 lg:px-10 lg:py-5"
+                      className="rounded-full px-3 py-3 border border-[#C3C9D3] text-gray-500 lg:px-10 "
                     >
                       Back
                     </Button>
