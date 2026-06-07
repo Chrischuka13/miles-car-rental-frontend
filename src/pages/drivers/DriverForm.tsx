@@ -230,6 +230,7 @@ function StepItem({
   label: string;
   step: number;
 })
+
  {
   return (
     <div className="flex items-center gap-3">

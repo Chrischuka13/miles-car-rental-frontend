@@ -71,8 +71,10 @@ export const getBookingById = async (id: string) => {
 export const cancelBooking = async (id: string) => {
   const response = await axios.post(
     `${BASE_URL}/api/v1/booking/cancel-booking/${id}`,
+    {},
     { withCredentials: true }
   );
 
   return response.data;
 };
+

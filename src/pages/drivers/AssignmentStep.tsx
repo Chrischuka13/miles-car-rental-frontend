@@ -59,7 +59,7 @@ export default function AssignmentStep() {
             </div>
             <div className="flex justify-between">
                 <p>Verified:</p>
-                <p>{values.isVerified}</p>
+                <p>{values.isVerified ? "Verified" : "Not verified"}</p>
             </div>
         </div>
       </div>
