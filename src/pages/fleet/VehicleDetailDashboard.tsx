@@ -77,7 +77,7 @@ export function VehicleDetailDashboard({
       {/* Main Profile Header Section  */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch mb-6">
         {/* Vehicle Large Hero Display Frame */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 h-[400px] sm:h-[400px] lg:h-[420px] shadow-sm relative overflow-hidden">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 h-100 sm:h-100 lg:h-105 shadow-sm relative overflow-hidden">
           <LazyLoadImageRC
             src={displayImage || "/placeholder-car.png"}
             alt={dynamicVehicleName}
@@ -153,7 +153,7 @@ export function VehicleDetailDashboard({
                   setEditData(carData);
                   setIsEditOpen(true);
                 }}
-                className=" hover:bg-gray-50 text-[#111827] text-[11px] font-bold py-2.5 px-4 rounded-full border transition-colors duration-200 flex items-center justify-center gap-1.5"
+                className=" hover:bg-gray-50 text-DarkBlue text-[11px] font-bold py-2.5 px-4 rounded-full border transition-colors duration-200 flex items-center justify-center gap-1.5"
               >
                 <img src="/Pen.png" alt="" /> Editing Listing
               </button>
@@ -203,7 +203,7 @@ export function VehicleDetailDashboard({
             >
               {tab}
               {activeTab === tab && (
-                <span className="absolute bottom-[-10px] left-0 right-0 h-0.5 bg-orange-500 rounded-full" />
+                <span className="absolute -bottom-2.5 left-0 right-0 h-0.5 bg-orange-500 rounded-full" />
               )}
             </button>
           ),
@@ -219,7 +219,7 @@ export function VehicleDetailDashboard({
               <img src="/motor.svg" alt="" /> At a glance
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100 flex flex-col justify-between min-h-[72px]">
+              <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100 flex flex-col justify-between min-h-18">
                 <img src="/frameOne.svg" alt="" className="w-6 h-6" />
                 <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">
                   Seat
@@ -228,7 +228,7 @@ export function VehicleDetailDashboard({
                   {carData.seats || "5"}
                 </span>
               </div>
-              <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100 flex flex-col justify-between min-h-[72px]">
+              <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100 flex flex-col justify-between min-h-18">
                 <img src="/frameTwo.svg" alt="" className="w-6 h-6" />
                 <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">
                   Trans
@@ -237,7 +237,7 @@ export function VehicleDetailDashboard({
                   {carData.transmission || "AUTO"}
                 </span>
               </div>
-              <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100 flex flex-col justify-between min-h-[72px]">
+              <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100 flex flex-col justify-between min-h-18">
                 <img src="/FrameThree.svg" alt="" className="w-6 h-6" />
                 <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">
                   Fuel
@@ -302,7 +302,7 @@ export function VehicleDetailDashboard({
           {/* What's Included & Performance Metrics */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
             {/* Left Included Form Features Grid */}
-            <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 p-5 shadow-sm space-y-4 min-h-[220px]">
+            <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 p-5 shadow-sm space-y-4 min-h-55">
               <h3 className="text-[12px] font-bold text-gray-900">
                 What's included
               </h3>

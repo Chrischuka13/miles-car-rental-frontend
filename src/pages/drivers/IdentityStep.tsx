@@ -59,7 +59,7 @@ export default function IdentityStep() {
     }
   };
 
-  
+  console.log(selectedLanguage);
 
 
 

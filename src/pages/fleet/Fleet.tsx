@@ -199,7 +199,7 @@ export default function Fleet() {
               </span>
             </div>
 
-            <div className="w-full px-4 sm:px-5 py-4 flex flex-col justify-between flex-grow">
+            <div className="w-full px-4 sm:px-5 py-4 flex flex-col justify-between grow">
               <div>
                 <div className="flex items-start justify-between gap-10 w-full">
                   <h2 className="font-bold text-base sm:text-lg md:text-xl text-gray-900 tracking-tight truncate max-w-[65%]">
@@ -215,7 +215,7 @@ export default function Fleet() {
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-[#A1A1A1] font-medium mt-1 flex-wrap">
-                  <span className="truncate max-w-[90px] sm:max-w-[120px]">
+                  <span className="truncate max-w-22.5 sm:max-w-30">
                     {car._id}
                   </span>
                   <span>•</span>
@@ -239,7 +239,7 @@ export default function Fleet() {
                         className="w-3.5 h-3.5 object-contain shrink-0"
                         alt="fuel"
                       />
-                      <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
+                      <p className="text-xs font-medium truncate max-w-17.5 sm:max-w-none">
                         {car.fuelType}
                       </p>
                     </span>
@@ -250,7 +250,7 @@ export default function Fleet() {
                         className="w-3.5 h-3.5 object-contain shrink-0"
                         alt="transmission"
                       />
-                      <p className="text-xs font-medium truncate max-w-[70px] sm:max-w-[none]">
+                      <p className="text-xs font-medium truncate max-w-17.5 sm:max-w-none">
                         {car.transmission}
                       </p>
                     </span>

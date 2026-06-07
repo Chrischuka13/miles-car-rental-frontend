@@ -106,7 +106,7 @@ export default function Dashboard() {
               onClick={() => handleFilterChange(option)} // 🌟 Uses new navigation handler
               className={`px-4 py-1 w-full rounded-full text-sm font-medium transition-all duration-200 ${
                 selected === option
-                  ? "bg-[#111827] text-white"
+                  ? "bg-DarkBlue text-white"
                   : "text-gray-400 hover:text-gray-600"
               }`}
             >

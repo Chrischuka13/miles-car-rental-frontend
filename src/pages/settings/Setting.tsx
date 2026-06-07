@@ -92,7 +92,7 @@ export default function Setting() {
   return (
     <main className="px-4 sm:px-6 lg:px-10 py-6 lg:py-10 overflow-y-auto relative">
       {/* Header */}
-      <section className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:pt-20 lg:pt-30 pb-8 lg:pb-20">
+      <section className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:pt-30 pb-8 lg:pb-20">
         <div>
           <h1 className="text-2xl lg:text-[28px] font-bold">Setting</h1>
           <p className="text-[#656565] text-sm lg:text-[16px]">

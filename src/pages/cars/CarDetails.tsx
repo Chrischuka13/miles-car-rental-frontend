@@ -136,7 +136,7 @@ export default function CarDetails() {
       <section className="min-h-screen flex flex-col bg-[#F6F6F6] px-2">
         {/* back to fleet navigation */}
         <div
-          className=" w-11/12 container mx-auto flex items-center gap-3 sm:gap-3 mt-8 sm:mt-6 lg:mt-10 cursor-pointer"
+          className=" w-11/12 container mx-auto flex items-center gap-3 sm:gap-3 mt-24 cursor-pointer"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft className="text-[#1C274C] w-5 h-5 sm:w-6 sm:h-6" />
@@ -167,7 +167,7 @@ export default function CarDetails() {
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[0]?.url || "")
                   }
-                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-30 sm:w-35 md:w-37.5 h-20 shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
 
                 <img
@@ -176,7 +176,7 @@ export default function CarDetails() {
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[1]?.url || "")
                   }
-                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-30 sm:w-35 md:w-37.5 h-20 shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
 
                 <img
@@ -185,7 +185,7 @@ export default function CarDetails() {
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[2]?.url || "")
                   }
-                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-30 sm:w-35 md:w-37.5 h-20 shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
 
                 <img
@@ -194,7 +194,7 @@ export default function CarDetails() {
                   onClick={() =>
                     setOpenImage(selectedCars.images?.[3]?.url || "")
                   }
-                  className="w-[120px] sm:w-[140px] md:w-[150px] h-[80px] flex-shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
+                  className="w-30 sm:w-35 md:w-37.5 h-20 shrink-0 object-cover rounded-lg border border-gray-200 cursor-pointer p-1 bg-[#F6F6F6]"
                 />
               </div>
             </div>
@@ -286,7 +286,7 @@ export default function CarDetails() {
                       alt="vector logo"
                       className="w-6 sm:w-fit mt-1"
                     />
-                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                    <p className="uppercase text-sm sm:text-base text-DarkBlue">
                       Seats
                     </p>
                     <p className="font-medium">{selectedCars.seats}</p>
@@ -298,7 +298,7 @@ export default function CarDetails() {
                       alt="vector logo"
                       className="w-6 sm:w-fit"
                     />
-                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                    <p className="uppercase text-sm sm:text-base text-DarkBlue">
                       Trans
                     </p>
                     <p className="font-medium">{selectedCars.transmission}</p>
@@ -310,7 +310,7 @@ export default function CarDetails() {
                       alt="vector logo"
                       className="w-6 sm:w-fit"
                     />
-                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                    <p className="uppercase text-sm sm:text-base text-DarkBlue">
                       Fuel
                     </p>
                     <p className="font-medium">{selectedCars.fuelType}</p>
@@ -322,7 +322,7 @@ export default function CarDetails() {
                       alt="vector logo"
                       className="w-6 sm:w-fit"
                     />
-                    <p className="uppercase text-sm sm:text-base text-[#111827]">
+                    <p className="uppercase text-sm sm:text-base text-DarkBlue">
                       Year
                     </p>
                     <p className="font-medium">{selectedCars.year}</p>
@@ -335,7 +335,7 @@ export default function CarDetails() {
                     Specifications
                   </h1>
 
-                  <main className="bg-[#111827] grid grid-cols-1 sm:grid-cols-2 gap-10 rounded-xl p-4 mt-5 text-[#ffffff]">
+                  <main className="bg-DarkBlue grid grid-cols-1 sm:grid-cols-2 gap-10 rounded-xl p-4 mt-5 text-[#ffffff]">
                     <span className="flex justify-between border-b">
                       <h1>Engine</h1>
                       <p>{selectedCars.carSpecs?.engine}</p>

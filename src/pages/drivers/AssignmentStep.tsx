@@ -5,9 +5,11 @@ export default function AssignmentStep() {
   const { watch } = useFormContext();
   const values = watch();
 
+  console.log(values);
+  
+
   return (
     <div className="space-y-6">
-      {" "}
       <FormSelect
         name="status"
         label="Status"
@@ -64,3 +66,4 @@ export default function AssignmentStep() {
     </div>
   );
 }
+

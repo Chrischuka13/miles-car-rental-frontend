@@ -68,7 +68,7 @@ export default function Customers() {
   return (
     <section className="p-6 min-h-screen bg-[#F7F7F7]">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:pt-20 lg:pt-17">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:pt-20">
         <div>
           <span className="flex items-center gap-2 flex-wrap">
             <h1 className="text-xl sm:text-2xl font-light">Customers</h1>
@@ -85,7 +85,7 @@ export default function Customers() {
 
         {/* SEARCH + EXPORT */}
         <div className="flex flex-row items-stretch sm:items-center gap-3 lg:justify-end">
-          <div className="flex items-center gap-3 px-3 py-2 bg-white border rounded-full w-full sm:w-[250px]">
+          <div className="flex items-center gap-3 px-3 py-2 bg-white border rounded-full w-full sm:w-26.5">
             <Search className="text-[#878789] shrink-0" />
 
             <input

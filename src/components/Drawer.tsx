@@ -93,7 +93,7 @@ export default function Drawer() {
                   <Link
                     to="/auth/login"
                     onClick={() => setIsOpen(false)}
-                    className="text-lg font-semibold text-[#111827] text-center border rounded-3xl  p-3 hover:text-gray-400"
+                    className="text-lg font-semibold text-DarkBlue text-center border rounded-3xl  p-3 hover:text-gray-400"
                   >
                     Login
                   </Link>
