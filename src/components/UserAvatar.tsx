@@ -32,14 +32,21 @@ export default function UserAvatar() {
       />
       <DropdownMenuContent>
         <DropdownMenuItem>
-          {user?.role === "admin" && (
-            <Link to="/admin">
-              <div className="flex gap-2 items-center">
-                <Lock />
-                <span>Admin</span>
-              </div>
-            </Link>
-          )}
+          <div className="flex flex-col gap-3">
+            {user && (
+              <Link to="/my-bookings" className="text-lg">View Bookings</Link>
+            )}
+
+            {user?.role === "admin" && (
+              <Link to="/admin">
+                <div className="flex gap-2 items-center text-lg">
+                  <Lock />
+                  <span>Admin</span>
+                </div>
+              </Link>
+            )}
+          </div>
+
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={handleLogout}>

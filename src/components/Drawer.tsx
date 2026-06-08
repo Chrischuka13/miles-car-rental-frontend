@@ -23,7 +23,7 @@ export default function Drawer() {
       </div>
       <div
         className={`
-          fixed top-0 left-0 h-full w-3/4 max-w-xs z-40
+          fixed top-0 left-0 h-screen w-3/4 max-w-xs z-40
           bg-white shadow-xl
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -64,16 +64,24 @@ export default function Drawer() {
             </a>
           ))}
 
+          {user && (
+            <h3 className="py-3 text-lg font-normal text-DarkBlue border-b border-gray-100 hover:text-gray-400">
+             <Link to="/my-bookings">View Bookings</Link>
+            </h3>
+          )}
+
           {user?.role === "admin" && (
-            <li>
               <Link to="/admin">
                 <div className="pl-1 flex gap-2 items-center pt-4">
                   <Lock />
                   <span className="">Admin</span>
                 </div>
               </Link>
-            </li>
           )}
+
+
+
+        
 
           {/* Mobile auth */}
           {!isAuthenticating && (
