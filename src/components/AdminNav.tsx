@@ -12,7 +12,7 @@ export default function AdminNav() {
   });
 
   return (
-    <div className="md:fixed top-0 left-55 right-0 z-50 bg-white">
+    <div className="md:fixed w-full top-0 lg:left-55 md:left-0 right-0 z-50 bg-white">
       <div className="flex items-center justify-between h-16 px-6">
         <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
           <CalendarDays />

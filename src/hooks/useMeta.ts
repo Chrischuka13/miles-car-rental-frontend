@@ -49,7 +49,7 @@ export default function useMetaTags({
 
     // Optional cleanup: reset title when page unmounts
     return () => {
-      document.title = "Clinicare";
+      document.title = "Miles Car Rental";
     };
   }, [title, description, keywords]);
 }
