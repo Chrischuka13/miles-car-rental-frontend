@@ -1,4 +1,9 @@
-import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronsLeft,
+  ChevronsRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 interface PaginateProps {
   currentPage: number;
@@ -17,14 +22,17 @@ export default function Paginate({
 }: PaginateProps) {
   return (
     <div className="md:flex items-center justify-between px-4 py-3 text-sm text-gray-500">
-
       {/* left - entries info */}
       <span>
-        {totalItem ? `${totalItem} entries` : `Page ${currentPage} of ${totalPages}`}
+        {totalItem
+          ? `${totalItem} entries`
+          : `Page ${currentPage} of ${totalPages}`}
       </span>
 
       {/* center - page indicator */}
-      <span>Page {currentPage} of {totalPages}</span>
+      <span>
+        Page {currentPage} of {totalPages}
+      </span>
 
       {/* right - navigation buttons */}
       <div className="flex items-center gap-2">

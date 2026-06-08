@@ -42,7 +42,7 @@ export const RevenueOverview = ({ data = [] }: RevenueOverviewProps) => {
                 <p className="text-[10px] text-gray-400">{item.pickupLocation}</p>
               </div>
             </div>
-            <span className={`text-[10px] px-2 py-1 rounded-full font-medium ${statusColor[item.bookingStatus] || 'text-gray-500 bg-gray-100'}`}>
+            <span className={`text-[10px] px-2 py-1 rounded-full font-medium truncate ${statusColor[item.bookingStatus] || 'text-gray-500 bg-gray-100'}`}>
               ● {item.bookingStatus}
             </span>
           </div>

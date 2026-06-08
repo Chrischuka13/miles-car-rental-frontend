@@ -48,7 +48,7 @@ export default function Dashboard() {
     else return `Good evening, ${name}`;
   };
 
-  // 🌟 Click handler that updates the URL search query instantly
+  //  Click handler that updates the URL search query instantly
   const handleFilterChange = (option: FilterOption) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("range", option.toLowerCase());
@@ -95,7 +95,7 @@ export default function Dashboard() {
           <h1 className="text-xl lg:text-4xl py-4">
             {getGreeting(user?.firstName ?? "")} 👋
           </h1>
-          <p className="text-lg pb-2 lg:text-md text-center text-[#393E46]">
+          <p className="text-lg lg:text-md pb-2 text-[#393E46]">
             Manage your team with confidence today.
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function Dashboard() {
           {options.map((option) => (
             <button
               key={option}
-              onClick={() => handleFilterChange(option)} // 🌟 Uses new navigation handler
+              onClick={() => handleFilterChange(option)} //  Uses new navigation handler
               className={`px-4 py-1 w-full rounded-full text-sm font-medium transition-all duration-200 ${
                 selected === option
                   ? "bg-DarkBlue text-white"
@@ -116,7 +116,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-1 md:p-6 bg-gray-50">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-5 p-1 md:p-6 bg-gray-50">
         {stats.map((stat, index) => (
           <StatCard key={index} {...stat} />
         ))}
