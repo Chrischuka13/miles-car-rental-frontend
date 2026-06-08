@@ -98,7 +98,7 @@ export default function Drawer() {
                     Login
                   </Link>
                   <Link
-                    to="/auth/createAccount"
+                    to="/auth/register"
                     onClick={() => setIsOpen(false)}
                     className="bg-[#F97316] text-white px-4 py-2 rounded-3xl text-lg font-normal text-center hover:opacity-90"
                   >
