@@ -7,7 +7,8 @@ export default function Sidebar() {
   const { handleLogout } = useAuth();
 
   return (
-    <aside className="hidden px-2 mx-auto  lg:block  min-h-screen fixed z-40 w-60">
+    <aside className="hidden px-2 mx-auto  lg:block  min-h-screen   fixed z-40 w-60">
+      
       <div className="p-4 flex">
         <Logo />
       </div>

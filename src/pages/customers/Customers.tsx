@@ -68,7 +68,7 @@ export default function Customers() {
   return (
     <section className="p-6 min-h-screen bg-[#F7F7F7]">
       {/* HEADER */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:pt-20">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 md:pt-15 lg:pt-20">
         <div>
           <span className="flex items-center gap-2 flex-wrap">
             <h1 className="text-xl sm:text-2xl font-light">Customers</h1>
