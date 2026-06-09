@@ -1,6 +1,6 @@
 import { useContext, createContext } from "react";
 
-interface User {
+export type User = {
   _id: string;
   firstName: string;
   lastName: string;
@@ -11,27 +11,22 @@ interface User {
   role: string;
 }
 
-
-
 interface AuthContextType {
-  firstName: string;
   user: User | null;
   setUser: (user: User | null) => void;
   isAuthenticating: boolean;
   setIsAuthenticating: (value: boolean) => void;
-    handleLogout: () => Promise<void>;
-    // refetchUser: () => Promise<void>; 
+  handleLogout: () => Promise<void>;
+  // refetchUser: () => Promise<void>;
 }
-
-
 
 const initialState: AuthContextType = {
   user: null,
   setUser: () => null,
   isAuthenticating: false,
   setIsAuthenticating: () => null,
- handleLogout: async () => {}, 
-  // refetchUser: async () => {}, 
+  handleLogout: async () => {},
+  // refetchUser: async () => {},
 };
 
 // create the store

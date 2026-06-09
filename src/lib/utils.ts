@@ -3,14 +3,14 @@ import { clsx, type ClassValue } from "clsx";
 import { toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 
-const BASEURL = import.meta.env.VITE_API_URL || "";
+const BASEURL = import.meta.env.VITE_API_URL || "/api/v1";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 const config: CreateAxiosDefaults = {
-  baseURL: BASEURL.endsWith("/api/v1") ? BASEURL : `${BASEURL}/api/v1`,
+  baseURL: BASEURL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

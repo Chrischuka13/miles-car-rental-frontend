@@ -1,12 +1,12 @@
-import { AuthProviderContext } from "@/hooks/useAuth";
+import { AuthProviderContext, type User } from "@/hooks/useAuth";
 import { getMeApi, logoutApi } from "@/api/auth";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import SuspenseUi from "@/components/ui/SuspenseUi";
 // Reuse the User type from AuthProviderContext to avoid duplicate/conflicting 'User' definitions
-type ContextType = React.ContextType<typeof AuthProviderContext>;
-type User = ContextType extends { user: infer U } ? U : null;
+// type ContextType = React.ContextType<typeof AuthProviderContext>;
+// type User = ContextType extends { user: infer U } ? U : null;
 
 export default function AuthProvider({
   children,
@@ -20,16 +20,25 @@ export default function AuthProvider({
   const { data, isPending, isError, error } = useQuery({
     queryFn: async () => await getMeApi(),
     queryKey: ["authuser"],
+    retry: false, // don't retry on failure to avoid multiple failed attempts
   });
 
   useEffect(() => {
     if (data && data?.status === 200) {
-      setUser(data?.data.data);
+      const timer = setTimeout(() => {
+        setUser(data?.data.data);
+      }, 100);
+      return () => clearTimeout(timer);
     } else if (isError) {
-      setUser(null)
-      console.log("Error authenticating", error.message);
+      const timer = setTimeout(() => {
+        setUser(null);
+      }, 100);
+      if (import.meta.env.DEV) {
+        console.log("Error authenticating", error.message);
+      }
+      return () => clearTimeout(timer);
     }
-  }, [data, isError]);
+  }, [data, isError, error]);
 
   // fetch user on app load using session cookie
   // useEffect(() => {
